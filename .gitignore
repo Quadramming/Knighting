@@ -1,0 +1,16 @@
+apk
+build
+compiled
+cordova
+nbproject
+node_modules
+playMarket
+sign
+
+release.apk
+
+htmlRoot/fonts
+htmlRoot/imgs
+htmlRoot/sounds
+htmlRoot/js/qqengine
+
