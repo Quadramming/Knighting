@@ -37,7 +37,7 @@ game.seizures.Main = class Main
 
 QQ.Seizures.register.set('Main', game.seizures.Main);
 
-game.Char = class Char extends QQ.Subject.Sprite {
+game.Char = class Char extends QQ.Subject.Actionable {
 	
 	constructor(app, world) {
 		super(app, 'imgs/knight.png');
@@ -46,33 +46,18 @@ game.Char = class Char extends QQ.Subject.Sprite {
 		this.setSize(10, 10);
 		this.setPosition(-10, 0);
 		this._world.addSubject(this);
-		this._action = null;
-		this.setIdle();
 		this.moveTo();
 	}
 	
-	tick(delta) {
-		super.tick(delta);
-		this._action.tick(delta);
-	}
-	
-	draw() {
-		super.draw();
-		this._action.draw();
-	}
-	
-	setIdle() {
-		this._action = new QQ.Actions.Base(this._app, this);
-	}
-	
-	moveTo() {
-		this._action = new QQ.Actions.Move(
+	moveTo(x, y) {
+		let action = new QQ.Actions.Move(
 			this._app,
 			this,
 			{ x: this._x, y: this._y },
-			{ x: 10, y: 10 },
+			{ x: this._x*-1, y: this._y*-1 },
 			1000
 		);
+		this.setAction(action);
 	}
 	
 };
