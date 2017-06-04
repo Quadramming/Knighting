@@ -6,7 +6,9 @@ let game = {
 	const imgs = [
 			'imgs/tile.png',
 			'imgs/bg.png',
-			'imgs/knight.png'
+			'imgs/knight.png',
+			'imgs/enemy.png',
+			'imgs/potion.png'
 		];
 		
 	const appConfig = {

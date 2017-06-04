@@ -18,11 +18,16 @@ game.seizures.Main = class Main
 		window.addEventListener('resize', resizeBg);
 		this._world.addSubject(bg);
 		
-		new game.Char(this._app, this._world);
-	}
-	
-	getWorld() {
-		return this._world;
+		let frame = new QQ.Subject.Sprite(this._app, 'imgs/bg.png', 30, 40);
+		this._world.addSubject(frame);
+		
+		let knight = new game.Char(this, 'imgs/knight.png');
+		knight.setPosition(-8, 12);
+		
+		let enemy = new game.Char(this, 'imgs/enemy.png');
+		enemy.setPosition(8, 12);
+		
+		new game.PotionSlot(this, 'imgs/potion.png');
 	}
 	
 	getScore() {
@@ -37,27 +42,28 @@ game.seizures.Main = class Main
 
 QQ.Seizures.register.set('Main', game.seizures.Main);
 
-game.Char = class Char extends QQ.Subject.Actionable {
+game.Char = class Char extends
+	QQ.Subject.DragAndDropMix(QQ.Subject.Sprite)
+{
 	
-	constructor(app, world) {
-		super(app, 'imgs/knight.png');
-		this._app   = app;
-		this._world = world;
-		this.setSize(10, 10);
-		this.setPosition(-10, 0);
+	constructor(sz, img) {
+		super(sz, img);
+		this._world  = sz.getWorld();
+		this.setSize(8, 8);
 		this._world.addSubject(this);
-		this.moveTo();
 	}
 	
-	moveTo(x, y) {
-		let action = new QQ.Actions.Move(
-			this._app,
-			this,
-			{ x: this._x, y: this._y },
-			{ x: this._x*-1, y: this._y*-1 },
-			1000
-		);
-		this.setAction(action);
+};
+
+game.PotionSlot = class PotionSlot extends
+	QQ.Subject.DragAndDropMix(QQ.Subject.Sprite)
+{
+	
+	constructor(sz, img) {
+		super(sz, img);
+		this._world  = sz.getWorld();
+		this.setSize(4, 4);
+		this._world.addSubject(this);
 	}
 	
 };
