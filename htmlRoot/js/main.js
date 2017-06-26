@@ -8,7 +8,8 @@ let game = {
 			'imgs/bg.png',
 			'imgs/knight.png',
 			'imgs/enemy.png',
-			'imgs/potion.png'
+			'imgs/potion.png',
+			'imgs/slot.png'
 		];
 		
 	const appConfig = {
