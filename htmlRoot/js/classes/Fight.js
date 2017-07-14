@@ -7,6 +7,9 @@ game.Fight = class Fight extends QQ.Subject.Base {
 	}
 	
 	tick(delta) {
+		this.forFighters( f => f.onBeforeFightTick() );
+		this.forFighters( f => f.fightTick(delta) );
+		
 		if ( ! this.isBothAlive() ) {
 			return;
 		}
@@ -23,6 +26,12 @@ game.Fight = class Fight extends QQ.Subject.Base {
 		for ( ; hits > 0; --hits ) {
 			this._fighterB.sufferHit( this._fighterA.makeHit() );
 		}
+		this.forFighters( f => f.onAfterFightTick() );
+	}
+	
+	forFighters(fn) {
+		fn(this._fighterA);
+		fn(this._fighterB);
 	}
 	
 	isBothAlive() {

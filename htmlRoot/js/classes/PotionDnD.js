@@ -2,12 +2,13 @@ game.PotionDnD = class PotionDnD extends
 	QQ.Subject.DragAndDropMix(QQ.Subject.Sprite)
 {
 	
-	constructor(app, img, slot, x, y) {
-		super(app, img);
+	constructor(app, slot) {
+		super(app, slot.getImgSrc());
 		this._slot   = slot;
 		this._effect = slot.getEffect();
 		this._world  = app.getSz().getWorld();
 		this.setSize(4, 4);
+		let {x, y} = slot.getPosition();
 		this.setPosition(x, y);
 		this._world.addSubject(this);
 	}

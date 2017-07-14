@@ -1,28 +1,14 @@
 game.Effect.HP = class HP extends game.Effect.Base {
 	
 	constructor(app, hp, time = 1) {
-		super(app, 'imgs/potion.png');
-		this._hp   = hp;
-		this._time = time;
+		super(app, 'imgs/potionRed.png', time);
+		this._hp = hp;
 	}
 	
-	tick(delta) {
-		super.tick(delta);
-		this._char.addHp(1);
-	}
-	
-	onStart() {
-		super.onStart();
-		this._char.addHp(this._hp);
-	}
-	
-	isEnded() {
-		return this._duration >= this._time;
-	}
-	
-	onEnd() {
-		super.onEnd();
+	onStart(info) {
+		super.onStart(info);
 		this._char.addHp(this._hp);
 	}
 	
 };
+

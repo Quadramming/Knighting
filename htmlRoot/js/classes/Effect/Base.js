@@ -2,13 +2,14 @@ game.Effect = {};
 
 game.Effect.Base = class Base {
 	
-	constructor(app, img) {
+	constructor(app, img, time = 1) {
 		this._app      = app;
 		this._ctx      = this._app.getContext();
 		this._duration = 0;
 		this._char     = null;
 		this._ico      = new game.Effect.EffectIco(app, img);
 		this._world    = app.getSz().getWorld();
+		this._time     = time;
 	}
 	
 	getIco() {
@@ -19,7 +20,7 @@ game.Effect.Base = class Base {
 		this._char = char;
 	}
 	
-	onStart() {
+	onStart(info) {
 		this._world.addSubject(this._ico);
 	}
 	
@@ -27,14 +28,17 @@ game.Effect.Base = class Base {
 		this._duration += delta;
 	}
 	
+	apply(appliedInfo) {
+	}
+	
 	draw() {
 	}
 	
 	isEnded() {
-		return false;
+		return this._duration >= this._time;
 	}
 	
-	onEnd() {
+	onEnd(info) {
 		this._world.deleteSubject(this._ico);
 	}
 	

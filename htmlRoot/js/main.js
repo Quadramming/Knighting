@@ -1,5 +1,6 @@
 let game = {
-	seizures: {}
+	seizures: {},
+	levels:   {}
 };
 
 (function() {
@@ -8,10 +9,11 @@ let game = {
 			'imgs/bg.png',
 			'imgs/knight.png',
 			'imgs/enemy.png',
-			'imgs/potion.png',
+			'imgs/potionRed.png',
+			'imgs/potionGreen.png',
 			'imgs/slot.png'
 		];
-		
+	
 	const appConfig = {
 		imgs: imgs
 	};

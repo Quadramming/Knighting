@@ -23,7 +23,7 @@ game.PotionSlot = class PotionSlot extends QQ.Subject.Sprite {
 	}
 	
 	getEffect() {
-		return this._getEffect();
+		return this._getEffect(this._app);
 	}
 	
 	onClickDown(x, y) {
@@ -31,13 +31,7 @@ game.PotionSlot = class PotionSlot extends QQ.Subject.Sprite {
 			return;
 		}
 		--this._amount;
-		let potionDnD = new game.PotionDnD(
-				this._app,
-				'imgs/potion.png',
-				this,
-				this._x,
-				this._y
-			);
+		let potionDnD = new game.PotionDnD(this._app, this);
 		potionDnD.onClickDown(x, y);
 	}
 	

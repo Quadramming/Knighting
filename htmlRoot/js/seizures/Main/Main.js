@@ -6,7 +6,7 @@ game.seizures.Main = class Main
 		super(app);
 	}
 	
-	init() {
+	init(settings = game.levels.begin) {
 		let app = this._app;
 		this._camera.init(30, 40, 0, 0);
 		app._fpsCounter.showDetails();
@@ -22,40 +22,26 @@ game.seizures.Main = class Main
 		window.addEventListener('resize', resizeBg);
 		this._world.addSubject(bg);
 		
-		let frame = new QQ.Subject.Sprite(app, 'imgs/bg.png', 30, 40);
+		//let frame = new QQ.Subject.Sprite(app, 'imgs/bg.png', 30, 40);
 		//this._world.addSubject(frame);
 		
-		let knight = new game.Char(app, 'imgs/knight.png');
-		knight.onDie = () => {
-			//alert('You lose');
-		};
+		let knight = new game.Char(app, 'imgs/knight.png', settings.knightIni);
 		knight.setPosition(-8, 12);
-		
-		let enemy = new game.Char(app, 'imgs/enemy.png');
-		enemy.onDie = () => {
-			//alert('You win');
+		knight.onDie = () => {
 		};
+		
+		let enemy = new game.Char(app, 'imgs/enemy.png', settings.enemyIni);
 		enemy.setPosition(8, 12);
+		enemy.onDie = () => {
+		};
 		
 		this._potionSlotsArea = new game.PotionSlotsArea(app);
 		
-		this._potionSlotsArea.add(
-			'imgs/potion.png',
-			10,
-			() => new game.Effect.HP(app, 30)
-		);
-		
-		this._potionSlotsArea.add(
-			'imgs/potion.png',
-			10,
-			() => new game.Effect.HP(app, 10)
-		);
-		
-		this._potionSlotsArea.add(
-			'imgs/potion.png',
-			10,
-			() => new game.Effect.HP(app, 30)
-		);
+		for ( let potion of settings.potions ) {
+			this._potionSlotsArea.add(
+				potion.img, potion.amount, potion.factory
+			);
+		}
 		
 		this._world.addSubject(
 			new game.Fight(app, knight, enemy)
