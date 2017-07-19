@@ -32,10 +32,19 @@ game.Char = class Char extends QQ.Subject.Sprite {
 		this._isAlive       = true;
 		this._effects       = [];
 		this._buffArea      = new game.BuffArea(app, this);
+		this._fight         = null;
 	}
 	
 	getInfo() {
 		return this._info;
+	}
+	
+	getEnemy() {
+		return this._fight.getEnemy(this);
+	}
+	
+	setFight(fight) {
+		this._fight = fight;
 	}
 	
 	draw() {

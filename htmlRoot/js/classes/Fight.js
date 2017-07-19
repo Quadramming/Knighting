@@ -4,6 +4,7 @@ game.Fight = class Fight extends QQ.Subject.Base {
 		super(app);
 		this._fighterA = fighterA;
 		this._fighterB = fighterB;
+		this.forFighters( c => c.setFight(this) );
 	}
 	
 	tick(delta) {
@@ -32,6 +33,10 @@ game.Fight = class Fight extends QQ.Subject.Base {
 	forFighters(fn) {
 		fn(this._fighterA);
 		fn(this._fighterB);
+	}
+	
+	getEnemy(char) {
+		return char === this._fighterA ? this._fighterB : this._fighterA;
 	}
 	
 	isBothAlive() {

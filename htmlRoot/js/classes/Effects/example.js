@@ -17,10 +17,6 @@ game.Effect.NAME = class NAME extends game.Effect.Base {
 		super.onStart(info);
 	}
 	
-	isEnded() {
-		return this._duration >= this._time;
-	}
-	
 	onEnd(info) {
 		super.onEnd(info);
 	}
