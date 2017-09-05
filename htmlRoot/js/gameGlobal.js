@@ -4,6 +4,7 @@ let game = {
 	levelsOrder: [
 		'begin',
 		'bob',
-		'sam'
+		'sam',
+		'mirror'
 	]
 };

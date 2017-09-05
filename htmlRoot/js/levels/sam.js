@@ -19,10 +19,6 @@ game.levels['sam'] = {
 			img:     'imgs/potionBlue.png',
 			amount:  3,
 			factory: (app) => new game.Effect.ReduceDamage(app, 5)
-		},{
-			img:     'imgs/mirror.png',
-			amount:  3,
-			factory: (app) => new game.Effect.Mirror(app)
 		}
 	]
 	

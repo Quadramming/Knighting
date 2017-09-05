@@ -6,7 +6,19 @@ game.seizures.Levels = class Levels
 		super(app);
 		this._camera.init(30, 40, 0, 0);
 		this._camera.setClip(0, 0, 0, 0);
-		this._world.addBackground('imgs/tile.png');
+	}
+	
+	init() {
+		let bg = new QQ.Subject.TileSprite(this._app, 'imgs/tile.png');
+		bg.setPosition(0, 0);
+		bg.setTileSize(5, 5);
+		let resizeBg = () => {
+			let cameraView = this._camera.getView();
+			bg.setSize(cameraView.width, cameraView.height);
+		};
+		resizeBg();
+		window.addEventListener('resize', resizeBg);
+		this._world.addSubject(bg);
 		this._addLevels();
 	}
 	

@@ -12,13 +12,13 @@ game.seizures.Game = class Game
 		this._camera.init(30, 40, 0, 0);
 		app._fpsCounter.showDetails();
 		
-		let bg = new QQ.Subject.TileSprite(app, 'imgs/tile.png');
+		let bg = new QQ.Subject.TileSprite(app, 'imgs/grass.png');
 		bg.setPosition(0, 0);
 		bg.setTileSize(5, 5);
 		let resizeBg = () => {
-				let cameraView = this._camera.getView();
-				bg.setSize(cameraView.width, cameraView.height);
-			};
+			let cameraView = this._camera.getView();
+			bg.setSize(cameraView.width, cameraView.height);
+		};
 		resizeBg();
 		window.addEventListener('resize', resizeBg);
 		this._world.addSubject(bg);
@@ -47,6 +47,15 @@ game.seizures.Game = class Game
 		this._world.addSubject(
 			new game.Fight(app, knight, enemy)
 		);
+
+		let back = new QQ.Subject.Sprite(
+				this._app,
+				'imgs/back.png',
+				5, 5
+			);
+		back.setPosition(0, -15);
+		back.onClick = () => app.setSz('Levels');
+		this._world.addSubject(back);
 	}
 	
 	getScore() {

@@ -19,11 +19,12 @@ game.Char = class Char extends QQ.Subject.Sprite {
 		};
 		
 		this._hp            = info.hp || 100;
-		delete info.hp;
 		this._maxEffects    = info.maxEffects || 3;
-		delete info.maxEffects;
 		
 		this._info          = Object.assign({}, defaultInfo, info);
+		delete this._info.hp;
+		delete this._info.maxEffects;
+		
 		this._appliedInfo   = null;
 		this._saveInfo      = null;
 		this._hpRegenCharge = 0;  // Time without hp regen
@@ -187,7 +188,11 @@ game.Char = class Char extends QQ.Subject.Sprite {
 	}
 	
 	subHp(hp) {
-		this.sufferHit(hp);
+		this.changeHp(-hp);
+		this.bubbleText(hp, 'red');
+		if ( this.getHp() <= 0 ) {
+			this.die();
+		}
 	}
 	
 	sufferHit(dmg) {
@@ -197,11 +202,7 @@ game.Char = class Char extends QQ.Subject.Sprite {
 		if ( dmg === 0 ) {
 			return;
 		}
-		this.changeHp(-dmg);
-		this.bubbleText(dmg, 'red');
-		if ( this.getHp() <= 0 ) {
-			this.die();
-		}
+		this.subHp(dmg);
 	}
 	
 	bubbleText(text, color = '#006400') {
