@@ -7,26 +7,27 @@ class Man extends
 		options.height = QQ.default(options.height, 3);
 		options.z      = QQ.default(options.z,      1);
 		super(app, options);
-		this._gap     = 8;
-		this._size    = 128;
-		this._time    = app.getTime();
-		this._isAlive = true;
+		this._gap      = 8;
+		this._size     = 128;
+		this._time     = app.getTime();
+		this._isAlive  = true;
 		
-		this._body  = new QQ.Sprite(this._app.getImg('imgs/man/body.png'));
+		this._body     = new QQ.Sprite(this._app.getImg('imgs/man/body.png'));
+		this._boots    = new QQ.Sprite(this._app.getImg('imgs/man/boots.png'));
+		this._pants    = new QQ.Sprite(this._app.getImg('imgs/man/pants.png'));
+		this._chest    = new QQ.Sprite(this._app.getImg('imgs/man/chest.png'));
+		this._hair     = new QQ.Sprite(this._app.getImg('imgs/man/hair.png'));
+		this._hat      = new QQ.Sprite(this._app.getImg('imgs/man/hat.png'));
+		this._shield   = new QQ.Sprite(this._app.getImg('imgs/man/shield.png'));
+		this._weapon   = new QQ.Sprite(this._app.getImg('imgs/man/weapon.png'));
+		
 		this.setBody();
-		this._boots = new QQ.Sprite(this._app.getImg('imgs/man/boots.png'));
 		this.setBoots(1);
-		this._pants = new QQ.Sprite(this._app.getImg('imgs/man/pants.png'));
 		this.setPants();
-		this._chest = new QQ.Sprite(this._app.getImg('imgs/man/chest.png'));
 		this.setChest();
-		this._hair = new QQ.Sprite(this._app.getImg('imgs/man/hair.png'));
 		this.setHair();
-		this._hat = new QQ.Sprite(this._app.getImg('imgs/man/hat.png'));
 		this.setHat();
-		this._shield = new QQ.Sprite(this._app.getImg('imgs/man/shield.png'));
 		this.setShield();
-		this._weapon = new QQ.Sprite(this._app.getImg('imgs/man/weapon.png'));
 		this.setWeapon();
 	}
 	
@@ -120,19 +121,28 @@ class Man extends
 		}
 	}
 	
-	setMove(from, to, time) {
-		let move = new QQ.Actions.Move(this._app, this, from, to, time);
+	setMove(from, to, duration) {
+		let move = new QQ.Actions.Move(this._app, {
+			subj: this,
+			from, to, duration
+		});
 		this.setAction(move);
 	}
 	
-	setPatrol(from, to, time) {
-		let action = new QQ.Actions.Patrol(this._app, this, from, to, time);
+	setPatrol(from, to, duration) {
+		let action = new QQ.Actions.Patrol(this._app, {
+			subj: this,
+			from, to, duration
+		});
 		this.setAction(action);
 	}
 	
 	disapear() {
 		this._isAlive = false;
-		let action = new QQ.Actions.Disapear(this._app, this, 500);
+		let action = new QQ.Actions.Disapear(this._app, {
+			subj:     this,
+			duration: 500
+		});
 		let isSet  = this.setAction(action);
 		if ( isSet ) {
 			this._action.setAbortable(false);
@@ -204,10 +214,11 @@ class RandomChar extends
 		this.addRandomStuff(42, 0, 12, 10); // weapon
 	}
 	
-	setPatrol(from, to, time) {
-		let action = new QQ.Actions.Patrol(this._app, this,
-			from, to, time
-		);
+	setPatrol(from, to, duration) {
+		let action = new QQ.Actions.Patrol(this._app, {
+			subj: this,
+			from, to, duration
+		});
 		this.setAction(action);
 	}
 	
@@ -264,7 +275,10 @@ class RandomChar extends
 	
 	disapear() {
 		let isSet = this.setAction(
-			new QQ.Actions.Disapear(this._app, this, 500)
+			new QQ.Actions.Disapear(this._app, {
+				subj:     this,
+				duration: 500
+			})
 		);
 		if ( isSet ) {
 			this._action.setAbortable(false);
@@ -296,9 +310,12 @@ class Arrow extends QQ.Subject.Actionable {
 	
 	shoot(to) {
 		let distance = QQ.Math.calcDistance(this._x, this._y, to.x, to.y);
-		let time     = 400 + distance*40;
+		let duration = 400 + distance*40;
 		this.setAngle(Math.atan2(this._y-to.y, this._x-to.x) - Math.PI/2);
-		this._action = new QQ.Actions.BallisticsMove(this._app, this, to, time);
+		this._action = new QQ.Actions.BallisticsMove(this._app, {
+			subj: this,
+			to, duration
+		});
 		this._action.setOnEnd( () => this.hit() );
 	}
 	
@@ -319,7 +336,10 @@ class Arrow extends QQ.Subject.Actionable {
 	}
 	
 	disapear() {
-		this._action = new QQ.Actions.Disapear(this._app, this, 300);
+		this._action = new QQ.Actions.Disapear(this._app, {
+			subj:     this,
+			duration: 300
+		});
 		this._action.setOnEnd( () => this._world.deleteSubject(this) );
 	}
 
@@ -397,9 +417,9 @@ game.seizures.Main = class Main
 		}));
 		this._world.addSubject(new BattleField(app, hero));
 		this._world.addSubject(new Button(app, {
-			width  : 3,
-			height : 3,
-			x      : 13,
+			width  :   3,
+			height :   3,
+			x      :  13,
 			y      : -18,
 			imgSrc : 'imgs/changeDirection.png',
 			action : () => hero.changePatrolDirection()
@@ -425,7 +445,7 @@ game.seizures.Main = class Main
 	
 	setGrass() {
 		let bg = QQ.Subject.make(this._app, {
-			tiled: true,
+			tiled:  true,
 			imgSrc: 'imgs/grass.png'
 		});
 		bg.setPosition(0, 0);

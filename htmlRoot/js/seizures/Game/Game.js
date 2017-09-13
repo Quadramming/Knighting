@@ -47,7 +47,7 @@ game.seizures.Game = class Game
 		this._world.addSubject(
 			new game.Fight(app, knight, enemy)
 		);
-
+		
 		let back = new QQ.Subject.Sprite(
 				this._app,
 				'imgs/back.png',
