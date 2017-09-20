@@ -127,34 +127,27 @@ class Man extends
 	}
 	
 	setMove(from, to, duration) {
-		let move = new QQ.Actions.Move(this._app, {
+		this.setAction( new QQ.Actions.Move(this._app, {
 			subj: this,
 			from, to, duration
-		});
-		this.setAction(move);
+		}));
 	}
 	
 	setPatrol(from, to, duration) {
-		let action = new QQ.Actions.Patrol(this._app, {
+		this.setAction( new QQ.Actions.Patrol(this._app, {
 			subj: this,
 			from, to, duration
-		});
-		this.setAction(action);
+		}));
 	}
 	
 	disapear() {
 		this._isAlive = false;
-		let action = new QQ.Actions.Disapear(this._app, {
+		this.setAction( new QQ.Actions.Disapear(this._app, {
 			subj:     this,
-			duration: 500
-		});
-		let isSet  = this.setAction(action);
-		if ( isSet ) {
-			this._action.setAbortable(false);
-			this._action.setOnEnd(() => {
-				this._world.deleteSubject(this);
-			});
-		}
+			duration: 500,
+			onEnd: () => {this._world.deleteSubject(this);},
+			isAbortable: false
+		}));
 	}
 	
 	setAlpha(a) {

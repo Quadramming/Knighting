@@ -4,13 +4,12 @@ class Bones extends
 	
 	constructor(app, options) {
 		options.width  = QQ.default(options.width,  2);
-		options.height = QQ.default(options.height,  2);
+		options.height = QQ.default(options.height, 2);
 		super(app, options);
-		this._alpha = 1;
 		this._bonesAmount = QQ.Math.rand(1, 3);
-		this._skull = new QQ.Sprite(this._app.getImg('imgs/skull.png'));
-		this._bone  = new QQ.Sprite(this._app.getImg('imgs/bone.png'));
-		this._transforms = [];
+		this._skull       = new QQ.Sprite(this._app.getImg('imgs/skull.png'));
+		this._bone        = new QQ.Sprite(this._app.getImg('imgs/bone.png'));
+		this._transforms  = [];
 		for ( let i = 0; i < 1 + this._bonesAmount; ++i ) {
 			this._transforms.push({
 				angle: QQ.Math.rand(-3.14, 3.14, false),
@@ -38,24 +37,18 @@ class Bones extends
 	}
 	
 	setAlpha(a) {
-		this._alpha = a;
+		this._bone.setAlpha(a);
+		this._skull.setAlpha(a);
 	}
 	
 	getScale() {
-		let size   = this._bone.getSize();
+		let size   = this._skull.getSize();
 		let scaleX = this._width  / size.width;
 		let scaleY = this._height / size.height;
 		return { x : scaleX, y : scaleY };
 	}
 	
-	tick(d) {
-		super.tick(d);
-		c(d);
-	}
-	
 	draw(ctx) {
-		this._bone.setAlpha(this._alpha);
-		this._skull.setAlpha(this._alpha);
 		for ( let i = 1; i < this._transforms.length; ++i ) {
 			ctx.restore();
 			ctx.rotate(this._transforms[i].angle);
