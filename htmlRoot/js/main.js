@@ -10,6 +10,7 @@
 		'imgs/changeDirection.png',
 		'imgs/charMap.png',
 		'imgs/charMap.xcf',
+		'imgs/door.png',
 		'imgs/enemy.png',
 		'imgs/grass.png',
 		'imgs/knight.png',
@@ -30,7 +31,11 @@
 		'imgs/potions.png',
 		'imgs/roguelikeDungeon_transparent.png',
 		'imgs/skull.png',
-		'imgs/slot.png'
+		'imgs/slot.png',
+		'imgs/star.png',
+		'imgs/tower.png',
+		'imgs/wall.png',
+		'imgs/wall1.png'
 	];
 	
 	const sounds = [

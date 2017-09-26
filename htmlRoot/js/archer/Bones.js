@@ -17,10 +17,19 @@ class Bones extends
 				y: QQ.Math.rand(-25, 25)
 			});
 		}
-		this.waitAndDisapear();
+		this.drop();
 	}
 	
-	waitAndDisapear() {
+	drop() {
+		this.setAction(new QQ.Actions.MoveTo(this._app, {
+			subj:     this,
+			to:       {x: this._x, y: this._y - 1.5},
+			duration: 100,
+			onEnd:    () => {this.wait();}
+		}));
+	}
+	
+	wait() {
 		this.setAction(new QQ.Actions.WaitFor(this._app, {
 			subj:     this,
 			duration: 5000,

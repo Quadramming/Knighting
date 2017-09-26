@@ -134,11 +134,11 @@ class BattleField extends QQ.Subject.Base {
 		let options = {
 			width:  30 * 1.5,
 			height: 36,
-			y:      -2
+			y:      -2,
+			z:      5
 		};
 		super(app, options);
 		this._hero = hero;
-		this.setZ(3);
 	}
 	
 	onClickDown(x, y) {
@@ -158,49 +158,46 @@ game.seizures.Main = class Main
 		this.setGrass();
 		//this._world.setBackground('imgs/grass.png');
 		
-		let hero = new Man(app, {x: 0, y: 18});
+		this._hero = new Man(app, {x: 0, y: 18, z: 1});
+		let hero = this._hero;
 		hero.setShield(6, 0);
 		hero.setWeapon(1, 11);
 		hero.setPatrol(
-			{x: -13.5, y: 18},
-			{x:  13.5, y: 18},
+			{x: -13.5, y: 18.5},
+			{x:  13.5, y: 18.5},
 			3000
 		);
 		this._world.addSubject(hero);
 		
-		for ( let i = 0; i < 2; ++i ) {
-			let enemy = new Man(app, {x: i, y: 0});
-			enemy.setMove(
-				{x: -13.5, y: -12},
-				{x: -13.5, y:  18},
-				30000 + i*25000
-			);
-			/*
-			enemy.setPatrol(
-				{x: -13.5, y: -13 + i*3},
-				{x:  13.5, y: -13 + i*3},
-				1000 + i*250
-			);
-			*/
+		for ( let i = 0; i < 20; ++i ) {
+			let enemy = new Man(app, {x: i*5, y: -15});
+			enemy.initEnemy();
 			this._world.addSubject(enemy);
 		}
-		this._world.addSubject(QQ.Subject.make(app, {
-			imgSrc: 'imgs/castle.png',
-			x:       0, y:     30,
-			height: 20, width: 20
-		}));
 		this._world.addSubject(new ChangePatrolDirection(app, hero));
 		this._world.addSubject(new BattleField(app, hero));
-		this._world.addSubject(new QQ.Button(app, {
-			width  :   3,
-			height :   3,
-			x      :  13,
-			y      : -18,
-			imgSrc : 'imgs/changeDirection.png',
-			action : () => hero.changePatrolDirection()
-		}));
 
-		//this._world.addSubject(new Man(app));
+		this._world.addSubject(QQ.Subject.make(app, {
+			imgSrc: 'imgs/tower.png',
+			x:      6,
+			y:      19,
+			z:      0,
+			width:  6,
+			height: 14
+		}));
+		this._world.addSubject(QQ.Subject.make(app, {
+			imgSrc: 'imgs/wall.png',
+			x:      0,
+			y:      15,
+			z:      2,
+			width:  30,
+			height: 6
+		}));
+		this._setHud('GameHud', {parent: this});
+	}
+	
+	getHero() {
+		return this._hero;
 	}
 	
 	setCamera() {
@@ -225,7 +222,7 @@ game.seizures.Main = class Main
 			imgSrc: 'imgs/grass.png'
 		});
 		bg.setPosition(0, 0);
-		bg.setTileSize(5, 5);
+		bg.setTileSize(3, 3);
 		let resizeBg = () => {
 			let cameraView = this._camera.getView();
 			let cameraX = 0;

@@ -13,6 +13,7 @@ class Man extends
 		this._isAlive  = true;
 		
 		//this._bow = ...;
+		this._speed    = 10;
 		
 		this._body     = new QQ.Sprite(this._app.getImg('imgs/man/body.png'));
 		this._boots    = new QQ.Sprite(this._app.getImg('imgs/man/boots.png'));
@@ -104,7 +105,6 @@ class Man extends
 	}
 	
 	draw(ctx) {
-		super.draw(ctx);
 		this._body.draw(ctx);
 		this._pants.draw(ctx);
 		this._boots.draw(ctx);
@@ -113,9 +113,13 @@ class Man extends
 		//this._hat.draw(ctx);
 		this.drawShield(ctx);
 		this.drawWeapon(ctx);
+		//this._drawLocalBorder(ctx);
+		super.draw(ctx);
 	}
 	
 	hitted() {
+		//this.stun();
+		//return;
 		if ( ! this._shield.getDisabled() ) {
 			this._shield.setDisabled(true);
 		} else {
@@ -126,11 +130,19 @@ class Man extends
 		}
 	}
 	
-	setMove(from, to, duration) {
-		this.setAction( new QQ.Actions.Move(this._app, {
-			subj: this,
-			from, to, duration
-		}));
+	getSpeed() {
+		return this._speed;
+	}
+	
+	initEnemy() {
+		let to = {x: QQ.Math.rand(-15, 15), y: QQ.Math.rand(-15, 15)};
+		this.setAction(
+			new QQ.Actions.WalkTo(this._app, {
+				subj: this,
+				to,
+				onEnd: () => {this.initEnemy();}
+			})
+		);
 	}
 	
 	setPatrol(from, to, duration) {
@@ -144,7 +156,7 @@ class Man extends
 		this._isAlive = false;
 		this.setAction( new QQ.Actions.Disapear(this._app, {
 			subj:     this,
-			duration: 500,
+			duration: 200,
 			onEnd: () => {this._world.deleteSubject(this);},
 			isAbortable: false
 		}));
@@ -179,6 +191,13 @@ class Man extends
 		arrow.shoot({x, y});
 		this._world.addSubject(arrow);
 		this._app.playSound('arrow');
+	}
+	
+	stun() {
+		let r = this.setAction( new QQ.Actions.Stun(this._app, {
+			subj:     this,
+			duration: 5000
+		}));
 	}
 	
 };

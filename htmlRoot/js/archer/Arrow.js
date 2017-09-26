@@ -1,11 +1,11 @@
 class Arrow extends QQ.Subject.Actionable {
 	
 	constructor(app, options = {}) {
-		options.imgSrc = QQ.default(options.imgSrc, 'imgs/arrow.png');
-		options.z      = QQ.default(options.z,      2);
+		options.imgSrc      = QQ.default(options.imgSrc, 'imgs/arrow.png');
+		options.z           = QQ.default(options.z,      2);
+		options.isClickable = false;
 		super(app, options);
-		this._isClickable = false;
-		this._time        = app.getTime();
+		this._time          = app.getTime();
 	}
 	
 	draw(ctx) {
