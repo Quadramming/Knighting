@@ -1,8 +1,10 @@
 class Arrow extends QQ.Subject.Actionable {
 	
 	constructor(app, options = {}) {
+		options.width       = QQ.default(options.width,  1.5);
+		options.height      = QQ.default(options.height, 1.5);
 		options.imgSrc      = QQ.default(options.imgSrc, 'imgs/arrow.png');
-		options.z           = QQ.default(options.z,      2);
+		options.z           = 4;
 		options.isClickable = false;
 		super(app, options);
 		this._time          = app.getTime();
@@ -12,7 +14,7 @@ class Arrow extends QQ.Subject.Actionable {
 		this._sprite.draw(ctx, QQ.Sprite.Pivot.CENTERBOTTOM);
 	}
 	
-	shoot(to) {
+	flyTo(to) {
 		let distance = QQ.Math.calcDistance(this._x, this._y, to.x, to.y);
 		let duration = 400 + distance*40;
 		this.setAngle(Math.atan2(this._y-to.y, this._x-to.x) - Math.PI/2);

@@ -13,7 +13,7 @@ class Man extends
 		this._isAlive  = true;
 		
 		//this._bow = ...;
-		this._speed    = 10;
+		this._speed    = QQ.default(options.speed, 1);
 		
 		this._body     = new QQ.Sprite(this._app.getImg('imgs/man/body.png'));
 		this._boots    = new QQ.Sprite(this._app.getImg('imgs/man/boots.png'));
@@ -134,31 +134,13 @@ class Man extends
 		return this._speed;
 	}
 	
-	initEnemy() {
-		let to = {x: QQ.Math.rand(-15, 15), y: QQ.Math.rand(-15, 15)};
-		this.setAction(
-			new QQ.Actions.WalkTo(this._app, {
-				subj: this,
-				to,
-				onEnd: () => {this.initEnemy();}
-			})
-		);
-	}
-	
-	setPatrol(from, to, duration) {
-		this.setAction( new QQ.Actions.Patrol(this._app, {
-			subj: this,
-			from, to, duration
-		}));
-	}
-	
 	disapear() {
 		this._isAlive = false;
 		this.setAction( new QQ.Actions.Disapear(this._app, {
-			subj:     this,
-			duration: 200,
-			onEnd: () => {this._world.deleteSubject(this);},
-			isAbortable: false
+			subj:        this,
+			duration:    200,
+			isAbortable: false,
+			onEnd:       () => this._world.deleteSubject(this)
 		}));
 	}
 	
@@ -170,12 +152,6 @@ class Man extends
 		}
 	}
 	
-	changePatrolDirection() {
-		if ( this._action instanceof QQ.Actions.Patrol ) {
-			this._action.changeDirection();
-		}
-	}
-	
 	isAlive() {
 		return this._isAlive;
 	}
@@ -183,20 +159,18 @@ class Man extends
 	shoot(x, y) {
 		let options = {
 			x:      this._x,
-			y:      this._y,
-			width:  1.5,
-			height: 1.5
+			y:      this._y
 		};
-		let arrow   = new Arrow(this._app, options);
-		arrow.shoot({x, y});
+		let arrow = new Arrow(this._app, options);
+		arrow.flyTo({x, y});
 		this._world.addSubject(arrow);
-		this._app.playSound('arrow');
+		//this._app.playSound('arrow');
 	}
 	
 	stun() {
-		let r = this.setAction( new QQ.Actions.Stun(this._app, {
+		this.setAction( new QQ.Actions.Stun(this._app, {
 			subj:     this,
-			duration: 5000
+			duration: 1000
 		}));
 	}
 	
