@@ -1,14 +1,13 @@
 class Player extends Man {
 	
-	constructor(app, options = {}) {
+	constructor(options) {
 		options.speed = QQ.default(options.speed, 10);
-		options.z     = 1;
-		super(app, options);
-		this.setShield(6, 0);
-		this.setWeapon(1, 11);
+		super(options);
+		this.setShield(new QQ.Point(1, 6));
+		this.setMelee(new QQ.Point(1, 3));
 		this.setPatrol(
-			{x: -13.5, y: 18.5},
-			{x:  13.5, y: 18.5}
+			new QQ.Point(-13.5, -18),
+			new QQ.Point( 13.5, -18)
 		);
 	}
 	
@@ -17,8 +16,7 @@ class Player extends Man {
 	}
 	
 	setPatrol(from, to) {
-		this.setAction( new QQ.Actions.Patrol(this._app, {
-			subj: this,
+		this.setAction( new QQ.Actions.Patrol({
 			from, to
 		}));
 	}

@@ -1,11 +1,14 @@
 class Enemy extends Man {
 	
-	constructor(app, options = {}) {
-		options.x     = QQ.default(options.x, Enemy.getSpawnPositionX());
-		options.y     = QQ.default(options.y, Enemy.getSpawnPositionY());
+	constructor(options) {
+		if ( ! options.position ) {
+			options.position = new QQ.Point(
+				Enemy.getSpawnPositionX(),
+				Enemy.getSpawnPositionY()
+			);
+		}
 		options.speed = QQ.default(options.speed, 2);
-		options.z     = 3;
-		super(app, options);
+		super(options);
 		this._pointsAmount = 5;
 		this._points       = [];
 		this.initStraightEnemy();
@@ -17,24 +20,23 @@ class Enemy extends Man {
 	}
 	
 	static getSpawnPositionY() {
-		return QQ.Math.rand(-22, -22);
+		return QQ.Math.rand(22, 22);
 	}
 	
 	fillPoints() {
 		for ( let i = 0; i < this._pointsAmount; ++i ) {
-			this._points.push({
-				x: QQ.Math.rand(-15, 15),
-				y: QQ.Math.rand(-18, 13.5)
-			});
+			this._points.push(new QQ.Point(
+				QQ.Math.rand(-15, 15),
+				QQ.Math.rand(-13, 18)
+			));
 		}
 	}
 	
 	tick(delta) {
 		super.tick(delta);
-		if ( QQ.Math.rand(0, 500) === 1 ) {
-			this.shoot(QQ.Math.rand(-15, 15), 18.5);
+		if ( QQ.Math.rand(0, 400) === 0 ) {
+			this.shoot(new QQ.Point(QQ.Math.rand(-15, 15), -18));
 		}
-		//
 	}
 	
 	initChaoticEnemy() {
@@ -48,7 +50,7 @@ class Enemy extends Man {
 	
 	doNextPoint() {
 		if ( this._points.length > 0 ) {
-			let point = this._points.pop();
+			const point = this._points.pop();
 			this.goToPoint(point);
 		} else {
 			this.goToEnter();
@@ -57,8 +59,7 @@ class Enemy extends Man {
 	
 	goToPoint(point) {
 		this.setAction(
-			new QQ.Actions.WalkTo(this._app, {
-				subj: this,
+			new QQ.Actions.WalkTo({
 				to:   point,
 				onEnd: () => this.doNextPoint()
 			})
@@ -66,11 +67,10 @@ class Enemy extends Man {
 	}
 	
 	goToEnter() {
-		let castleEnter = {x: 0, y: 13.5};
+		const castleEnter = new QQ.Point(0, -13);
 		this.setAction(
-			new QQ.Actions.WalkTo(this._app, {
-				subj: this,
-				to:   castleEnter,
+			new QQ.Actions.WalkTo({
+				to:    castleEnter,
 				onEnd: () => this.disapear()
 			})
 		);

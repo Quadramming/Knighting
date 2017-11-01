@@ -1,22 +1,35 @@
 QQ.Actions.Stun = class Stun extends QQ.Actions.Base {
 	
-	constructor(app, options) {
+	constructor(options) {
 		options.isAbortable       = false;
 		options.isRestoreOnFinish = true;
-		super(app, options);
-		this._star = app.createSprite('imgs/star.png');
+		super(options);
+		this._starsAmount = 3;
+		this._stars = [];
 	}
 	
-	draw(ctx) {
-		let x = -this._star.getSize().width/2 - 50;
-		let y = -40 + Math.sin(this._lasting/250)*10;
-		this._star.draw(ctx, x, y);
-		x = -this._star.getSize().width/2;
-		y = -40 + Math.sin(this._lasting/300)*10;
-		this._star.draw(ctx, x, y);
-		x = -this._star.getSize().width/2 + 50;
-		y = -40 + Math.sin(this._lasting/200)*10;
-		this._star.draw(ctx, x, y);
+	onStart() {
+		for ( let i = 0; i < this._starsAmount; ++i ) {
+			this._stars[i] = QQ.Subject.make({
+				isActionable: true,
+				position: new QQ.Point(i-1.5, -1.5),
+				app: this._app,
+				img: 'star',
+				z: 10
+			});
+			this._stars[i].setAction(new QQ.Actions.Shake({
+				subj: this._stars[i],
+				dispersion: new QQ.Point(0, 0.8),
+				period: 1+i
+			}));
+			this._subj.addSubject(this._stars[i]);
+		}
+	}
+	
+	onEnd() {
+		for ( let i = 0; i < this._starsAmount; ++i ) {
+			this._stars[i].deleteMe();
+		}
 	}
 	
 };

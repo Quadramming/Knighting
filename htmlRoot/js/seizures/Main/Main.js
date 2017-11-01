@@ -1,89 +1,52 @@
-class Bow {
-	
-	constructor() {
-		// Reload time
-		// Arrow speed
-		// Arrows amount
-		// Img bow
-		// Img bow slot
-	}
-	
-};
-
-class ChangePatrolDirection extends QQ.Subject.Base {
-	
-	constructor(app, player) {
-		let options = {
-			width:  30 * 1.5,
-			height: 4,
-			y:      18
-		};
-		super(app, options);
-		this._player = player;
-		this.setZ(3);
-	}
-	
-	onClickDown(x, y) {
-		this._player.changePatrolDirection();
-	}
-	
-};
-
-class BattleField extends QQ.Subject.Base {
-	
-	constructor(app, player) {
-		let options = {
-			width:  30 * 1.5,
-			height: 36,
-			y:      -2,
-			z:      5
-		};
-		super(app, options);
-		this._player = player;
-	}
-	
-	onClickDown(x, y) {
-		this._player.shoot(x, y);
-	}
-	
-};
-
 game.seizures.Main = class Main
 	extends QQ.Seizures.Base
 {
 	
-	constructor(app) {
-		super(app);
+	constructor(input) {
+		super(input);
 		//this._app.setSz('Levels');
 		this.setCamera();
-		this.setGrass();
-		//this._world.setBackground('imgs/grass.png');
+		this.addGrass();
+		//this._world.setBackground('grass');
 		
-		this._player = new Player(app, {x: 0, y: 18, z: 1});
-		let player   = this._player;
-		this._world.addSubject(player);
+		const castle = new QQ.Container({z: 2});
 		
-		this.setEnemys();
-		
-		this._world.addSubject(new ChangePatrolDirection(app, player));
-		this._world.addSubject(new BattleField(app, player));
-
-		this._world.addSubject(QQ.Subject.make(app, {
-			imgSrc: 'imgs/tower.png',
-			x:      6,
-			y:      19,
-			z:      0,
-			width:  6,
-			height: 14
+		castle.addSubject(QQ.Subject.make({
+			app:      this._app,
+			img:      'tower',
+			position: new QQ.Point(6, -18.5),
+			size:     new QQ.Size(6, 14),
+			anchor:   new QQ.Point(0.5, 0.5),
+			z:        0
 		}));
-		this._world.addSubject(QQ.Subject.make(app, {
-			imgSrc: 'imgs/wall.png',
-			x:      0,
-			y:      15,
-			z:      2,
-			width:  30,
-			height: 6
+		
+		castle.addSubject(QQ.Subject.make({
+			app:      this._app,
+			img:      'wall',
+			position: new QQ.Point(0, -14.5),
+			size:     new QQ.Size(30, 6),
+			anchor:   new QQ.Point(0.5, 0.5),
+			z:        2
 		}));
+		
+		this._player = new Player({
+			app:      this._app,
+			position: new QQ.Point(0, -18),
+			anchor:   new QQ.Point(0.5, 0.5),
+			z:        1
+		});
+		castle.addSubject(this._player);
+		this._world.addSubject(castle);
+		
+		this.setEnemies();
+		
+		this._world.addSubject(new ChangePatrolDirection({
+			player: this._player
+		}));
+		this._world.addSubject(new BattleField({
+			player: this._player
+		}));
+		
 		this._setHud('GameHud', {parent: this});
 	}
 	
@@ -91,44 +54,41 @@ game.seizures.Main = class Main
 		return this._player;
 	}
 	
-	setEnemys() {
-		let enemys = new QQ.Container();
-		for ( let i = 0; i < 100; ++i ) {
-			let enemy = new Enemy(this._app);
-			enemys.addSubject(enemy);
+	setEnemies() {
+		const enemies = new QQ.Container({z: 2});
+		for ( let i = 0; i < 10; ++i ) {
+			const enemy = new Enemy({app: this._app});
+			enemies.addSubject(enemy);
 		}
-		this._world.addSubject(enemys);
+		this._world.addSubject(enemies);
 	}
 	
 	setCamera() {
-		let viewW = 30;
-		let viewH = 40;
-		let initX = 0;
-		let initY = 0;
-		this._camera.init(viewW, viewH, initX, initY);
-		let resizeCamera = () => {
-			let cameraView = this._camera.getView();
-			let cameraY    = (cameraView.height-viewH)/2;
-			this._camera.setPos(initX, cameraY);
-
+		const size = new QQ.Point(30, 40);
+		const eye  = new QQ.Point(0, 0);
+		this._camera.init(size, eye);
+		const resizeCamera = () => {
+			const cameraSize = this._camera.getViewSize();
+			this._camera.setPosition(new QQ.Point(
+				eye.x(),
+				-(cameraSize.h()-size.h())/2
+			));
 		};
 		resizeCamera();
 		window.addEventListener('resize', resizeCamera);
 	}
 	
-	setGrass() {
-		let bg = QQ.Subject.make(this._app, {
-			tiled:  true,
-			imgSrc: 'imgs/grass.png'
+	addGrass() {
+		const bg = QQ.Subject.make({
+			app:      this._app,
+			tiled:    true,
+			img:      'grass',
+			tileSize: new QQ.Size(3, 3)
 		});
-		bg.setPosition(0, 0);
-		bg.setTileSize(3, 3);
 		let resizeBg = () => {
-			let cameraView = this._camera.getView();
-			let cameraX = 0;
-			let cameraY = (cameraView.height-40)/2;
-			bg.setSize(cameraView.width, cameraView.height);
-			bg.setPosition(cameraX, cameraY);
+			const view = this._camera.getViewRect();
+			bg.setSize(new QQ.Point(view.w(), view.h()));
+			bg.setPosition(new QQ.Point(view.x(), view.y()));
 		};
 		resizeBg();
 		window.addEventListener('resize', resizeBg);
@@ -138,15 +98,14 @@ game.seizures.Main = class Main
 	tick(delta) {
 		this.sortEnemys();
 		super.tick(delta);
-		this.tickWorld(delta);
 	}
 	
 	sortEnemys() {
 		let enemys = this._world.getSubjects((subj) => {
 			return subj instanceof Enemy;
 		});
-		for ( let enemy of enemys ) {
-			enemy.setZ(-1*(enemy._y - 50)); // FIX
+		for ( const enemy of enemys ) {
+			enemy.setZ(enemy.getPosition().y());
 		}
 	}
 	

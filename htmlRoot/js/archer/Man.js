@@ -2,130 +2,147 @@ class Man extends
 	QQ.mixins(QQ.Subject.ActionableMix, QQ.Subject.Base)
 {
 	
-	constructor(app, options = {}) {
-		options.width  = QQ.default(options.width,  3);
-		options.height = QQ.default(options.height, 3);
-		options.z      = QQ.default(options.z,      1);
-		super(app, options);
-		this._gap      = 8;
-		this._size     = 128;
-		this._time     = app.getTime();
+	constructor(options) {
+		options.size   = QQ.default(options.size, new QQ.Point(3));
+		options.anchor = new QQ.Point(0.5);
+		super(options);
+		this._imgGap   = 8;
+		this._imgSize  = 128;
 		this._isAlive  = true;
 		
 		//this._bow = ...;
 		this._speed    = QQ.default(options.speed, 1);
 		
-		this._body     = new QQ.Sprite(this._app.getImg('imgs/man/body.png'));
-		this._boots    = new QQ.Sprite(this._app.getImg('imgs/man/boots.png'));
-		this._pants    = new QQ.Sprite(this._app.getImg('imgs/man/pants.png'));
-		this._chest    = new QQ.Sprite(this._app.getImg('imgs/man/chest.png'));
-		this._hair     = new QQ.Sprite(this._app.getImg('imgs/man/hair.png'));
-		this._hat      = new QQ.Sprite(this._app.getImg('imgs/man/hat.png'));
-		this._shield   = new QQ.Sprite(this._app.getImg('imgs/man/shield.png'));
-		this._weapon   = new QQ.Sprite(this._app.getImg('imgs/man/weapon.png'));
+		this._pants    = new QQ.Sprite(this._app.getImg('manPants'));
+		this._chest    = new QQ.Sprite(this._app.getImg('manChest'));
+		this._hair     = new QQ.Sprite(this._app.getImg('manHair'));
+		this._hat      = new QQ.Sprite(this._app.getImg('manHat'));
 		
-		this.setBody();
-		this.setBoots(1);
-		this.setPants();
-		this.setChest();
-		this.setHair();
-		this.setHat();
-		this.setShield();
-		this.setWeapon();
+		this._body     = null;
+		this._weapon   = null;
+		this._shield   = null;
+		this._boots    = null;
+		this._chest    = null;
+		this._hair     = null;
+		this._hat      = null;
+		
+		this.setBody(new QQ.Point(0, 0));
+		this.setMelee(new QQ.Point(3, 2));
+		this.setShield(new QQ.Point(1, 1));
+		this.setBoots(new QQ.Point(0, 1));
+		this.setPants(new QQ.Point(0, 0));
+		
+		this.setChest(new QQ.Point(7, 2));
+		this.setHair(new QQ.Point(0, 2));
+		//this.setHat(new QQ.Point(1, 3));
 	}
 	
-	setClip(obj, i = 0, j = 0) {
-		if ( i !== null ) {
-			obj.setDisabled(false);
-			obj.setClip(
-				this._size*j + this._gap*j,
-				this._size*i + this._gap*i,
-				this._size, this._size
-			);
-		} else {
-			obj.setDisabled(true);
+	tick(delta) {
+		super.tick(delta);
+	}
+	
+	setBoots(index) {
+		this._boots = new ManBoots({
+			owner: this,
+			index: index
+		});
+		this.addSubject(this._boots);
+	}
+	
+	setBody(index) {
+		this._body = new ManBody({
+			owner: this,
+			index: index
+		});
+		this.addSubject(this._body);
+	}
+	
+	setPants(index) {
+		this._pants = new ManPants({
+			owner: this,
+			index: index
+		});
+		this.addSubject(this._pants);
+	}
+	
+	setChest(index) {
+		this._chest = new ManChest({
+			owner: this,
+			index: index
+		});
+		this.addSubject(this._chest);
+	}
+	
+	setHair(index) {
+		this._hair = new ManHair({
+			owner: this,
+			index: index
+		});
+		this.addSubject(this._hair);
+	}
+	
+	setHat(index) {
+		this._hat = new ManHat({
+			owner: this,
+			index: index
+		});
+		this.addSubject(this._hat);
+	}
+	
+	setShield(index) {
+		if ( this._shield !== null ) {
+			this._shield.deleteMe();
 		}
+		this._shield = new Shield({
+			owner: this,
+			index: index
+		});
+		this.addSubject(this._shield);
 	}
 	
-	setBoots(i, j) {
-		this.setClip(this._boots, i, j);
+	setBow(index) {
+		this.setWeapon('bow', index);
 	}
 	
-	setBody(i, j) {
-		this.setClip(this._body, i, j);
+	setMelee(index) {
+		this.setWeapon('melee', index);
 	}
 	
-	setPants(i, j) {
-		this.setClip(this._pants, i, j);
-	}
-	
-	setChest(i, j) {
-		this.setClip(this._chest, i, j);
-	}
-	
-	setHair(i, j) {
-		this.setClip(this._hair, i, j);
-	}
-	
-	setHat(i, j) {
-		this.setClip(this._hat, i, j);
-	}
-	
-	setShield(i, j) {
-		this.setClip(this._shield, i, j);
-	}
-	
-	setWeapon(i, j) {
-		this.setClip(this._weapon, i, j);
-	}
-	
-	getScale() {
-		let size   = this._body.getSize();
-		let scaleX = this._width  / size.width;
-		let scaleY = this._height / size.height;
-		return { x : scaleX, y : scaleY };
-	}
-	
-	drawShield(ctx) {
-		let sin  = Math.sin;
-		let cos  = Math.cos;
-		let time = this._time.now() / 1000;
-		let x    = -this._size/2 + sin(time)*2;
-		let y    = -this._size/2 -10 + (1-cos(time))*5;
-		this._shield.draw(ctx, x, y);
-	}
-	
-	drawWeapon(ctx) {
-		let sin  = Math.sin;
-		let cos  = Math.cos;
-		let time = this._time.now() / 700;
-		let x    = -this._size/2 + sin(time)*2;
-		let y    = -this._size/2 -10 + (1-cos(time))*5;
-		this._weapon.draw(ctx, x, y);
+	setWeapon(type, index) {
+		if ( this._weapon !== null ) {
+			this._weapon.deleteMe();
+		}
+		if ( type === 'melee' ) {
+			this._weapon = new Melee({
+				owner: this,
+				index: index
+			});
+		}
+		if ( type === 'bow' ) {
+			this._weapon = new Bow({
+				owner: this,
+				index: index
+			});
+		}
+		this.addSubject(this._weapon);
 	}
 	
 	draw(ctx) {
-		this._body.draw(ctx);
-		this._pants.draw(ctx);
-		this._boots.draw(ctx);
-		this._chest.draw(ctx);
-		this._hair.draw(ctx);
-		//this._hat.draw(ctx);
-		this.drawShield(ctx);
-		this.drawWeapon(ctx);
-		//this._drawLocalBorder(ctx);
+		ctx.transform(this.getMatrix());
 		super.draw(ctx);
 	}
 	
 	hitted() {
-		//this.stun();
-		//return;
-		if ( ! this._shield.getDisabled() ) {
-			this._shield.setDisabled(true);
+		if ( this._shield ) {
+			this._shield.deleteMe();
+			this._shield = null;
 		} else {
-			this._world.addSubject(new Bones(this._app, {
-				x: this._x, y: this._y
-			}));
+			this._world.addSubject(
+				new Bones({
+					app: this._app,
+					position: this._position
+				})
+			);
 			this.disapear();
 		}
 	}
@@ -136,42 +153,58 @@ class Man extends
 	
 	disapear() {
 		this._isAlive = false;
-		this.setAction( new QQ.Actions.Disapear(this._app, {
-			subj:        this,
-			duration:    200,
-			isAbortable: false,
-			onEnd:       () => this._world.deleteSubject(this)
-		}));
+		this.setAction(
+			new QQ.Actions.Disapear({
+				duration: 0.1,
+				isAbortable: false
+			})
+		);
 	}
 	
 	setAlpha(a) {
-		for ( let img in this ) {
-			if ( this[img] instanceof QQ.Sprite ) {
-				this[img].setAlpha(a);
-			}
-		}
+		this.forAllSubjects( (child) => {
+			child.setAlpha(a);
+		});
 	}
 	
 	isAlive() {
 		return this._isAlive;
 	}
 	
-	shoot(x, y) {
-		let options = {
-			x:      this._x,
-			y:      this._y
-		};
-		let arrow = new Arrow(this._app, options);
-		arrow.flyTo({x, y});
+	isCanShoot() {
+		if ( ! this._isAlive ) {
+			return false;
+		}
+		if ( this._action instanceof QQ.Actions.Stun ) {
+			return false;
+		}
+		if ( this._action instanceof QQ.Actions.Disapear ) {
+			return false;
+		}
+		return true;
+	}
+	
+	shoot(target) {
+		if ( ! this.isCanShoot() ) {
+			return;
+		}
+		const arrow = new Arrow({
+			app: this._app,
+			position: this._position
+		});
+		arrow.flyTo(target);
 		this._world.addSubject(arrow);
-		//this._app.playSound('arrow');
+		this._app.playSound('arrow');
 	}
 	
 	stun() {
-		this.setAction( new QQ.Actions.Stun(this._app, {
-			subj:     this,
-			duration: 1000
-		}));
+		this.setAction(
+			new QQ.Actions.Stun({
+				app: this._app,
+				subj: this,
+				duration: 3
+			})
+		);
 	}
 	
 };

@@ -1,24 +1,23 @@
 class Arrow extends QQ.Subject.Actionable {
 	
-	constructor(app, options = {}) {
-		options.width       = QQ.default(options.width,  1.5);
-		options.height      = QQ.default(options.height, 1.5);
-		options.imgSrc      = QQ.default(options.imgSrc, 'imgs/arrow.png');
-		options.z           = 4;
+	constructor(options) {
+		options.size        = new QQ.Size(1.5, 1.5);
+		options.img         = QQ.default(options.img, 'arrow');
+		options.z           = 5;
 		options.isClickable = false;
-		super(app, options);
-		this._time          = app.getTime();
-	}
-	
-	draw(ctx) {
-		this._sprite.draw(ctx, QQ.Sprite.Pivot.CENTERBOTTOM);
+		options.anchor      = new QQ.Point(0.5, 1);
+		super(options);
 	}
 	
 	flyTo(to) {
-		let distance = QQ.Math.calcDistance(this._x, this._y, to.x, to.y);
-		let duration = 400 + distance*40;
-		this.setAngle(Math.atan2(this._y-to.y, this._x-to.x) - Math.PI/2);
-		this._action = new QQ.Actions.BallisticsMove(this._app, {
+		const distance = to.getDistance(this._position);
+		const duration = 0.4 + distance*0.04;
+		const angle = Math.atan2(
+			this._position.y()-to.y(),
+			this._position.x()-to.x()
+		) + Math.PI/2;
+		this.setAngle(angle);
+		this._action = new QQ.Actions.BallisticsMove({
 			subj: this,
 			to, duration
 		});
@@ -26,26 +25,26 @@ class Arrow extends QQ.Subject.Actionable {
 	}
 	
 	hit() {
-		let hitted   = this._world.getAllSubjectsAtPoint(this._x, this._y);
-		let isHitted = false;
-		for ( let enemy of hitted ) {
+		const hitted = this._world.getAllSubjectsAtPoint(this._position);
+		let hittedEnemy = null;
+		for ( const enemy of hitted ) {
 			if ( enemy instanceof Man && enemy.isAlive() ) {
-				enemy.hitted();
-				isHitted = true;
-				break;
+				hittedEnemy = enemy;
 			}
 		}
-		if ( ! isHitted ) {
-			this.setZ(0);
+		if ( hittedEnemy ) {
+			hittedEnemy.hitted();
+		} else {
+			this.setZ(1);
 		}
 		this.disapear();
 	}
 	
 	disapear() {
-		this._action = new QQ.Actions.Disapear(this._app, {
+		this._action = new QQ.Actions.Disapear({
 			subj:     this,
-			duration: 300,
-			onEnd:    () => this._world.deleteSubject(this)
+			duration: 0.3,
+			onEnd:    () => this.deleteMe()
 		});
 	}
 	

@@ -2,73 +2,75 @@ class Bones extends
 	QQ.mixins(QQ.Subject.ActionableMix, QQ.Subject.Base)
 {
 	
-	constructor(app, options) {
-		options.width  = QQ.default(options.width,  2);
-		options.height = QQ.default(options.height, 2);
-		super(app, options);
+	constructor(options) {
+		options.size  = new QQ.Point(2, 2);
+		options.anchor  = new QQ.Point(0.5, 0.5);
+		options.z = 1;
+		super(options);
 		this._bonesAmount = QQ.Math.rand(1, 3);
-		this._skull       = new QQ.Sprite(this._app.getImg('imgs/skull.png'));
-		this._bone        = new QQ.Sprite(this._app.getImg('imgs/bone.png'));
-		this._transforms  = [];
+				
 		for ( let i = 0; i < 1 + this._bonesAmount; ++i ) {
-			this._transforms.push({
+			this.addSubject(QQ.Subject.make({
+				app: this._app,
+				size: new QQ.Point(2, 2),
+				img: 'bone',
+				anchor: options.anchor,
 				angle: QQ.Math.rand(-3.14, 3.14, false),
-				x: QQ.Math.rand(-25, 25),
-				y: QQ.Math.rand(-25, 25)
-			});
+				position: new QQ.Point(
+					QQ.Math.rand(-0.5, 0.5),
+					QQ.Math.rand(-0.5, 0.5)
+				)
+			}));
 		}
+		this.addSubject(QQ.Subject.make({
+			app: this._app,
+			size: new QQ.Point(2, 2),
+			img: 'skull',
+			anchor: options.anchor,
+			angle: QQ.Math.rand(-3.14, 3.14, false),
+			position: new QQ.Point(
+				QQ.Math.rand(-0.5, 0.5),
+				QQ.Math.rand(-0.5, 0.5)
+			)
+		}));
+		
 		this.drop();
 	}
 	
 	drop() {
-		this.setAction(new QQ.Actions.MoveTo(this._app, {
-			subj:     this,
-			to:       {x: this._x, y: this._y - 1.5},
-			duration: 100,
-			onEnd:    () => {this.wait();}
-		}));
+		const thisPos = this.getPosition();
+		this.setAction(
+			new QQ.Actions.MoveTo({
+				subj: this,
+				to: new QQ.Point(thisPos.x(), thisPos.y() + 1.5),
+				duration: 0.1,
+				onEnd: () => {this.wait();}
+			})
+		);
 	}
 	
 	wait() {
-		this.setAction(new QQ.Actions.WaitFor(this._app, {
-			subj:     this,
-			duration: 5000,
-			onEnd:    () => {this.disapear();}
-		}));
+		this.setAction(
+			new QQ.Actions.WaitFor({
+				duration: 5,
+				onEnd: () => {this.disapear();}
+			})
+		);
 	}
 	
 	disapear() {
-		this.setAction(new QQ.Actions.Disapear(this._app, {
-			subj:     this,
-			duration: 1000,
-			onEnd:    () => {this._world.deleteSubject(this);}
-		}));
+		this.setAction(
+			new QQ.Actions.Disapear({
+				duration: 1,
+				onEnd: () => {this.deleteMe();}
+			})
+		);
 	}
 	
 	setAlpha(a) {
-		this._bone.setAlpha(a);
-		this._skull.setAlpha(a);
-	}
-	
-	getScale() {
-		let size   = this._skull.getSize();
-		let scaleX = this._width  / size.width;
-		let scaleY = this._height / size.height;
-		return { x : scaleX, y : scaleY };
-	}
-	
-	draw(ctx) {
-		for ( let i = 1; i < this._transforms.length; ++i ) {
-			ctx.restore();
-			ctx.rotate(this._transforms[i].angle);
-			ctx.translate(this._transforms[i].x, this._transforms[i].y);
-			this._bone.draw(ctx);
-			ctx.translate(-this._transforms[i].x, -this._transforms[i].y);
-			ctx.rotate(-this._transforms[i].angle);
-		}
-		ctx.rotate(this._transforms[0].angle);
-		ctx.translate(this._transforms[0].x, this._transforms[0].y);
-		this._skull.draw(ctx);
+		this.forAllSubjects((subj) => {
+			subj.setAlpha(a);
+		});
 	}
 	
 };
