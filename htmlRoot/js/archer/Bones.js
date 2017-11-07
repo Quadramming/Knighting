@@ -3,13 +3,13 @@ class Bones extends
 {
 	
 	constructor(options) {
-		options.size  = new QQ.Point(2, 2);
-		options.anchor  = new QQ.Point(0.5, 0.5);
-		options.z = 1;
+		options.size = new QQ.Point(2, 2);
+		options.anchor = new QQ.Point(0.5, 0.5);
+		options.z = 2;
 		super(options);
 		this._bonesAmount = QQ.Math.rand(1, 3);
 				
-		for ( let i = 0; i < 1 + this._bonesAmount; ++i ) {
+		for ( let i = 0; i < this._bonesAmount; ++i ) {
 			this.addSubject(QQ.Subject.make({
 				app: this._app,
 				size: new QQ.Point(2, 2),
@@ -53,14 +53,14 @@ class Bones extends
 		this.setAction(
 			new QQ.Actions.WaitFor({
 				duration: 5,
-				onEnd: () => {this.disapear();}
+				onEnd: () => {this.disappear();}
 			})
 		);
 	}
 	
-	disapear() {
+	disappear() {
 		this.setAction(
-			new QQ.Actions.Disapear({
+			new QQ.Actions.Disappear({
 				duration: 1,
 				onEnd: () => {this.deleteMe();}
 			})

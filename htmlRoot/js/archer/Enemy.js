@@ -1,26 +1,12 @@
 class Enemy extends Man {
 	
 	constructor(options) {
-		if ( ! options.position ) {
-			options.position = new QQ.Point(
-				Enemy.getSpawnPositionX(),
-				Enemy.getSpawnPositionY()
-			);
-		}
-		options.speed = QQ.default(options.speed, 2);
 		super(options);
+		this._player = options.player;
 		this._pointsAmount = 5;
-		this._points       = [];
+		this._points  = [];
 		this.initStraightEnemy();
 		this.doNextPoint();
-	}
-	
-	static getSpawnPositionX() {
-		return QQ.Math.rand(-15, 15);
-	}
-	
-	static getSpawnPositionY() {
-		return QQ.Math.rand(22, 22);
 	}
 	
 	fillPoints() {
@@ -71,9 +57,24 @@ class Enemy extends Man {
 		this.setAction(
 			new QQ.Actions.WalkTo({
 				to:    castleEnter,
-				onEnd: () => this.disapear()
+				onEnd: () => {
+					this._player.offend();
+					this.disappear();
+				}
 			})
 		);
+	}
+	
+	die() {
+		super.die();
+		this._player.addScore(1);
+		this._world.addSubject(
+			new Bones({
+				app: this._app,
+				position: this._position
+			})
+		);
+		this.disappear();
 	}
 	
 };

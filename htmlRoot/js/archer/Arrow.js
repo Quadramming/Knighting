@@ -35,13 +35,13 @@ class Arrow extends QQ.Subject.Actionable {
 		if ( hittedEnemy ) {
 			hittedEnemy.hitted();
 		} else {
-			this.setZ(1);
+			this.setZ(2);
 		}
-		this.disapear();
+		this.disappear();
 	}
 	
-	disapear() {
-		this._action = new QQ.Actions.Disapear({
+	disappear() {
+		this._action = new QQ.Actions.Disappear({
 			subj:     this,
 			duration: 0.3,
 			onEnd:    () => this.deleteMe()

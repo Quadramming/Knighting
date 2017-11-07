@@ -9,11 +9,11 @@ game.BubbleText = class BubbleText extends
 		this._text  = text;
 		this._alpha = 1;
 		
-		let disapear = new QQ.Actions.Disapear(this._app, this, 1000);
-		disapear.onEnd = () => {
+		let disappear = new QQ.Actions.Disappear(this._app, this, 1000);
+		disappear.onEnd = () => {
 			world.deleteSubject(this);
 		};
-		this.setAction(disapear);
+		this.setAction(disappear);
 		world.addSubject(this);
 	}
 	

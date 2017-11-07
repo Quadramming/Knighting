@@ -2,8 +2,9 @@ class ChangePatrolDirection extends QQ.Subject.Base {
 	
 	constructor(options) {
 		options.size = new QQ.Point(30 * 1.5, 4);
-		options.position = new QQ.Point(0, -18);
+		options.position = new QQ.Point(0, -18.5);
 		options.anchor = new QQ.Point(0.5, 0.5);
+		options.z = 10;
 		super(options);
 		this._player = options.player;
 	}

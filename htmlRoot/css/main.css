@@ -3,6 +3,11 @@
 	src:         url("../fonts/KenVectorBold.ttf");
 }
 
+@font-face {
+	font-family: KenFuture;
+	src:         url("../fonts/KenVectorFuture.ttf");
+}
+
 body {
 	background-color: #d5edf7;
 	color:            #d5edf7;

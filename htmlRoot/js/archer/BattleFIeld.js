@@ -7,10 +7,22 @@ class BattleField extends QQ.Subject.Base {
 		options.z = 10;
 		super(options);
 		this._player = options.player;
+		this._worldPointer = options.worldPointer;
 	}
 	
+	tick(delta) {
+		super.tick(delta);
+		if ( this._worldPointer.isClicked() ) {
+			this._player.shoot(
+				this._worldPointer.getWorldPoint()
+			);
+		}
+	}
+	
+	/*
 	onClickDown(point) {
 		this._player.shoot(point);
 	}
+	*/
 	
 };

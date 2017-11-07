@@ -55,8 +55,12 @@
 		['arrow',             'imgs/arrow.png'],
 		['changeDirection',   'imgs/changeDirection.png'],
 		['bone',              'imgs/bone.png'],
-		['skull',             'imgs/skull.png']
-		
+		['skull',             'imgs/skull.png'],
+		['pause',             'imgs/pause.png'],
+		['heart',             'imgs/heart.png'],
+		['redBar',            'imgs/redBar.png'],
+		['logo',              'imgs/logo.png'],
+		['blackBg',           'imgs/blackBg.png']
 	];
 	
 	const sounds = [
