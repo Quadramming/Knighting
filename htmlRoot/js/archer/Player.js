@@ -14,9 +14,11 @@ class Player extends Man {
 		this._score = 0;
 		this._scoreText = new QQ.Text({
 			align: 'left',
-			position: new QQ.Point(-14, 18),
-			size: new QQ.Size(20, 2),
-			fontSize: 1.5,
+			valign: 'middle',
+			position: new QQ.Point(-14, 17),
+			size: new QQ.Size(25, 2),
+			baseLine: 'middle',
+			fontSize: 2,
 			font: 'KenFuture',
 			text: this.getScoreText(),
 			isClickable: false,
@@ -36,8 +38,8 @@ class Player extends Man {
 				const heart = QQ.Subject.make({
 					app: this._app,
 					img: 'heart',
-					size: new QQ.Size(2, 2),
-					position: new QQ.Point(-14 + this.getLives(), 16),
+					size: new QQ.Size(4, 4),
+					position: new QQ.Point(-14 + this.getLives(), 13),
 					isClickable: false,
 					z: 20
 				});

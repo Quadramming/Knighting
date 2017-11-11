@@ -1,7 +1,7 @@
 class Arrow extends QQ.Subject.Actionable {
 	
 	constructor(options) {
-		options.size        = new QQ.Size(1.5, 1.5);
+		options.size        = new QQ.Size(3, 3);
 		options.img         = QQ.default(options.img, 'arrow');
 		options.z           = 5;
 		options.isClickable = false;
@@ -26,15 +26,23 @@ class Arrow extends QQ.Subject.Actionable {
 	
 	hit() {
 		const hitted = this._world.getAllSubjectsAtPoint(this._position);
-		let hittedEnemy = null;
+		const hittedEnemies = [];
 		for ( const enemy of hitted ) {
 			if ( enemy instanceof Man && enemy.isAlive() ) {
-				hittedEnemy = enemy;
+				hittedEnemies.push(enemy);
 			}
 		}
-		if ( hittedEnemy ) {
-			hittedEnemy.hitted();
-		} else {
+		let hit = false;
+		hittedEnemies.reverse();
+		for ( const enemy of hittedEnemies ) {
+			const isHit = enemy.hitted(this._position);
+			if ( isHit ) {
+				hit = true;
+				break;
+			}
+		}
+		
+		if ( ! hit ) {
 			this.setZ(2);
 		}
 		this.disappear();

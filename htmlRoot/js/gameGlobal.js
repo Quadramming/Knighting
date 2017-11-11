@@ -1,4 +1,4 @@
-let game = {
+const game = {
 	seizures:    {},
 	levels:      {},
 	levelsOrder: [

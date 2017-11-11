@@ -12,10 +12,15 @@ class BattleField extends QQ.Subject.Base {
 	
 	tick(delta) {
 		super.tick(delta);
-		if ( this._worldPointer.isClicked() ) {
-			this._player.shoot(
-				this._worldPointer.getWorldPoint()
-			);
+		if ( this._worldPointer.getWorldPoint() ) {
+			if (
+				this._worldPointer.isClicked() &&
+				this.isHit(this._worldPointer.getWorldPoint())
+			) {
+				this._player.shoot(
+					this._worldPointer.getWorldPoint()
+				);
+			}
 		}
 	}
 	

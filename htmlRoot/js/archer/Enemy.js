@@ -70,6 +70,7 @@ class Enemy extends Man {
 		this._player.addScore(1);
 		this._world.addSubject(
 			new Bones({
+				size: new QQ.Size(this._size.x()/1.5),
 				app: this._app,
 				position: this._position
 			})

@@ -3,7 +3,6 @@ class Bones extends
 {
 	
 	constructor(options) {
-		options.size = new QQ.Point(2, 2);
 		options.anchor = new QQ.Point(0.5, 0.5);
 		options.z = 2;
 		super(options);
@@ -12,7 +11,7 @@ class Bones extends
 		for ( let i = 0; i < this._bonesAmount; ++i ) {
 			this.addSubject(QQ.Subject.make({
 				app: this._app,
-				size: new QQ.Point(2, 2),
+				size: options.size,
 				img: 'bone',
 				anchor: options.anchor,
 				angle: QQ.Math.rand(-3.14, 3.14, false),
@@ -24,7 +23,7 @@ class Bones extends
 		}
 		this.addSubject(QQ.Subject.make({
 			app: this._app,
-			size: new QQ.Point(2, 2),
+			size: options.size,
 			img: 'skull',
 			anchor: options.anchor,
 			angle: QQ.Math.rand(-3.14, 3.14, false),
