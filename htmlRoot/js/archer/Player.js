@@ -4,8 +4,16 @@ class Player extends Man {
 		options.speed = QQ.default(options.speed, 10);
 		super(options);
 		this._lives = [];
-		this.setShield(new QQ.Point(1, 6));
-		this.setBow(new QQ.Point(1, 3));
+		/*
+		this.setShield({
+			index: new QQ.Point(1, 6)
+		})
+		*/
+		this.setBow({
+			enum: 0,
+			coolDown: 0.1,
+			showCoolDown: true
+		});
 		this.setPatrol(
 			new QQ.Point(-13.5, 0),
 			new QQ.Point( 13.5, 0)

@@ -33,7 +33,7 @@ class Man extends
 			return false;
 		}
 		if ( this._shield ) {
-			this.setShield(null);
+			this.removeShield();
 		} else {
 			this.die();
 		}

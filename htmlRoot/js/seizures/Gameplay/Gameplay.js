@@ -9,30 +9,7 @@ game.seizures.Gameplay = class Gameplay
 		this.setCamera();
 		this.addGrass();
 		//this._world.setBackground('grass');
-		
-		const castle = new QQ.Container({
-			z: 2,
-			position: new QQ.Point(0, -18)
-		});
-		
-		castle.addSubject(QQ.Subject.make({
-			app:      this._app,
-			img:      'tower',
-			position: new QQ.Point(6, -0.5),
-			size:     new QQ.Size(6, 14),
-			anchor:   new QQ.Point(0.5, 0.5),
-			z:        0
-		}));
-		
-		castle.addSubject(QQ.Subject.make({
-			app:      this._app,
-			img:      'wall',
-			position: new QQ.Point(0, 3.5),
-			size:     new QQ.Size(30, 6),
-			anchor:   new QQ.Point(0.5, 0.5),
-			z:        2
-		}));
-		
+		const castle = this.createCastle();
 		this._player = new Player({
 			world:    this._world,
 			app:      this._app,
@@ -66,18 +43,42 @@ game.seizures.Gameplay = class Gameplay
 	}
 	
 	setCamera() {
-		const size = new QQ.Point(30, 40);
-		const eye  = new QQ.Point(0, 0);
+		const size = new QQ.Point(30, 53);
+		const eye  = new QQ.Point(0, -7);
 		this._camera.init(size, eye);
 		const resizeCamera = () => {
 			const cameraSize = this._camera.getViewSize();
 			this._camera.setPosition(new QQ.Point(
 				eye.x(),
-				-(cameraSize.h()-size.h())/2
+				eye.y() -(cameraSize.h()-size.h())/2
 			));
 		};
 		resizeCamera();
 		window.addEventListener('resize', resizeCamera);
+	}
+	
+	createCastle() {
+		const castle = new QQ.Container({
+			z: 2,
+			position: new QQ.Point(0, -30)
+		});
+		castle.addSubject(QQ.Subject.make({
+			app:      this._app,
+			img:      'tower',
+			position: new QQ.Point(6, -0.5),
+			size:     new QQ.Size(6, 14),
+			anchor:   new QQ.Point(0.5, 0.5),
+			z:        0
+		}));
+		castle.addSubject(QQ.Subject.make({
+			app:      this._app,
+			img:      'wall',
+			position: new QQ.Point(0, 5),
+			size:     new QQ.Size(37.5, 7.5),
+			anchor:   new QQ.Point(0.5, 0.5),
+			z:        2
+		}));
+		return castle;
 	}
 	
 	addGrass() {
@@ -85,7 +86,7 @@ game.seizures.Gameplay = class Gameplay
 			app:      this._app,
 			tiled:    true,
 			img:      'grass',
-			tileSize: new QQ.Size(3, 3)
+			tileSize: new QQ.Size(5, 5)
 		});
 		let resizeBg = () => {
 			const view = this._camera.getViewRect();

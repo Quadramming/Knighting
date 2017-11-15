@@ -30,12 +30,16 @@ class EnemyManager extends QQ.Container {
 		this._difficulty = Math.floor(1 + this._duration/2);
 		if ( this._nextEnemy < this._duration ) {
 			this._nextEnemy = this.getNextEnemy();
-			this.addSubject(new Enemy({
+			const enemy = new Enemy({
+				size: new QQ.Point(5),
 				position: this.getSpawnPoint(),
 				speed: this.getSpeed(),
 				app: this._app,
-				player: this._player
-			}));
+				player: this._player,
+				world: this._world
+			});
+			enemy.dress(RandomOutfit);
+			this.addSubject(enemy);
 		}
 	}
 	

@@ -1,13 +1,14 @@
 class ManPart {
 	
 	constructor(input) {
-		this._index = QQ.default(input.index, new QQ.Point(0, 0));
+		this._index = QQ.default(input.info.index, new QQ.Point(0, 0));
 		this._app = input.owner.getApp();
 		this._world = input.owner.getWorld();
 		this._owner = input.owner;
 		this._cvs = this._app.getImgCanvas(input.img);
 		this._partGap = 1;
 		this._partSize = 16;
+		this._info = input.info;
 	}
 	
 	putImage(pixels, size) {
@@ -40,7 +41,24 @@ class ManPart {
 		}
 	}
 	
-	tick() {
+	static fillInfo(infoArray, options) {
+		if ( options.enum !== undefined ) {
+			options.info = infoArray.find((el) => el.enum === options.enum);
+			return options.info !== undefined;
+		} else if ( options.name ) {
+			options.info = infoArray.find((el) => el.name === options.name);
+			return options.info !== undefined;
+		} else { // random
+			options.info = infoArray[QQ.Math.rand(0, infoArray.length-1)];
+			return options.info !== undefined;
+		}
+		return false;
+	}
+	
+	draw(ctx) {
+	}
+	
+	tick(delta) {
 	}
 	
 };

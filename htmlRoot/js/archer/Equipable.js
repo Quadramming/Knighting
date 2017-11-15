@@ -1,3 +1,17 @@
+class RandomOutfit {
+	
+	static dress(player) {
+		player.setBoots();
+		player.setChest();
+		player.setPants();
+		player.setHair();
+		player.setHat();
+		player.setBow();
+		player.setShield();
+	}
+	
+};
+
 class Equipable extends QQ.Subject.Base {
 	
 	constructor(options) {
@@ -15,14 +29,11 @@ class Equipable extends QQ.Subject.Base {
 		this._weapon = null;
 		this._shield = null;
 		
-		this.setBody(new QQ.Point(0, QQ.Math.rand(0, 3)));
-		this.setBoots(new QQ.Point(0, QQ.Math.rand(0, 11)));
-		this.setChest(new QQ.Point(QQ.Math.rand(0, 11), QQ.Math.rand(0, 9)));
-		this.setPants(new QQ.Point(0, 1));
-		this.setHair(new QQ.Point(0, 2));
-		this.setHat(new QQ.Point(1, 3));
-		this.setMelee(new QQ.Point(QQ.Math.rand(0, 9), QQ.Math.rand(0, 9)));
-		//this.setShield(new QQ.Point(3, 1));
+		this.setBody();
+	}
+	
+	dress(outfit) {
+		outfit.dress(this);
 	}
 	
 	getPicData() {
@@ -75,6 +86,9 @@ class Equipable extends QQ.Subject.Base {
 		this._equipPicture.setAlpha(this._alpha);
 		this._equipPicture.draw(ctx.get());
 		super.draw(ctx);
+		this._forEquip((equip) => {
+			equip.draw(ctx);
+		});
 	}
 	
 	tick(delta) {
@@ -87,88 +101,70 @@ class Equipable extends QQ.Subject.Base {
 		});
 	}
 	
-	setBow(index) {
-		this._setWeapon('bow', index);
+	setBow(input = {}) {
+		this._setWeapon('bow', input);
 	}
 	
-	setMelee(index) {
-		this._setWeapon('melee', index);
+	setMelee(input = {}) {
+		this._setWeapon('melee', input);
 	}
 	
-	_setWeapon(type, index) {
+	_setWeapon(type, input) {
+		input.owner = this;
 		this._needRedraw();
 		if ( type === 'melee' ) {
-			this._weapon = new Melee({
-				owner: this,
-				index: index
-			});
+			this._weapon = Melee.make(input);
 		}
 		if ( type === 'bow' ) {
-			this._weapon = new Bow({
-				owner: this,
-				index: index
-			});
+			this._weapon = Bow.make(input);
 		}
 	}
 	
-	setBody(index) {
+	setBody(input = {}) {
+		input.owner = this;
 		this._needRedraw();
-		this._body = new Body({
-			owner: this,
-			index: index
-		});
+		this._body = Body.make(input);
 	}
 	
-	setBoots(index) {
+	setBoots(input = {}) {
+		input.owner = this;
 		this._needRedraw();
-		this._boots = new Boots({
-			owner: this,
-			index: index
-		});
+		this._boots = Boots.make(input);
 	}
 	
-	setPants(index) {
+	setPants(input = {}) {
+		input.owner = this;
 		this._needRedraw();
-		this._pants = new Pants({
-			owner: this,
-			index: index
-		});
+		this._pants = Pants.make(input);
 	}
 	
-	setChest(index) {
+	setChest(input = {}) {
+		input.owner = this;
 		this._needRedraw();
-		this._chest = new Chest({
-			owner: this,
-			index: index
-		});
+		this._chest = Chest.make(input);
 	}
 	
-	setHair(index) {
+	setHair(input = {}) {
+		input.owner = this;
 		this._needRedraw();
-		this._hair = new Hair({
-			owner: this,
-			index: index
-		});
+		this._hair = Hair.make(input);
 	}
 	
-	setHat(index) {
+	setHat(input = {}) {
+		input.owner = this;
 		this._needRedraw();
-		this._hat = new Hat({
-			owner: this,
-			index: index
-		});
+		this._hat = Hat.make(input);
 	}
 	
-	setShield(index) {
+	setShield(input = {}) {
+		input.owner = this;
 		this._needRedraw();
-		if ( index ) {
-			this._shield = new Shield({
-				owner: this,
-				index: index
-			});
-		} else {
-			this._shield = null;
-		}
+		this._shield = Shield.make(input);
+	}
+	
+	removeShield() {
+		this._needRedraw();
+		this._shield = null;
 	}
 	
 };
