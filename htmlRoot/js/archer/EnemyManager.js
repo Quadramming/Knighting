@@ -6,7 +6,8 @@ class EnemyManager extends QQ.Container {
 		this._player = options.player;
 		this._duration = 0;
 		this._nextEnemy = 0;
-		this._difficulty = 1;
+		this._level = options.level;
+		this._enemiesLeft = 10 * this._level;
 	}
 	
 	getSpawnPoint() {
@@ -17,18 +18,28 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	getSpeed() {
-		return 1 + this._difficulty/10;
+		return game.getLevelRandom(2, 10, this._level, {cap: false});
 	}
 	
 	getNextEnemy() {
-		return this._duration + 1/((100+this._difficulty)/100);
+		let rand = game.getLevelRandom(1.5, 0.1, this._level);
+		return this._duration + rand;
+	}
+	
+	isShield() {
+		return game.getLevelRandom(0, 1, this._level, {
+			round: true, coverage: 100, cap: false
+		}) === 1;
+	}
+	
+	count() {
+		return this._enemiesLeft + this._subjects.length;
 	}
 	
 	tick(delta) {
 		super.tick(delta);
 		this._duration += delta;
-		this._difficulty = Math.floor(1 + this._duration/2);
-		if ( this._nextEnemy < this._duration ) {
+		if ( this._enemiesLeft > 0 && this._nextEnemy < this._duration ) {
 			this._nextEnemy = this.getNextEnemy();
 			const enemy = new Enemy({
 				size: new QQ.Point(5),
@@ -39,7 +50,17 @@ class EnemyManager extends QQ.Container {
 				world: this._world
 			});
 			enemy.dress(RandomOutfit);
+			if ( this.isShield() ) {
+				enemy.setShield();
+			}
 			this.addSubject(enemy);
+			--this._enemiesLeft;
+		}
+		if ( this.count() === 0 ) {
+			this._app.setSz('EndGame', {
+				isWin: true,
+				level: this._level
+			}, true);
 		}
 	}
 	

@@ -5,41 +5,81 @@ game.seizures.Gameplay = class Gameplay
 	constructor(input) {
 		input.isPauseable = true;
 		super(input);
-		//this._app.setSz('Levels');
 		this.setCamera();
-		this.addGrass();
-		//this._world.setBackground('grass');
-		const castle = this.createCastle();
+		this.m_castle = null;
+		this._player = null;
+		this._changePatrolDirection = null;
+		this._battleField = null;
+		this._enemyManager = null;
+		this._currentLevel = 1;
+		this.initWorld();
+	}
+	
+	initWorld() {
+		this._world.clearStage();
+		this.setGrass();
+		this.m_castle = this.createCastle();
+		this._world.addSubject(this.m_castle);
+	}
+	
+	startGame(level = game.getAvailableLevel()) {
+		this._currentLevel = level;
+		this.initWorld();
+		this.setPlayer();
+		this.setBattleField();
+		this.setChangePatrolDirection();
+		this.setEnemyManager(level);
+		this._setHud('GameHud', {parent: this});
+	}
+	
+	restartGame() {
+		this.startGame(this._currentLevel);
+	}
+	
+	setPlayer() {
 		this._player = new Player({
 			world:    this._world,
 			app:      this._app,
 			position: new QQ.Point(0, 0),
 			anchor:   new QQ.Point(0.5, 0.5),
+			level:    this._currentLevel,
 			z:        1
 		});
-		castle.addSubject(this._player);
-		this._world.addSubject(castle);
-		
-		this.setEnemies();
-		
-		this._world.addSubject(new ChangePatrolDirection({
+		this.m_castle.addSubject(this._player);
+	}
+	
+	setEnemyManager(level) {
+		this._enemyManager = new EnemyManager({
+			level: level,
 			player: this._player
-		}));
-		this._world.addSubject(new BattleField({
+		});
+		this._world.addSubject(this._enemyManager);
+	}
+	
+	setChangePatrolDirection() {
+		this._changePatrolDirection = new ChangePatrolDirection({
+			player: this._player
+		});
+		this._world.addSubject(this._changePatrolDirection);
+	}
+	
+	setBattleField() {
+		this._battleField = new BattleField({
 			player: this._player,
 			worldPointer: this._input
-		}));
-		
-		this._setHud('GameHud', {parent: this});
+		});
+		this._world.addSubject(this._battleField);
+	}
+	
+	init() {
+		super.init();
+		this._app.setSz('Menu', {
+			startGame: (...args) => {this.startGame(...args);}
+		}, true);
 	}
 	
 	getHero() {
 		return this._player;
-	}
-	
-	setEnemies() {
-		const enemies = new EnemyManager({player: this._player});
-		this._world.addSubject(enemies);
 	}
 	
 	setCamera() {
@@ -81,7 +121,7 @@ game.seizures.Gameplay = class Gameplay
 		return castle;
 	}
 	
-	addGrass() {
+	setGrass() {
 		const bg = QQ.Subject.make({
 			app:      this._app,
 			tiled:    true,

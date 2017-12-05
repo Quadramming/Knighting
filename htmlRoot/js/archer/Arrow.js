@@ -7,11 +7,14 @@ class Arrow extends QQ.Subject.Actionable {
 		options.isClickable = false;
 		options.anchor      = new QQ.Point(0.5, 1);
 		super(options);
+		this._penetration = QQ.default(options.penetration, 1);
+		this._timeFixed = options.timeFixed;
+		this._timePerMeter = options.timePerMeter;
 	}
 	
 	flyTo(to) {
 		const distance = to.getDistance(this._position);
-		const duration = 0.4 + distance*0.04;
+		const duration = this._timeFixed + distance * this._timePerMeter;
 		const angle = Math.atan2(
 			this._position.y()-to.y(),
 			this._position.x()-to.x()
@@ -32,17 +35,16 @@ class Arrow extends QQ.Subject.Actionable {
 				hittedEnemies.push(enemy);
 			}
 		}
-		let hit = false;
 		hittedEnemies.reverse();
+		let hittedAmount = 0;
 		for ( const enemy of hittedEnemies ) {
-			const isHit = enemy.hitted(this._position);
-			if ( isHit ) {
-				hit = true;
+			enemy.hitted(this._position);
+			++hittedAmount;
+			if ( hittedAmount === this._penetration ) {
 				break;
 			}
 		}
-		
-		if ( ! hit ) {
+		if ( hittedAmount === 0) {
 			this.setZ(2);
 		}
 		this.disappear();

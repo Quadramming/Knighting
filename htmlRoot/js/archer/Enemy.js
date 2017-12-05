@@ -70,6 +70,7 @@ class Enemy extends Man {
 	
 	die() {
 		super.die();
+		this.earnCoins();
 		this._player.addScore(1);
 		this._world.addSubject(
 			new Bones({
@@ -79,6 +80,17 @@ class Enemy extends Man {
 			})
 		);
 		this.disappear();
+	}
+	
+	earnCoins() {
+		if ( QQ.Math.rand(1, 10) === 1 ) {
+			this._world.addSubject(
+				new CoinUp({
+					app: this._app,
+					position: this._position
+				})
+			);
+		}
 	}
 	
 };

@@ -1,43 +1,5 @@
 (function() {
 	
-	const imgs = [
-		        'imgs/Preview.png',
-		        'imgs/arrow.png',
-		        'imgs/back.png',
-		        'imgs/bg.png',
-		        'imgs/bone.png',
-		        'imgs/castle.png',
-		        'imgs/changeDirection.png',
-		        'imgs/charMap.png',
-		        'imgs/charMap.xcf',
-		        'imgs/door.png',
-		        'imgs/enemy.png',
-		        'imgs/grass.png',
-		        'imgs/knight.png',
-		        'imgs/level.png',
-		        'imgs/man/body.png',
-		        'imgs/man/boots.png',
-		        'imgs/man/bow.png',
-		        'imgs/man/chest.png',
-		        'imgs/man/hair.png',
-		        'imgs/man/hat.png',
-		        'imgs/man/pants.png',
-		        'imgs/man/shield.png',
-		        'imgs/man/weapon.png',
-		        'imgs/mirror.png',
-		        'imgs/potionBlue.png',
-		        'imgs/potionGreen.png',
-		        'imgs/potionRed.png',
-		        'imgs/potions.png',
-		        'imgs/roguelikeDungeon_transparent.png',
-		        'imgs/skull.png',
-		        'imgs/slot.png',
-		        'imgs/star.png',
-		        'imgs/tower.png',
-		        'imgs/wall.png',
-		        'imgs/wall1.png'
-	];
-	
 	const images = [
 		['grass',             'imgs/grass.png'],
 		['tower',             'imgs/tower.png'],
@@ -59,12 +21,31 @@
 		['pause',             'imgs/pause.png'],
 		['heart',             'imgs/heart.png'],
 		['redBar',            'imgs/redBar.png'],
+		['bar',               'imgs/bar.png'],
 		['logo',              'imgs/logo.png'],
-		['blackBg',           'imgs/blackBg.png']
+		['blackBg',           'imgs/blackBg.png'],
+		['dialog',            'imgs/dialog.png'],
+		['coin',              'imgs/coin.png'],
+		['slotCoin1',         'imgs/slotCoin1.png'],
+		['slotCoin3',         'imgs/slotCoin3.png'],
+		['start',             'imgs/buttons/start.png'],
+		['abort',             'imgs/buttons/abort.png'],
+		['continue',          'imgs/buttons/continue.png'],
+		['restart',           'imgs/buttons/restart.png'],
+		['next level',        'imgs/buttons/nextLevel.png'],
+		['menu',              'imgs/buttons/menu.png'],
+		['bow',               'imgs/buttons/bow.png'],
+		['back',              'imgs/buttons/back.png'],
+		['statArrows',        'imgs/stats/arrows.png'],
+		['statCoolDown',      'imgs/stats/coolDown.png'],
+		['statPenetration',   'imgs/stats/penetration.png'],
+		['statSpeed',         'imgs/stats/speed.png'],
+		['statTimePerMeter',  'imgs/stats/timePerMeter.png']
 	];
 	
 	const sounds = [
-		['arrow', 'sounds/arrow.ogg']
+		['arrow', 'sounds/arrow.ogg'],
+		['coin',  'sounds/coin.ogg']
 	];
 	
 	const appConfig = {

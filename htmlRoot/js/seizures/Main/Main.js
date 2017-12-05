@@ -1,6 +1,7 @@
 game.seizures.Main = class Main
 	extends QQ.Seizures.Base
 {
+	
 	init() {
 		this._app.setSz('Gameplay');
 	}

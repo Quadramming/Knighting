@@ -6,8 +6,8 @@ class RandomOutfit {
 		player.setPants();
 		player.setHair();
 		player.setHat();
-		player.setBow();
-		player.setShield();
+		//player.setBow();
+		//player.setShield();
 	}
 	
 };

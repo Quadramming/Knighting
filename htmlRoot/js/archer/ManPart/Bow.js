@@ -1,3 +1,99 @@
+const PlayerBowArrows = {
+	_storageText: 'Bow arrows',
+	_begin: 1,
+	_end: 5,
+	
+	set(v) {
+		game.storage(this._storageText, v);
+	},
+	
+	get() {
+		return getNumberFromStorage(this._storageText, this._begin);
+	},
+	
+	getRandom(lvl = game.getAvailableLevel()) {
+		return game.getLevelRandom(this._begin, this._end, lvl, {
+			round: true, coverage: 100, cap: false
+		});
+	}
+	
+
+};
+
+const PlayerBowCoolDown = {
+	_storageText: 'Bow coolDown',
+	_begin: 1,
+	_end: 0.1,
+	
+	set(v) {
+		game.storage(this._storageText, v);
+	},
+	
+	get() {
+		return game.getNumberFromStorage(this._storageText, this._begin);
+	},
+	
+	getPercents() {
+		const start = this._begin;
+		const end = this._end;
+		const now = this.get();
+		return (start-now)/(start - end)*100;
+	},
+	
+	getRandom(lvl = game.getAvailableLevel()) {
+		return game.limitedRandom(this._begin, this._end, lvl);
+	},
+	
+	makeIco(options) {
+		return QQ.Subject.make(Object.assign({
+			img: 'statCoolDown',
+			size: new QQ.Point(3),
+			anchor: new QQ.Point(0.5, 0.5)
+		}, options));
+	},
+	
+	makeBar(options) {
+		return new Bar(Object.assign({
+			updateFn: function() {
+				this.setSize(
+					PlayerBowCoolDown.getPercents()
+				);
+			}
+		}, options));
+	},
+	
+	makeSpendCoin1(options) {
+		return new QQ.Button(Object.assign({
+			img: 'slotCoin1',
+			size: new QQ.Point(3),
+			anchor: new QQ.Point(0.5, 0.5),
+			onBtnClick: () => {
+				if ( game.subCoins(1) ) {
+					const cd = PlayerBowCoolDown.getRandom();
+					PlayerBowCoolDown.set(cd);
+				}
+			}
+		}, options));
+	},
+	
+	makeSpendCoin3(options) {
+		return new QQ.Button(Object.assign({
+			img: 'slotCoin3',
+			size: new QQ.Point(3),
+			anchor: new QQ.Point(0.5, 0.5),
+			onBtnClick: () => {
+				if ( game.subCoins(3) ) {
+					const cd = PlayerBowCoolDown.getRandom();
+					if ( cd < PlayerBowCoolDown.get() ) {
+						PlayerBowCoolDown.set(cd);
+					}
+				}
+			}
+		}, options));
+	}
+	
+};
+
 class Bow extends ManPart {
 	
 	constructor(options) {
@@ -11,9 +107,17 @@ class Bow extends ManPart {
 			obj: null,
 			show: QQ.default(options.showCoolDown, false)
 		};
+		this._arrows = QQ.default(options.arrows, 1);
+		this._timePerMeter = QQ.default(options.timePerMeter, 0.04);
+		this._timeFixed = QQ.default(options.timeFixed, 0.4);
 		if ( this._coolDown.show ) {
 			this.initCoolDownObj();
 		}
+		this._penetration = QQ.default(options.penetration, 1);
+	}
+	
+	getPenetration() {
+		return this._penetration;
 	}
 	
 	initCoolDownObj() {
@@ -21,9 +125,8 @@ class Bow extends ManPart {
 			img: 'redBar',
 			app: this._app,
 			anchor: new QQ.Point(0.5, 0.5),
-			size: new QQ.Size(this._coolDown.width, 0.5)
+			size: new QQ.Size(0, 0.5)
 		});
-		this.updateCoolDownPosition();
 	}
 	
 	drawCoolDown(ctx) {
@@ -37,11 +140,6 @@ class Bow extends ManPart {
 		super.draw(ctx);
 	}
 	
-	updateCoolDownPosition() {
-		this._coolDown.obj.setPosition(this._owner.getWorldPosition());
-		this._coolDown.obj.addPosition(this._coolDown.offset);
-	}
-	
 	tickCoolDown(delta) {
 		this._coolDown.rest += delta;
 		const CDLeft = Math.max(this._coolDown.time - this._coolDown.rest, 0);
@@ -51,7 +149,8 @@ class Bow extends ManPart {
 				this._coolDown.width*x,
 				this._coolDown.obj.getSize().y()
 			));
-			this.updateCoolDownPosition();
+			this._coolDown.obj.setPosition(this._owner.getWorldPosition());
+			this._coolDown.obj.addPosition(this._coolDown.offset);
 		}
 	}
 	
@@ -64,12 +163,28 @@ class Bow extends ManPart {
 		if ( ! this._isCanShoot() ) {
 			return;
 		}
-		const arrow = new Arrow({
-			app: this._app,
-			position: this._owner.localToWorldPoint(new QQ.Point(0, 0))
-		});
-		arrow.flyTo(target);
-		this._world.addSubject(arrow);
+		const battleField = this._world.getSubjects(
+			(subj) => subj instanceof BattleField
+		).pop();
+		for ( let i = 0; i < this._arrows; ++i ) {
+			const aim = target.clone();
+			if ( i !== 0 ) {
+				aim.add( new QQ.Point(
+					5 - QQ.Math.rand(0, 10, false),
+					5 - QQ.Math.rand(0, 10, false)
+				) );
+			}
+			const arrow = new Arrow({
+				app: this._app,
+				position: this._owner.localToWorldPoint(new QQ.Point(0, 0)),
+				timePerMeter: this._timePerMeter,
+				timeFixed: this._timeFixed,
+				penetration: this._penetration
+			});
+			battleField.clip(aim);
+			arrow.flyTo(aim);
+			this._world.addSubject(arrow);
+		}
 		this._app.playSound('arrow');
 		this._coolDown.rest = 0;
 	}
@@ -82,7 +197,8 @@ class Bow extends ManPart {
 	}
 	
 	static make(options) {
-		const info =[
+		const lvl = options.level;
+		const info = [
 			{enum: 0, name: '', index: new QQ.Point(0, 0)},
 			{enum: 1, name: '', index: new QQ.Point(0, 1)},
 			{enum: 2, name: '', index: new QQ.Point(1, 0)},
@@ -94,7 +210,15 @@ class Bow extends ManPart {
 			{enum: 8, name: '', index: new QQ.Point(0, 4)},
 			{enum: 9, name: '', index: new QQ.Point(1, 4)}
 		];
+		options.enum = game.getLevelRandom(0, info.length-1, lvl, {round: true});
 		if ( ManPart.fillInfo(info, options) ) {
+			options.timePerMeter = game.limitedRandom(0.04, 0.005, lvl);
+			options.timeFixed = game.limitedRandom(0.4, 0.05, lvl);
+			options.coolDown = QQ.default(options.coolDown, 0.5);
+			options.arrows = QQ.default(options.arrows, 1);
+			options.penetration = game.getLevelRandom(1, 10, lvl, {
+				round: true, coverage: 100, cap: false
+			});
 			return new Bow(options);
 		}
 		return null;

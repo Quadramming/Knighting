@@ -3,6 +3,7 @@ class Player extends Man {
 	constructor(options) {
 		options.speed = QQ.default(options.speed, 10);
 		super(options);
+		this._level = options.level;
 		this._lives = [];
 		/*
 		this.setShield({
@@ -10,9 +11,9 @@ class Player extends Man {
 		})
 		*/
 		this.setBow({
-			enum: 0,
-			coolDown: 0.1,
-			showCoolDown: true
+			level: this._level,
+			showCoolDown: true,
+			coolDown: PlayerBowCoolDown.get()
 		});
 		this.setPatrol(
 			new QQ.Point(-13.5, 0),
@@ -30,6 +31,7 @@ class Player extends Man {
 			font: 'KenFuture',
 			text: this.getScoreText(),
 			isClickable: false,
+			color: '#6d543a',
 			z: 20
 		});
 		this._world.addSubject(this._scoreText);
@@ -88,8 +90,7 @@ class Player extends Man {
 	
 	die() {
 		super.die();
-		this._app.setSz('EndGame', {}, true);
-		c('ENDGAME');
+		this._app.setSz('EndGame', {isWin: false}, true);
 	}
 	
 	setPatrol(from, to) {
