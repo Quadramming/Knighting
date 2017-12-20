@@ -6,7 +6,7 @@ class Boots extends ManPart {
 	}
 	
 	static make(options) {
-		const info =[
+		const info = [
 			{enum: 0, name: 'black', index: new QQ.Point(0, 0)},
 			{enum: 1, name: 'brown', index: new QQ.Point(0, 1)},
 			{enum: 2, name: 'white', index: new QQ.Point(0, 2)},
@@ -20,6 +20,7 @@ class Boots extends ManPart {
 			{enum: 10, name: 'super marine', index: new QQ.Point(0, 10)},
 			{enum: 11, name: 'super brown', index: new QQ.Point(0, 11)}
 		];
+		ManPart.setEnumForEnemy(options, info);
 		if ( ManPart.fillInfo(info, options) ) {
 			return new Boots(options);
 		}

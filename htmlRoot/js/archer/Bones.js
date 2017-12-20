@@ -6,8 +6,6 @@ class CoinUp extends
 		options.anchor = new QQ.Point(0.5, 0.5);
 		options.z = 9;
 		super(options);
-		this._bonesAmount = QQ.Math.rand(1, 3);
-		
 		this._coin = QQ.Subject.make({
 			app: this._app,
 			img: 'coin',
@@ -90,9 +88,12 @@ class Bones extends
 		this.setAction(
 			new QQ.Actions.MoveTo({
 				subj: this,
-				to: new QQ.Point(thisPos.x(), thisPos.y() + 1.5),
-				duration: 0.1,
-				onEnd: () => {this.wait();}
+				to: new QQ.Point(thisPos.x(), thisPos.y() + 2.5),
+				duration: 0.15,
+				onEnd: () => {
+					game.mergeBones(this);
+					this.deleteMe();
+				}
 			})
 		);
 	}

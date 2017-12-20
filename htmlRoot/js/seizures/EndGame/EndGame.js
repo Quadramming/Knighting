@@ -38,7 +38,6 @@ game.seizures.EndGame = class EndGame
 			color: '#6d543a',
 			z: 20
 		}));
-		
 		if ( input.isWin ) {
 			game.winLevel(input.level);
 			this._world.addSubject( new QQ.Button({
@@ -82,8 +81,20 @@ game.seizures.EndGame = class EndGame
 			}
 		}));
 		
-
+		this._world.addSubject(new QQ.Button({
+			app: this._app,
+			img: 'bow',
+			position: new QQ.Point(0, 13),
+			size: new QQ.Point(15, NaN),
+			anchor: new QQ.Point(0.5, 0.5),
+			onBtnClick: () => {
+				this._app.popUp('Bow');
+			}
+		}));
 		
+		if ( input.level === 1 && input.isWin ) {
+			c('happy');
+		}
 	}
 	
 };

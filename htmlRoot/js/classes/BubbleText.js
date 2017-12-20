@@ -30,7 +30,6 @@ game.BubbleText = class BubbleText extends
 		if ( changeAlpha ) {
 			this._ctx.globalAlpha = this._alpha;
 		}
-		
 		this._ctx.font         = '20px Ken';
 		this._ctx.textBaseline = 'middle';
 		this._ctx.textAlign    = 'center';

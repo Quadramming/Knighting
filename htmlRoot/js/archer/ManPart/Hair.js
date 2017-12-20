@@ -7,7 +7,7 @@ class Hair extends ManPart {
 	
 	static make(options) {
 		const info =[
-			{enum: 0, name: '', index: new QQ.Point(0, 0)},
+			{enum: 0, name: '', index: new QQ.Point(0, 1)},
 			{enum: 1, name: '', index: new QQ.Point(0, 1)}
 		];
 		if ( ManPart.fillInfo(info, options) ) {

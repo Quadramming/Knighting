@@ -1,5 +1,6 @@
 const game = {
 	seizures: {},
+	stats: {},
 	
 	_app: null,
 	
@@ -109,6 +110,10 @@ const game = {
 		}
 		this._app.storage('coins', coins);
 		return true;
+	},
+	
+	mergeBones(bones) {
+		// Will be redefined
 	}
 	
 };

@@ -40,7 +40,7 @@
 		['statCoolDown',      'imgs/stats/coolDown.png'],
 		['statPenetration',   'imgs/stats/penetration.png'],
 		['statSpeed',         'imgs/stats/speed.png'],
-		['statTimePerMeter',  'imgs/stats/timePerMeter.png']
+		['statShield',        'imgs/stats/shield.png']
 	];
 	
 	const sounds = [

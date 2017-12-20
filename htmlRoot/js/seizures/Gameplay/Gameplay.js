@@ -1,3 +1,37 @@
+class BonesCanvas extends QQ.Subject.Base {
+	
+	constructor(options) {
+		super(options);
+		this._camera = options.camera;
+		this._canvas = null;
+		this._sprite = null;
+		window.addEventListener('resize', this.makeCanvas.bind(this));
+		this.makeCanvas();
+	}
+	
+	makeCanvas() {
+		const size = this._app.getResolution();
+		this._canvas = QQ.makeCanvas(size);
+		this._sprite = new QQ.Sprite(this._canvas.cvs);
+	}
+	
+	draw(ctx) {
+		QQ.cleanTransform(ctx.get());
+		this._sprite.draw(ctx.get());
+	}
+	
+	merge(bones) {
+		bones.forChildren( (bone) => {
+			this._camera.setTransform(
+				bone.getMatrix(),
+				this._canvas.ctx
+			);
+			bone.getSprite().draw(this._canvas.ctx);
+		});
+	}
+	
+};
+
 game.seizures.Gameplay = class Gameplay
 	extends QQ.Seizures.Base
 {
@@ -12,7 +46,17 @@ game.seizures.Gameplay = class Gameplay
 		this._battleField = null;
 		this._enemyManager = null;
 		this._currentLevel = 1;
+		this._bonesCanvas = null;
 		this.initWorld();
+		this.initStats();
+	}
+	
+	initStats() {
+		game.stats.arrows = new statArrows({app: this._app});
+		game.stats.coolDown = new statCoolDown({app: this._app});
+		game.stats.penetration = new statPenetration({app: this._app});
+		game.stats.speed = new statSpeed({app: this._app});
+		game.stats.shield = new statShield({app: this._app});
 	}
 	
 	initWorld() {
@@ -29,9 +73,10 @@ game.seizures.Gameplay = class Gameplay
 		this.setBattleField();
 		this.setChangePatrolDirection();
 		this.setEnemyManager(level);
+		this.setBonesCanvas();
 		this._setHud('GameHud', {parent: this});
 	}
-	
+
 	restartGame() {
 		this.startGame(this._currentLevel);
 	}
@@ -46,6 +91,18 @@ game.seizures.Gameplay = class Gameplay
 			z:        1
 		});
 		this.m_castle.addSubject(this._player);
+	}
+	
+	setBonesCanvas() {
+		this._bonesCanvas = new BonesCanvas({
+			app: this._app,
+			camera: this._camera,
+			z: 2
+		});
+		game.mergeBones = (bones) => {
+			this._bonesCanvas.merge(bones);
+		};
+		this._world.addSubject(this._bonesCanvas);
 	}
 	
 	setEnemyManager(level) {

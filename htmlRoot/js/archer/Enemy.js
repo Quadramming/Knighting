@@ -3,10 +3,15 @@ class Enemy extends Man {
 	constructor(options) {
 		super(options);
 		this._player = options.player;
-		this._pointsAmount = 20;
+		this._pointsAmount = options.wayPoints;
 		this._points  = [];
+		this._level = options.level;
 		this.initStraightEnemy();
 		this.doNextPoint();
+	}
+	
+	getLevel() {
+		return this._level;
 	}
 	
 	fillPoints() {
@@ -20,9 +25,9 @@ class Enemy extends Man {
 	
 	tick(delta) {
 		super.tick(delta);
-		if ( QQ.Math.rand(0, 40) === 0 ) {
+		if ( QQ.Math.rand(0, 300) === 0 ) {
 			this.shoot(new QQ.Point(
-				QQ.Math.rand(-15, 15),
+				QQ.Math.rand(-15, 15, false),
 				-30
 			));
 		}

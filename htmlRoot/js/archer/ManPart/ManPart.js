@@ -41,6 +41,13 @@ class ManPart {
 		}
 	}
 	
+	static setEnumForEnemy(options, info) {
+		if ( ! options.enum && ! options.name && options.level ) {
+			const lvl = options.level;
+			options.enum = game.getLevelRandom(0, info.length-1, lvl, {round: true});
+		}
+	}
+	
 	static fillInfo(infoArray, options) {
 		if ( options.enum !== undefined ) {
 			options.info = infoArray.find((el) => el.enum === options.enum);

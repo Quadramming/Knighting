@@ -2,24 +2,31 @@ class Player extends Man {
 	
 	constructor(options) {
 		options.speed = QQ.default(options.speed, 10);
+		options.bodyName = 'human';
 		super(options);
 		this._level = options.level;
 		this._lives = [];
-		/*
 		this.setShield({
-			index: new QQ.Point(1, 6)
-		})
-		*/
+			enum: 40
+		});
 		this.setBow({
+			enum: 3,
 			level: this._level,
 			showCoolDown: true,
-			coolDown: PlayerBowCoolDown.get()
+			coolDown: game.stats.coolDown.get(),
+			arrows: game.stats.arrows.get(),
+			penetration: game.stats.penetration.get(),
+			speed: game.stats.speed.get()
 		});
+		this.setBoots({name: 'white'});
+		this.setPants({name: 'white'});
+		this.setChest({enum: 78});
+		this.setHair({enum: 0});
 		this.setPatrol(
 			new QQ.Point(-13.5, 0),
 			new QQ.Point( 13.5, 0)
 		);
-		this.setLives(3);
+		this.setLives(10);
 		this._score = 0;
 		this._scoreText = new QQ.Text({
 			align: 'left',
@@ -97,6 +104,12 @@ class Player extends Man {
 		this.setAction( new QQ.Actions.Patrol({
 			from, to
 		}));
+	}
+	
+	stun() {
+		super.stun(
+			game.stats.shield.get()
+		);
 	}
 	
 	getLives() {

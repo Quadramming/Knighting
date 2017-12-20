@@ -6,8 +6,19 @@ class RandomOutfit {
 		player.setPants();
 		player.setHair();
 		player.setHat();
-		//player.setBow();
-		//player.setShield();
+	}
+	
+};
+
+class LevelsOutfit {
+	
+	static dress(player) {
+		const lvl = player.getLevel();
+		player.setBoots({level: lvl});
+		player.setChest({level: lvl});
+		player.setPants({level: lvl});
+		player.setHair({level: lvl});
+		player.setHat({level: lvl});
 	}
 	
 };
@@ -28,8 +39,7 @@ class Equipable extends QQ.Subject.Base {
 		this._hat = null;
 		this._weapon = null;
 		this._shield = null;
-		
-		this.setBody();
+		this.setBody({name: options.bodyName});
 	}
 	
 	dress(outfit) {

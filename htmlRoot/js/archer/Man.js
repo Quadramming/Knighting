@@ -84,12 +84,12 @@ class Man extends
 		}
 	}
 	
-	stun() {
+	stun(duration = 1) {
 		this.setAction(
 			new QQ.Actions.Stun({
 				app: this._app,
 				subj: this,
-				duration: 3
+				duration: duration
 			})
 		);
 	}

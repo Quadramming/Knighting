@@ -38,10 +38,11 @@ class Arrow extends QQ.Subject.Actionable {
 		hittedEnemies.reverse();
 		let hittedAmount = 0;
 		for ( const enemy of hittedEnemies ) {
-			enemy.hitted(this._position);
-			++hittedAmount;
-			if ( hittedAmount === this._penetration ) {
-				break;
+			if ( enemy.hitted(this._position) ) {
+				++hittedAmount;
+				if ( hittedAmount >= this._penetration ) {
+					break;
+				}
 			}
 		}
 		if ( hittedAmount === 0) {
