@@ -1,61 +1,3 @@
-class BubbleText extends
-	QQ.mixins(QQ.Subject.ActionableMix, QQ.Text)
-{
-	constructor(options) {
-		super(options);
-		this.disappear();
-		this._alpha = 1;
-		this.up();
-	}
-	
-	up() {
-		const thisPos = this.getPosition();
-		this.setAction(
-			new QQ.Actions.MoveTo({
-				subj: this,
-				to: new QQ.Point(thisPos.x(), thisPos.y() - 2.5),
-				duration: 0.5,
-				onEnd: () => {
-					this.disappear();
-				}
-			})
-		);
-	}
-	
-	disappear() {
-		this.setAction(
-			new QQ.Actions.Disappear({
-				duration: 0.5,
-				onEnd: () => {
-					this.deleteMe();
-				}
-			})
-		);
-	}
-	
-	static make(options) {
-		const bubble = new BubbleText({
-			align: 'center',
-			valign: 'middle',
-			position: options.position,
-			anchor: new QQ.Point(0.5, 0.5),
-			size: new QQ.Size(30, 1.5),
-			baseLine: 'middle',
-			fontSize: 5,
-			font: 'KenFuture',
-			text: options.text,
-			isClickable: false,
-			color: QQ.default(options.color, '#FF0000'),
-			z: 20
-		});
-		if ( options.world ) {
-			options.world.addSubject(bubble);
-		}
-		return bubble;
-	}
-	
-};
-
 game.seizures.Menu = class Menu
 	extends QQ.Seizures.Base
 {
@@ -115,11 +57,34 @@ game.seizures.Menu = class Menu
 			}
 		}));
 		
+		this._world.addSubject(new QQ.Button({
+			app: this._app,
+			img: 'info',
+			position: new QQ.Point(-10, -13),
+			size: new QQ.Point(5, NaN),
+			anchor: new QQ.Point(0.5, 0.5),
+			onBtnClick: () => {
+				this._app.popUp('Info');
+			}
+		}));
+		
+		this._world.addSubject(new QQ.Button({
+			app: this._app,
+			img: 'settings',
+			position: new QQ.Point(10, -13),
+			size: new QQ.Point(5, NaN),
+			anchor: new QQ.Point(0.5, 0.5),
+			onBtnClick: () => {
+				this._app.popUp('Settings');
+			}
+		}));
+		
 		const char = new Man({
 			size: new QQ.Point(8),
 			position: new QQ.Point(0, 11),
 			app: this._app,
 			onClick: (point) => {
+
 				const texts = [
 					'Wow!',
 					'Best game ever!',
@@ -130,12 +95,11 @@ game.seizures.Menu = class Menu
 					'Have fun!',
 					'You are the best!'
 				];
-				BubbleText.make({
-					world: this._world,
+				this._world.addSubject(QQ.BubbleText.make({
 					text: texts[Math.floor(Math.random()*texts.length)],
 					color: '#FF0000',
 					position: point
-				});
+				}));
 			}
 		});
 		char.dress(RandomOutfit);

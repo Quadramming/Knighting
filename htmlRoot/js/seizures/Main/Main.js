@@ -3,6 +3,7 @@ game.seizures.Main = class Main
 {
 	
 	init() {
+		//this._app.setSz('Logo');
 		this._app.setSz('Gameplay');
 	}
 	

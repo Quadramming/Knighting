@@ -4,7 +4,7 @@ Dir          | Purpose
 -------------|------------------
 apk          | Apk files
 build        | Tmp build files
-scripts      | Scripts to compile project
+buildScripts | Scripts to compile project
 compiled     | Compiled html project
 cordova      | Cordova project
 htmlRoot     | Src
@@ -19,6 +19,7 @@ sign         | Sign staff
 File         | Purpose 
 -------------|------------------
 buid.sh      | Full build project
+credits      | Inforamtion about credits
 readme.md    | This file
 release.apk  | Fully ready apk
 .gitignore   | Git ignore

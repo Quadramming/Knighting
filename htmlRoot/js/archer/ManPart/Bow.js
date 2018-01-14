@@ -17,7 +17,7 @@ class stat {
 			size: new QQ.Point(3),
 			anchor: new QQ.Point(0.5, 0.5),
 			onClick: (point) => {
-				BubbleText.make({
+				QQ.BubbleText.make({
 					world: this._ico.getWorld(),
 					text: this._text,
 					color: '#FF0000',
@@ -42,14 +42,14 @@ class stat {
 					const val = this.getRandom();
 					if ( this._cmpFn(val, this.get()) ) {
 						this.set(val);
-						BubbleText.make({
+						QQ.BubbleText.make({
 							world: world,
 							text: 'success',
 							color: '#00FF00',
 							position: point
 						});
 					} else {
-						BubbleText.make({
+						QQ.BubbleText.make({
 							world: world,
 							text: 'fail',
 							color: '#FF0000',
@@ -57,7 +57,7 @@ class stat {
 						});
 					}
 				} else {
-					BubbleText.make({
+					QQ.BubbleText.make({
 						world: world,
 						text: 'no coins',
 						color: '#FF0000',

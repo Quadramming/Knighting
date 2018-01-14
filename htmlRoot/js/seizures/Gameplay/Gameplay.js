@@ -1,43 +1,11 @@
-class BonesCanvas extends QQ.Subject.Base {
-	
-	constructor(options) {
-		super(options);
-		this._camera = options.camera;
-		this._canvas = null;
-		this._sprite = null;
-		window.addEventListener('resize', this.makeCanvas.bind(this));
-		this.makeCanvas();
-	}
-	
-	makeCanvas() {
-		const size = this._app.getResolution();
-		this._canvas = QQ.makeCanvas(size);
-		this._sprite = new QQ.Sprite(this._canvas.cvs);
-	}
-	
-	draw(ctx) {
-		QQ.cleanTransform(ctx.get());
-		this._sprite.draw(ctx.get());
-	}
-	
-	merge(bones) {
-		bones.forChildren( (bone) => {
-			this._camera.setTransform(
-				bone.getMatrix(),
-				this._canvas.ctx
-			);
-			bone.getSprite().draw(this._canvas.ctx);
-		});
-	}
-	
-};
-
 game.seizures.Gameplay = class Gameplay
 	extends QQ.Seizures.Base
 {
 	
 	constructor(input) {
 		input.isPauseable = true;
+		input.maxTicks = 1;
+		input.timeStep = 1/30; // FPS
 		super(input);
 		this.setCamera();
 		this.m_castle = null;
@@ -47,6 +15,7 @@ game.seizures.Gameplay = class Gameplay
 		this._enemyManager = null;
 		this._currentLevel = 1;
 		this._bonesCanvas = null;
+		this._grasCanvas = null;
 		this.initWorld();
 		this.initStats();
 	}
@@ -103,6 +72,15 @@ game.seizures.Gameplay = class Gameplay
 			this._bonesCanvas.merge(bones);
 		};
 		this._world.addSubject(this._bonesCanvas);
+	}
+	
+	setGrass() {
+		this._grasCanvas = new GrassCanvas({
+			app: this._app,
+			camera: this._camera,
+			z: 2
+		});
+		this._world.addSubject(this._grasCanvas);
 	}
 	
 	setEnemyManager(level) {
@@ -176,23 +154,6 @@ game.seizures.Gameplay = class Gameplay
 			z:        2
 		}));
 		return castle;
-	}
-	
-	setGrass() {
-		const bg = QQ.Subject.make({
-			app:      this._app,
-			tiled:    true,
-			img:      'grass',
-			tileSize: new QQ.Size(5, 5)
-		});
-		let resizeBg = () => {
-			const view = this._camera.getViewRect();
-			bg.setSize(new QQ.Point(view.w(), view.h()));
-			bg.setPosition(new QQ.Point(view.x(), view.y()));
-		};
-		resizeBg();
-		window.addEventListener('resize', resizeBg);
-		this._world.addSubject(bg);
 	}
 	
 	tick(delta) {
