@@ -21,11 +21,11 @@ game.seizures.Gameplay = class Gameplay
 	}
 	
 	initStats() {
-		game.stats.arrows = new statArrows({app: this._app});
-		game.stats.coolDown = new statCoolDown({app: this._app});
-		game.stats.penetration = new statPenetration({app: this._app});
-		game.stats.speed = new statSpeed({app: this._app});
-		game.stats.shield = new statShield({app: this._app});
+		game.stats.arrows = new StatArrows({app: this._app});
+		game.stats.coolDown = new StatCoolDown({app: this._app});
+		game.stats.penetration = new StatPenetration({app: this._app});
+		game.stats.speed = new StatSpeed({app: this._app});
+		game.stats.shield = new StatShield({app: this._app});
 	}
 	
 	initWorld() {

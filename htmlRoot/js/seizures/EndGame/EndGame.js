@@ -91,9 +91,12 @@ game.seizures.EndGame = class EndGame
 				this._app.popUp('Bow');
 			}
 		}));
-		
-		if ( input.level === 1 && input.isWin ) {
-			c('happy');
+	}
+	
+	init(input) {
+		super.init();
+		if ( input.level === 100 && input.isWin ) {
+			this._app.popUp('Winner');
 		}
 	}
 	

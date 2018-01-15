@@ -1,28 +1,3 @@
-class RandomOutfit {
-	
-	static dress(player) {
-		player.setBoots();
-		player.setChest();
-		player.setPants();
-		player.setHair();
-		player.setHat();
-	}
-	
-};
-
-class LevelsOutfit {
-	
-	static dress(player) {
-		const lvl = player.getLevel();
-		player.setBoots({level: lvl});
-		player.setChest({level: lvl});
-		player.setPants({level: lvl});
-		player.setHair({level: lvl});
-		player.setHat({level: lvl});
-	}
-	
-};
-
 class Equipable extends QQ.Subject.Base {
 	
 	constructor(options) {

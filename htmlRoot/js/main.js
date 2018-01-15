@@ -26,8 +26,8 @@
 		['blackBg',           'imgs/blackBg.png'],
 		['dialog',            'imgs/dialog.png'],
 		['coin',              'imgs/coin.png'],
-		['slotCoin1',         'imgs/slotCoin1.png'],
-		['slotCoin3',         'imgs/slotCoin3.png'],
+		['slotCoinOne',       'imgs/slotCoinOne.png'],
+		['slotCoinAll',       'imgs/slotCoinAll.png'],
 		['start',             'imgs/buttons/start.png'],
 		['abort',             'imgs/buttons/abort.png'],
 		['continue',          'imgs/buttons/continue.png'],
@@ -36,12 +36,14 @@
 		['menu',              'imgs/buttons/menu.png'],
 		['bow',               'imgs/buttons/bow.png'],
 		['back',              'imgs/buttons/back.png'],
+		['thankYou',          'imgs/buttons/thankYou.png'],
 		['statArrows',        'imgs/stats/arrows.png'],
 		['statCoolDown',      'imgs/stats/coolDown.png'],
 		['statPenetration',   'imgs/stats/penetration.png'],
 		['statSpeed',         'imgs/stats/speed.png'],
 		['statShield',        'imgs/stats/shield.png'],
 		['info',              'imgs/info.png'],
+		['potato',            'imgs/potato.png'],
 		['settings',          'imgs/settings.png']
 	];
 	

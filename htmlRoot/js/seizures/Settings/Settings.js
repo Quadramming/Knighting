@@ -32,13 +32,12 @@ game.seizures.Settings = class Settings
 		
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
-			img: 'abort',
+			img: 'back',
 			position: new QQ.Point(0, 14),
 			size: new QQ.Point(15, NaN),
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
 				this._app.closePopUp();
-				this._szManager.reset();
 			}
 		}));
 	}

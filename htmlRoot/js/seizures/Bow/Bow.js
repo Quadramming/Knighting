@@ -78,46 +78,46 @@ game.seizures.Bow = class szBow
 	
 	setCoolDown(y) {
 		this._world.addSubject(
-			game.stats.coolDown.getIco(new QQ.Point(-7, y)),
-			game.stats.coolDown.getBar(new QQ.Point(0, y)),
-			game.stats.coolDown.getSpendCoin1(new QQ.Point(7, y)),
-			//game.stats.coolDown.getSpendCoin3(new QQ.Point(10, y)),
+			game.stats.coolDown.getIco(new QQ.Point(-8.5, y)),
+			game.stats.coolDown.getBar(new QQ.Point(-1.5, y)),
+			game.stats.coolDown.getSpendCoinOne(new QQ.Point(5.5, y)),
+			game.stats.coolDown.getSpendCoinAll(new QQ.Point(9, y))
 		);
 	}
 	
 	setSpeed(y) {
 		this._world.addSubject(
-			game.stats.speed.getIco(new QQ.Point(-7, y)),
-			game.stats.speed.getBar(new QQ.Point(0, y)),
-			game.stats.speed.getSpendCoin1(new QQ.Point(7, y)),
-			//game.stats.speed.getSpendCoin3(new QQ.Point(10, y)),
+			game.stats.speed.getIco(new QQ.Point(-8.5, y)),
+			game.stats.speed.getBar(new QQ.Point(-1.5, y)),
+			game.stats.speed.getSpendCoinOne(new QQ.Point(5.5, y)),
+			game.stats.speed.getSpendCoinAll(new QQ.Point(9, y))
 		);
 	}
 	
 	setArrows(y) {
 		this._world.addSubject(
-			game.stats.arrows.getIco(new QQ.Point(-7, y)),
-			game.stats.arrows.getTextInfo(new QQ.Point(0, y)),
-			game.stats.arrows.getSpendCoin1(new QQ.Point(7, y)),
-			//game.stats.arrows.getSpendCoin3(new QQ.Point(10, y))
+			game.stats.arrows.getIco(new QQ.Point(-8.5, y)),
+			game.stats.arrows.getTextInfo(new QQ.Point(-1.5, y)),
+			game.stats.arrows.getSpendCoinOne(new QQ.Point(5.5, y)),
+			game.stats.arrows.getSpendCoinAll(new QQ.Point(9, y))
 		);
 	}
 	
 	setPenetration(y) {
 		this._world.addSubject(
-			game.stats.penetration.getIco(new QQ.Point(-7, y)),
-			game.stats.penetration.getTextInfo(new QQ.Point(0, y)),
-			game.stats.penetration.getSpendCoin1(new QQ.Point(7, y)),
-			//game.stats.penetration.getSpendCoin3(new QQ.Point(10, y))
+			game.stats.penetration.getIco(new QQ.Point(-8.5, y)),
+			game.stats.penetration.getTextInfo(new QQ.Point(-1.5, y)),
+			game.stats.penetration.getSpendCoinOne(new QQ.Point(5.5, y)),
+			game.stats.penetration.getSpendCoinAll(new QQ.Point(9, y))
 		);
 	}
 	
 	setShield(y) {
 		this._world.addSubject(
-			game.stats.shield.getIco(new QQ.Point(-7, y)),
-			game.stats.shield.getBar(new QQ.Point(0, y)),
-			game.stats.shield.getSpendCoin1(new QQ.Point(7, y)),
-			//game.stats.shield.getSpendCoin3(new QQ.Point(10, y)),
+			game.stats.shield.getIco(new QQ.Point(-8.5, y)),
+			game.stats.shield.getBar(new QQ.Point(-1.5, y)),
+			game.stats.shield.getSpendCoinOne(new QQ.Point(5.5, y)),
+			game.stats.shield.getSpendCoinAll(new QQ.Point(9, y))
 		);
 	}
 	

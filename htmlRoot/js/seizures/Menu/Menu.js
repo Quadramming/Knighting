@@ -60,18 +60,18 @@ game.seizures.Menu = class Menu
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'info',
-			position: new QQ.Point(-10, -13),
+			position: new QQ.Point(-7.5, 13),
 			size: new QQ.Point(5, NaN),
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
-				this._app.popUp('Info');
+				this._app.popUp('Winner');
 			}
 		}));
 		
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'settings',
-			position: new QQ.Point(10, -13),
+			position: new QQ.Point(7.5, 13),
 			size: new QQ.Point(5, NaN),
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {

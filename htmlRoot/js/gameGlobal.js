@@ -88,9 +88,9 @@ const game = {
 	},
 	
 	getCoins() {
-		let coins = this._app.storage('coins');
+		let coins = this._app.storage('Coins');
 		if ( coins === null ) {
-			this._app.storage('coins', 0);
+			this._app.storage('Coins', 0);
 			coins = 0;
 		}
 		return Number(coins);
@@ -99,7 +99,7 @@ const game = {
 	addCoins(n) {
 		let coins = this.getCoins();
 		coins += n;
-		this._app.storage('coins', coins);
+		this._app.storage('Coins', coins);
 	},
 	
 	subCoins(n) {
@@ -108,12 +108,22 @@ const game = {
 		if ( coins < 0 ) {
 			return false;
 		}
-		this._app.storage('coins', coins);
+		this._app.storage('Coins', coins);
 		return true;
 	},
 	
 	mergeBones(bones) {
 		// Will be redefined
+	},
+	
+	reset() {
+			this._app.storage('Available level', 1);
+			this._app.storage('Bow arrows', 1);
+			this._app.storage('Bow coolDown', 1);
+			this._app.storage('Bow penetration', 1);
+			this._app.storage('Bow shield', 2);
+			this._app.storage('Bow speed', 0);
+			this._app.storage('Coins', 0);
 	}
 	
 };
