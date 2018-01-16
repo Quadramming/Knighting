@@ -15,22 +15,19 @@ game.seizures.Winner = class Winner
 			anchor: new QQ.Point(0.5, 0.35)
 		}));
 		
-		this._world.addSubject(new QQ.Text(
-			QQ.merge({
-				text: 'Winner'
-			}, styles.text.header)
+		this._world.addSubject(new QQ.StyledText(
+			'Winner', 'text header'
 		));
 		
-		this._world.addSubject(new QQ.Text(
-			QQ.merge({
-				text: 'You are the best!\n'+
-					'You won this game!\n'+
-					'You destroyed enemies!\n'+
-					'You saved your princess!\n'+
-					'You rule this world!\n'+
-					'World can sleep in peace!\n'+
-					'Here is potatoe for you!'
-			}, styles.text.normal)
+		this._world.addSubject(new QQ.StyledText(
+			'You are the best!\n'+
+			'You won this game!\n'+
+			'You destroyed enemies!\n'+
+			'You saved your princess!\n'+
+			'You rule this world!\n'+
+			'World can sleep in peace!\n'+
+			'Here is potatoe for you!',
+			'text dialog'
 		));
 		
 		this._world.addSubject( QQ.Subject.make({
