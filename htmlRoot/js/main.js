@@ -44,6 +44,7 @@
 		['statShield',        'imgs/stats/shield.png'],
 		['info',              'imgs/info.png'],
 		['potato',            'imgs/potato.png'],
+		['reset',             'imgs/reset.png'],
 		['settings',          'imgs/settings.png']
 	];
 	

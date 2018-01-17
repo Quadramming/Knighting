@@ -32,6 +32,38 @@ game.seizures.Settings = class Settings
 		
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
+			img: 'reset',
+			position: new QQ.Point(0, 10),
+			size: new QQ.Point(4, NaN),
+			anchor: new QQ.Point(0.5, 0.5),
+			init: function() {
+				this._duration = 0;
+			},
+			onBtnClickDown: function(point) {
+				this._duration = 0;
+				this._world.addSubject(QQ.BubbleText.make({
+					text: 'Hold 5 seconds',
+					color: '#FF0000',
+					position: point
+				}));
+			},
+			onBtnClick: function(point) {
+				if ( this._duration > 5 ) {
+					game.reset();
+					this._world.addSubject(QQ.BubbleText.make({
+						text: 'Reseted',
+						color: '#FF0000',
+						position: point
+					}));
+				}
+			},
+			updateOnTick: function(delta) {
+				this._duration += delta;
+			}
+		}));
+		
+		this._world.addSubject(new QQ.Button({
+			app: this._app,
 			img: 'back',
 			position: new QQ.Point(0, 14),
 			size: new QQ.Point(15, NaN),

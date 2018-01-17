@@ -64,7 +64,7 @@ game.seizures.Menu = class Menu
 			size: new QQ.Point(5, NaN),
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
-				this._app.popUp('Winner');
+				this._app.popUp('Info');
 			}
 		}));
 		

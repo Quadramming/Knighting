@@ -21,6 +21,7 @@ class StatNumber extends Stat {
 		if ( position ) {
 			this._textInfo.setPosition(position);
 		}
+		this._textInfo.tick(0);
 		return this._textInfo;
 	}
 	

@@ -12,6 +12,7 @@ class StatBar extends Stat {
 		if ( position ) {
 			this._bar.setPosition(position);
 		}
+		this._bar.tick(0);
 		return this._bar;
 	}
 	
