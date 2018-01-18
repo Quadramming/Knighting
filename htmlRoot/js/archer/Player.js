@@ -112,6 +112,12 @@ class Player extends Man {
 		);
 	}
 	
+	shoot(target) {
+		if ( super.shoot(target) ) {
+			game.playSound('arrow');
+		}
+	}
+	
 	getLives() {
 		return this._lives.length;
 	}

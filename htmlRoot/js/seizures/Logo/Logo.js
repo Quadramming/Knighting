@@ -41,6 +41,7 @@ game.seizures.Logo = class Logo
 			duration: 1,
 			onEnd: () => {
 				this._app.setSz('Gameplay');
+				game.musicManager.start();
 			}
 		});
 		return action;

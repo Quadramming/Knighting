@@ -45,12 +45,15 @@
 		['info',              'imgs/info.png'],
 		['potato',            'imgs/potato.png'],
 		['reset',             'imgs/reset.png'],
-		['settings',          'imgs/settings.png']
+		['settings',          'imgs/settings.png'],
+		['checkBoxChecked',   'imgs/checkBoxChecked.png'],
+		['checkBoxEmpty',     'imgs/checkBoxEmpty.png']
 	];
 	
 	const sounds = [
-		['arrow', 'sounds/arrow.ogg'],
-		['coin',  'sounds/coin.ogg']
+		['battle', 'sounds/battle.mp3'],
+		['arrow',  'sounds/arrow.ogg'],
+		['coin',   'sounds/coin.ogg']
 	];
 	
 	const appConfig = {

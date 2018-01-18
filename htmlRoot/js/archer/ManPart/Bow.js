@@ -65,7 +65,7 @@ class Bow extends ManPart {
 	
 	shoot(target) {
 		if ( ! this._isCanShoot() ) {
-			return;
+			return false;
 		}
 		const battleField = this._world.getSubjects(
 			(subj) => subj instanceof BattleField
@@ -92,6 +92,7 @@ class Bow extends ManPart {
 			this._world.addSubject(arrow);
 		}
 		this._coolDown.rest = 0;
+		return true;
 	}
 	
 	_isCanShoot() {

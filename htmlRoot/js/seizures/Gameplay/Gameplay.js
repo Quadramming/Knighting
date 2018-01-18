@@ -8,7 +8,7 @@ game.seizures.Gameplay = class Gameplay
 		input.timeStep = 1/30; // FPS
 		super(input);
 		this.setCamera();
-		this.m_castle = null;
+		this._castle = null;
 		this._player = null;
 		this._changePatrolDirection = null;
 		this._battleField = null;
@@ -31,8 +31,8 @@ game.seizures.Gameplay = class Gameplay
 	initWorld() {
 		this._world.clearStage();
 		this.setGrass();
-		this.m_castle = this.createCastle();
-		this._world.addSubject(this.m_castle);
+		this._castle = this.createCastle();
+		this._world.addSubject(this._castle);
 	}
 	
 	startGame(level = game.getAvailableLevel()) {
@@ -59,7 +59,7 @@ game.seizures.Gameplay = class Gameplay
 			level:    this._currentLevel,
 			z:        1
 		});
-		this.m_castle.addSubject(this._player);
+		this._castle.addSubject(this._player);
 	}
 	
 	setBonesCanvas() {

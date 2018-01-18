@@ -4,12 +4,79 @@ const game = {
 	
 	_app: null,
 	
+	musicManager: {
+		_melody: 'battle',
+		
+		addCheckBox(world) {
+			const app = game._app;
+			const melody = 'coin';
+			const position = new QQ.Point(-7, -3);
+			world.addSubject(new QQ.CheckBox({
+				app: app,
+				size: new QQ.Size(2, 2),
+				anchor: new QQ.Point(1, 0.5),
+				position: position,
+				isChecked: game.settingMusic(),
+				onChange: (isChecked) => {
+					if ( game.settingMusic(isChecked) ) {
+						app.controlSound(this._melody, {loop: true, play: true});
+					} else {
+						app.controlSound(this._melody, {pause: true});
+					}
+				}
+			}));
+			world.addSubject(new QQ.StyledText(
+				'Music', 'default', 'checkbox', {
+					position: new QQ.Point(position.x() + 1, position.y())
+				}
+			));
+		},
+		
+		start() {
+			if ( game.settingMusic() ) {
+				game._app.controlSound(this._melody, {loop: true, play: true});
+			}
+		}
+		
+	},
+	
+	playSound(sound) {
+		if ( game.settingSound() ) {
+			this._app.playSound(sound);
+		}
+	},
+	
 	setApp(app) {
 		this._app = app;
 	},
 	
 	storage(...args) {
 		return this._app.storage(...args);
+	},
+	
+	settingMusic(value) {
+		const text = 'Setting music';
+		if ( value !== undefined ) {
+			this.storage(text, value);
+		}
+		return this.getBoolFromStorage(text, false);
+	},
+	
+	settingSound(value) {
+		const text = 'Setting sound';
+		if ( value !== undefined ) {
+			this.storage(text, value);
+		}
+		return this.getBoolFromStorage(text, true);
+	},
+	
+	getBoolFromStorage(text, init = false) {
+		let n = this.storage(text);
+		if ( n === null ) {
+			this.storage(text, init);
+			n = this.storage(text);
+		}
+		return n === 'true';
 	},
 	
 	getNumberFromStorage(text, init = 0) {
@@ -19,8 +86,6 @@ const game = {
 			n = init;
 		}
 		return Number(n);
-		
-		return this._app.storage(...args);
 	},
 	
 	getAvailableLevel() {

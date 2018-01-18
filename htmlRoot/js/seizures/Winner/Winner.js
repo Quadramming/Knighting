@@ -15,11 +15,11 @@ game.seizures.Winner = class Winner
 			anchor: new QQ.Point(0.5, 0.35)
 		}));
 		
-		this._world.addSubject(new QQ.StyledText(
+		this._world.addSubject( new QQ.StyledText(
 			'Winner', 'text header'
 		));
 		
-		this._world.addSubject(new QQ.StyledText(
+		this._world.addSubject( new QQ.StyledText(
 			'You are the best!\n'+
 			'You won this game!\n'+
 			'You destroyed enemies!\n'+
@@ -38,7 +38,7 @@ game.seizures.Winner = class Winner
 			anchor: new QQ.Point(0.5, 0.5)
 		}));
 		
-		this._world.addSubject(new QQ.Button({
+		this._world.addSubject( new QQ.Button({
 			app: this._app,
 			img: 'thankYou',
 			position: new QQ.Point(0, 14),

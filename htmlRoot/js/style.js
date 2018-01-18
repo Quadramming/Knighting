@@ -9,6 +9,12 @@ QQ.Style.set('default', {
 QQ.Style.set('noborder', {border: false});
 QQ.Style.set('unclickable', {isClickable: false});
 
+QQ.Style.set('checkbox', {
+	size: new QQ.Size(15, 5),
+	fontSize: 2,
+	align: 'left',
+	anchor: new QQ.Point(0, 0.5)
+});
 
 QQ.Style.set('text header', {
 	style: ['default', 'noborder', 'unclickable'],

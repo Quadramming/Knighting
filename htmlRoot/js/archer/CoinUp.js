@@ -14,7 +14,7 @@ class CoinUp extends
 		});
 		this.addSubject(this._coin);
 		game.addCoins(1);
-		this._app.playSound('coin');
+		game.playSound('coin');
 		this.up();
 	}
 	

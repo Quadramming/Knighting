@@ -80,8 +80,9 @@ class Man extends
 	
 	shoot(target) {
 		if ( this.isCanShoot() ) {
-			this._weapon.shoot(target);
+			return this._weapon.shoot(target);
 		}
+		return false;
 	}
 	
 	stun(duration = 1) {
