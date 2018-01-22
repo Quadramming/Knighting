@@ -47,13 +47,16 @@
 		['reset',             'imgs/reset.png'],
 		['settings',          'imgs/settings.png'],
 		['checkBoxChecked',   'imgs/checkBoxChecked.png'],
-		['checkBoxEmpty',     'imgs/checkBoxEmpty.png']
+		['checkBoxEmpty',     'imgs/checkBoxEmpty.png'],
+		['whiteBg',           'imgs/whiteBg.png']
 	];
 	
 	const sounds = [
-		['battle', 'sounds/battle.mp3'],
+		['battle', 'sounds/battle.ogg'],
 		['arrow',  'sounds/arrow.ogg'],
-		['coin',   'sounds/coin.ogg']
+		['coin',   'sounds/coin.ogg'],
+		['hitted', 'sounds/punch.ogg'],
+		['throw',  'sounds/throw.ogg']
 	];
 	
 	const appConfig = {

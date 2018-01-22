@@ -4,8 +4,7 @@ game.seizures.Gameplay = class Gameplay
 	
 	constructor(input) {
 		input.isPauseable = true;
-		input.maxTicks = 1;
-		input.timeStep = 1/30; // FPS
+		input.maxTicks = 1; // 7 ???
 		super(input);
 		this.setCamera();
 		this._castle = null;
@@ -18,6 +17,8 @@ game.seizures.Gameplay = class Gameplay
 		this._grasCanvas = null;
 		this.initWorld();
 		this.initStats();
+		game.setGameplaySz(this);
+		game.initGameTickType();
 	}
 	
 	initStats() {

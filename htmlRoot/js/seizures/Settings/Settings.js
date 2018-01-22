@@ -6,6 +6,7 @@ game.seizures.Settings = class Settings
 		super(input);
 		const size = new QQ.Point(30, 40);
 		const eye  = new QQ.Point(0, 0);
+		this._isWithReset = QQ.default(input.isWithReset, false);
 		this._camera.init(size, eye);
 		
 		this._world.addSubject( QQ.Subject.make({
@@ -21,13 +22,50 @@ game.seizures.Settings = class Settings
 		
 		game.musicManager.addCheckBox(this._world);
 		this.addSoundCheckBox();
-		this.addResetButton();
+		this.addShowFpsCheckBox();
+		this.addTickType();
+		if ( this._isWithReset ) {
+			this.addResetButton();
+		}
 		this.addBackButton();
+	}
+	
+	addTickType() {
+		const position = new QQ.Point(-7, 6);
+		const subj = new QQ.StyledText(
+			game.getGameSettingFpsText(), 'default', 'checkboxText', {
+				position: new QQ.Point(position.x() + 1, position.y()),
+				onClick: () => {
+					const fps = [0, 15, 30, 50, 60, 120];
+					const nowFps = game.getNumberFromStorage('Setting targetFps');
+					let index = fps.indexOf(nowFps);
+					if ( index === -1 || index+1 === fps.length ) {
+						index = 0;
+					} else {
+						++index;
+					}
+					game.storage('Setting targetFps', fps[index]);
+					game.initGameTickType();
+					subj.setText(game.getGameSettingFpsText());
+				}
+			}
+		);
+		this._world.addSubject(subj);
+	}
+	
+	addShowFpsCheckBox() {
+		const position = new QQ.Point(-7, 3);
+		this._world.addSubject(new QQ.StyledText(
+			'Show fps', 'default', 'checkboxText', {
+				position: new QQ.Point(position.x() + 1, position.y()),
+				onClick: () => {this._app.showFpsDetails();}
+			}
+		));
 	}
 	
 	addSoundCheckBox() {
 		const position = new QQ.Point(-7, 0);
-		this._world.addSubject(new QQ.CheckBox({
+		const checkBox = new QQ.CheckBox({
 			app: this._app,
 			size: new QQ.Size(2, 2),
 			anchor: new QQ.Point(1, 0.5),
@@ -36,10 +74,12 @@ game.seizures.Settings = class Settings
 			onChange: (isChecked) => {
 				game.settingSound(isChecked);
 			}
-		}));
+		});
+		this._world.addSubject(checkBox);
 		this._world.addSubject(new QQ.StyledText(
-			'Sound', 'default', 'checkbox', {
-				position: new QQ.Point(position.x() + 1, position.y())
+			'Sound', 'default', 'checkboxText', {
+				position: new QQ.Point(position.x() + 1, position.y()),
+				onClick: () => {checkBox.change();}
 			}
 		));
 	}

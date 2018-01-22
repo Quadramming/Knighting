@@ -3,6 +3,7 @@ const game = {
 	stats: {},
 	
 	_app: null,
+	_gameplaySz: null,
 	
 	musicManager: {
 		_melody: 'battle',
@@ -11,7 +12,7 @@ const game = {
 			const app = game._app;
 			const melody = 'coin';
 			const position = new QQ.Point(-7, -3);
-			world.addSubject(new QQ.CheckBox({
+			const checkBox = new QQ.CheckBox({
 				app: app,
 				size: new QQ.Size(2, 2),
 				anchor: new QQ.Point(1, 0.5),
@@ -24,10 +25,12 @@ const game = {
 						app.controlSound(this._melody, {pause: true});
 					}
 				}
-			}));
+			});
+			world.addSubject(checkBox);
 			world.addSubject(new QQ.StyledText(
-				'Music', 'default', 'checkbox', {
-					position: new QQ.Point(position.x() + 1, position.y())
+				'Music', 'default', 'checkboxText', {
+					position: new QQ.Point(position.x() + 1, position.y()),
+					onClick: () => {checkBox.change();}
 				}
 			));
 		},
@@ -44,6 +47,31 @@ const game = {
 		if ( game.settingSound() ) {
 			this._app.playSound(sound);
 		}
+	},
+	
+	initGameTickType() {
+		if ( this._gameplaySz ) {
+			const world = this._gameplaySz.getWorld();
+			const targetFps = this.getNumberFromStorage('Setting targetFps');
+			if ( targetFps === 0 ) {
+				world.setTickType('var');
+			} else {
+				world.setTickType('const');
+				world.setTickTimeStep(1/targetFps);
+			}
+		}
+	},
+	
+	getGameSettingFpsText() {
+		let text = this.getNumberFromStorage('Setting targetFps');
+		if ( text === 0 ) {
+			text = 'max';
+		}
+		return 'FPS ' + text;
+	},
+	
+	setGameplaySz(sz) {
+		this._gameplaySz = sz;
 	},
 	
 	setApp(app) {

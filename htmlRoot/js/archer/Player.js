@@ -28,19 +28,9 @@ class Player extends Man {
 		);
 		this.setLives(10);
 		this._score = 0;
-		this._scoreText = new QQ.Text({
-			align: 'left',
-			valign: 'middle',
-			position: new QQ.Point(-14, 17),
-			size: new QQ.Size(25, 2),
-			baseLine: 'middle',
-			fontSize: 2,
-			font: 'KenFuture',
-			text: this.getScoreText(),
-			isClickable: false,
-			color: '#6d543a',
-			z: 20
-		});
+		this._scoreText = new QQ.StyledText(
+			this.getScoreText(), 'score'
+		);
 		this._world.addSubject(this._scoreText);
 	}
 	
@@ -56,7 +46,7 @@ class Player extends Man {
 					app: this._app,
 					img: 'heart',
 					size: new QQ.Size(4, 4),
-					position: new QQ.Point(-14 + this.getLives(), 13),
+					position: new QQ.Point(-15 + this.getLives(), 13),
 					isClickable: false,
 					z: 20
 				});

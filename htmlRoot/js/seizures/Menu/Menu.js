@@ -18,20 +18,7 @@ game.seizures.Menu = class Menu
 		);
 		
 		const level = game.getAvailableLevel();
-		this._levelText = new QQ.Text({
-			align: 'center',
-			valign: 'middle',
-			position: new QQ.Point(0, -6),
-			anchor: new QQ.Point(0.5, 0.5),
-			size: new QQ.Size(20, 3),
-			baseLine: 'middle',
-			fontSize: 2,
-			font: 'KenFuture',
-			text: 'Level: '+level+' / 100',
-			isClickable: false,
-			color: '#6d543a',
-			z: 20
-		});
+		this._levelText = new QQ.StyledText('Level: ' + level + ' / 100', 'levels');
 		this._world.addSubject(this._levelText);
 		
 		this._world.addSubject(new QQ.Button({
@@ -75,7 +62,7 @@ game.seizures.Menu = class Menu
 			size: new QQ.Point(5, NaN),
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
-				this._app.popUp('Settings');
+				this._app.popUp('Settings', {isWithReset: true});
 			}
 		}));
 		
@@ -103,7 +90,6 @@ game.seizures.Menu = class Menu
 			}
 		});
 		char.dress(RandomOutfit);
-		//char.setChest({enum: 8});
 		this._world.addSubject(char);
 	}
 	

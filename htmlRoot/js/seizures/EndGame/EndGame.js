@@ -24,20 +24,10 @@ game.seizures.EndGame = class EndGame
 			})
 		);
 		
-		this._world.addSubject( new QQ.Text({
-			align: 'center',
-			valign: 'middle',
-			position: new QQ.Point(0, -6),
-			anchor: new QQ.Point(0.5, 0.5),
-			size: new QQ.Size(20, 3),
-			baseLine: 'middle',
-			fontSize: 5,
-			font: 'KenFuture',
-			text: result,
-			isClickable: false,
-			color: '#6d543a',
-			z: 20
-		}));
+		this._world.addSubject(new QQ.StyledText(
+			result, 'text header'
+		));
+		
 		if ( input.isWin ) {
 			game.winLevel(input.level);
 			this._world.addSubject( new QQ.Button({

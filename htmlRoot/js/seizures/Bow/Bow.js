@@ -15,35 +15,17 @@ game.seizures.Bow = class szBow
 			anchor: new QQ.Point(0.5, 0.35)
 		}));
 		
-		this._world.addSubject(new QQ.Text({
-			align: 'center',
-			valign: 'middle',
-			position: new QQ.Point(0, -6),
-			anchor: new QQ.Point(0.5, 0.5),
-			size: new QQ.Size(20, 3),
-			baseLine: 'middle',
-			fontSize: 5,
-			font: 'KenFuture',
-			text: 'Upgrade bow',
-			isClickable: false,
-			color: '#6d543a',
-			z: 20
-		}));
+		this._world.addSubject(new QQ.StyledText(
+			'Upgrade bow', 'text header'
+		));
 		
-		this._coinsText = new QQ.Text({
-			align: 'center',
-			valign: 'middle',
-			position: new QQ.Point(0, -4),
-			anchor: new QQ.Point(0.5, 0.5),
-			size: new QQ.Size(20, 2),
-			baseLine: 'middle',
-			fontSize: 5,
-			font: 'KenFuture',
-			text: 'Coins',
-			isClickable: false,
-			color: '#6d543a',
-			z: 20
-		});
+		this._coinsText = new QQ.StyledText(
+			'Coins', 'text header', {
+				position: new QQ.Point(0, -4),
+				size: new QQ.Size(20, 2)
+			}
+		);
+		
 		this._world.addSubject(this._coinsText);
 		
 		this.setCoolDown(-1.5);

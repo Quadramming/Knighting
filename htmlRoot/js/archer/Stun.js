@@ -14,6 +14,7 @@ QQ.Actions.Stun = class Stun extends QQ.Actions.Base {
 	}
 	
 	onStart() {
+		game.playSound('hitted');
 		for ( let i = 0; i < this._starsAmount; ++i ) {
 			this._stars[i] = QQ.Subject.make({
 				isActionable: true,

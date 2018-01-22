@@ -33,6 +33,7 @@ class Stat {
 			onBtnClick: (point) => {
 				const world = this._spendCoinOne.getWorld();
 				if ( game.subCoins(1) ) {
+					game.playSound('throw');
 					const val = this.getRandom();
 					if ( this._cmpFn(val, this.get()) ) {
 						this.set(val);
