@@ -67,7 +67,18 @@ const game = {
 		if ( text === 0 ) {
 			text = 'max';
 		}
-		return 'FPS ' + text;
+		return 'Ticks ' + text;
+	},
+	
+	getGameSettingWidth() {
+		let text = this.getNumberFromStorage('Setting viewportWidth', 600);
+		return 'Width ' + text;
+	},
+	
+	initGameViewport() {
+		const width = this.getNumberFromStorage('Setting viewportWidth', 600);
+		var vp = document.getElementById('viewport');
+		vp.setAttribute('content','width=' + width + ', user-scalable=no');
 	},
 	
 	setGameplaySz(sz) {

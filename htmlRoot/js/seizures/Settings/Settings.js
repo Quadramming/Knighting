@@ -23,11 +23,35 @@ game.seizures.Settings = class Settings
 		game.musicManager.addCheckBox(this._world);
 		this.addSoundCheckBox();
 		this.addShowFpsCheckBox();
-		this.addTickType();
+		//this.addTickType();
+		this.addViewport();
 		if ( this._isWithReset ) {
 			this.addResetButton();
 		}
 		this.addBackButton();
+	}
+	
+	addViewport() {
+		const position = new QQ.Point(-7, 6);
+		const subj = new QQ.StyledText(
+			game.getGameSettingWidth(), 'default', 'checkboxText', {
+				position: new QQ.Point(position.x() + 1, position.y()),
+				onClick: () => {
+					const widths = [160, 320, 360, 600, 800, 1024];
+					const nowWidth = game.getNumberFromStorage('Setting viewportWidth', 600);
+					let index = widths.indexOf(nowWidth);
+					if ( index === -1 || index+1 === widths.length ) {
+						index = 0;
+					} else {
+						++index;
+					}
+					game.storage('Setting viewportWidth', widths[index]);
+					game.initGameViewport();
+					subj.setText(game.getGameSettingWidth());
+				}
+			}
+		);
+		this._world.addSubject(subj);
 	}
 	
 	addTickType() {

@@ -17,8 +17,7 @@ game.seizures.Menu = class Menu
 			})
 		);
 		
-		const level = game.getAvailableLevel();
-		this._levelText = new QQ.StyledText('Level: ' + level + ' / 100', 'levels');
+		this._levelText = new QQ.StyledText('', 'levels');
 		this._world.addSubject(this._levelText);
 		
 		this._world.addSubject(new QQ.Button({
@@ -91,6 +90,12 @@ game.seizures.Menu = class Menu
 		});
 		char.dress(RandomOutfit);
 		this._world.addSubject(char);
+	}
+	
+	tick(delta) {
+		super.tick(delta);
+		const level = game.getAvailableLevel();
+		this._levelText.setText('Level: ' + level + ' / 100');
 	}
 	
 };

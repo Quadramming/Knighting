@@ -44,7 +44,7 @@ game.seizures.Bow = class szBow
 				this._app.closePopUp();
 			}
 		}));
-		
+		/*
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'coin',
@@ -55,7 +55,7 @@ game.seizures.Bow = class szBow
 				game.addCoins(10);
 			}
 		}));
-		
+		*/
 	}
 	
 	setCoolDown(y) {
