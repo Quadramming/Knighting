@@ -1,25 +1,14 @@
-game.seizures.Settings = class Settings
-	extends QQ.Seizures.Base
-{
+game.seizures.Settings = class Settings extends szDialog {
 	
 	constructor(input) {
 		super(input);
-		const size = new QQ.Point(30, 40);
-		const eye  = new QQ.Point(0, 0);
-		this._isWithReset = QQ.default(input.isWithReset, false);
-		this._camera.init(size, eye);
-		
-		this._world.addSubject( QQ.Subject.make({
-			img: 'dialog',
-			app: this._app,
-			size: new QQ.Point(25, 27),
-			anchor: new QQ.Point(0.5, 0.35)
-		}));
 		
 		this._world.addSubject(new QQ.StyledText(
 			'Settings', 'text header'
 		));
 		
+		this._isWithReset = QQ.default(input.isWithReset, false);
+
 		game.musicManager.addCheckBox(this._world);
 		this.addSoundCheckBox();
 		this.addShowFpsCheckBox();
@@ -154,6 +143,10 @@ game.seizures.Settings = class Settings
 				this._duration += delta;
 			}
 		}));
+	}
+	
+	onBackButton() {
+		this._app.closePopUp();
 	}
 	
 };

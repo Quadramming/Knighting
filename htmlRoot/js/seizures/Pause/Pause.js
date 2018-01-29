@@ -1,19 +1,7 @@
-game.seizures.Pause = class Pause
-	extends QQ.Seizures.Base
-{
+game.seizures.Pause = class Pause extends szDialog {
 	
 	constructor(input) {
 		super(input);
-		const size = new QQ.Point(30, 40);
-		const eye  = new QQ.Point(0, 0);
-		this._camera.init(size, eye);
-		
-		this._world.addSubject( QQ.Subject.make({
-			img: 'dialog',
-			app: this._app,
-			size: new QQ.Point(25, 27),
-			anchor: new QQ.Point(0.5, 0.35)
-		}));
 		
 		this._world.addSubject(new QQ.Text({
 			align: 'center',
@@ -77,6 +65,10 @@ game.seizures.Pause = class Pause
 				this._szManager.reset();
 			}
 		}));
+	}
+	
+	onBackButton() {
+		this._app.closePopUp();
 	}
 	
 };

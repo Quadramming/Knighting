@@ -1,9 +1,6 @@
 (function() {
 	
 	const images = [
-		['grass',             'imgs/grass.png'],
-		['tower',             'imgs/tower.png'],
-		['wall',              'imgs/wall.png'],
 		['manBody',           'imgs/man/body.png'],
 		['manBoots',          'imgs/man/boots.png'],
 		['manBow',            'imgs/man/bow.png'],
@@ -13,6 +10,23 @@
 		['manPants',          'imgs/man/pants.png'],
 		['manShield',         'imgs/man/shield.png'],
 		['manMelee',          'imgs/man/melee.png'],
+		['start',             'imgs/buttons/start.png'],
+		['abort',             'imgs/buttons/abort.png'],
+		['continue',          'imgs/buttons/continue.png'],
+		['restart',           'imgs/buttons/restart.png'],
+		['next level',        'imgs/buttons/nextLevel.png'],
+		['menu',              'imgs/buttons/menu.png'],
+		['bow',               'imgs/buttons/bow.png'],
+		['back',              'imgs/buttons/back.png'],
+		['thankYou',          'imgs/buttons/thankYou.png'],
+		['statArrows',        'imgs/stats/arrows.png'],
+		['statCoolDown',      'imgs/stats/coolDown.png'],
+		['statPenetration',   'imgs/stats/penetration.png'],
+		['statSpeed',         'imgs/stats/speed.png'],
+		['statShield',        'imgs/stats/shield.png'],
+		['grass',             'imgs/grass.png'],
+		['tower',             'imgs/tower.png'],
+		['wall',              'imgs/wall.png'],
 		['star',              'imgs/star.png'],
 		['arrow',             'imgs/arrow.png'],
 		['changeDirection',   'imgs/changeDirection.png'],
@@ -28,20 +42,6 @@
 		['coin',              'imgs/coin.png'],
 		['slotCoinOne',       'imgs/slotCoinOne.png'],
 		['slotCoinAll',       'imgs/slotCoinAll.png'],
-		['start',             'imgs/buttons/start.png'],
-		['abort',             'imgs/buttons/abort.png'],
-		['continue',          'imgs/buttons/continue.png'],
-		['restart',           'imgs/buttons/restart.png'],
-		['next level',        'imgs/buttons/nextLevel.png'],
-		['menu',              'imgs/buttons/menu.png'],
-		['bow',               'imgs/buttons/bow.png'],
-		['back',              'imgs/buttons/back.png'],
-		['thankYou',          'imgs/buttons/thankYou.png'],
-		['statArrows',        'imgs/stats/arrows.png'],
-		['statCoolDown',      'imgs/stats/coolDown.png'],
-		['statPenetration',   'imgs/stats/penetration.png'],
-		['statSpeed',         'imgs/stats/speed.png'],
-		['statShield',        'imgs/stats/shield.png'],
 		['info',              'imgs/info.png'],
 		['potato',            'imgs/potato.png'],
 		['reset',             'imgs/reset.png'],
@@ -61,7 +61,8 @@
 	
 	const appConfig = {
 		imgs: images,
-		sounds
+		sounds: sounds,
+		showFps: false
 	};
 	
 	QQ.start(appConfig);

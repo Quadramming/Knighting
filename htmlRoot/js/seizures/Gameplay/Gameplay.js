@@ -51,14 +51,18 @@ game.seizures.Gameplay = class Gameplay
 		this.startGame(this._currentLevel);
 	}
 	
+	showMenu() {
+		this._app.setSz('Menu', {}, true);
+	}
+	
 	setPlayer() {
 		this._player = new Player({
-			world:    this._world,
-			app:      this._app,
+			world: this._world,
+			app: this._app,
 			position: new QQ.Point(0, 0),
-			anchor:   new QQ.Point(0.5, 0.5),
-			level:    this._currentLevel,
-			z:        1
+			anchor: new QQ.Point(0.5, 0.5),
+			level: this._currentLevel,
+			z: 1
 		});
 		this._castle.addSubject(this._player);
 	}
@@ -109,9 +113,7 @@ game.seizures.Gameplay = class Gameplay
 	
 	init() {
 		super.init();
-		this._app.setSz('Menu', {
-			startGame: (...args) => {this.startGame(...args);}
-		}, true);
+		this._app.setSz('Menu', {}, true);
 	}
 	
 	getHero() {
@@ -120,7 +122,7 @@ game.seizures.Gameplay = class Gameplay
 	
 	setCamera() {
 		const size = new QQ.Point(30, 53);
-		const eye  = new QQ.Point(0, -7);
+		const eye = new QQ.Point(0, -7);
 		this._camera.init(size, eye);
 		const resizeCamera = () => {
 			const cameraSize = this._camera.getViewSize();
@@ -135,24 +137,24 @@ game.seizures.Gameplay = class Gameplay
 	
 	createCastle() {
 		const castle = new QQ.Container({
-			z: 2,
-			position: new QQ.Point(0, -30)
+			position: new QQ.Point(0, -30),
+			z: 2
 		});
 		castle.addSubject(QQ.Subject.make({
-			app:      this._app,
-			img:      'tower',
+			app: this._app,
+			img: 'tower',
 			position: new QQ.Point(6, -0.5),
-			size:     new QQ.Size(6, 14),
-			anchor:   new QQ.Point(0.5, 0.5),
-			z:        0
+			size: new QQ.Size(6, 14),
+			anchor: new QQ.Point(0.5, 0.5),
+			z: 0
 		}));
 		castle.addSubject(QQ.Subject.make({
-			app:      this._app,
-			img:      'wall',
+			app: this._app,
+			img: 'wall',
 			position: new QQ.Point(0, 5),
-			size:     new QQ.Size(37.5, 7.5),
-			anchor:   new QQ.Point(0.5, 0.5),
-			z:        2
+			size: new QQ.Size(37.5, 7.5),
+			anchor: new QQ.Point(0.5, 0.5),
+			z: 2
 		}));
 		return castle;
 	}
@@ -169,6 +171,10 @@ game.seizures.Gameplay = class Gameplay
 		for ( const enemy of enemys ) {
 			enemy.setZ(enemy.getPosition().y());
 		}
+	}
+	
+	onBackButton() {
+		this._app.pause();
 	}
 	
 };

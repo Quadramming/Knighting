@@ -11,6 +11,7 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	calcEnemiesLeft(lvl) {
+		return 1;
 		return Math.round( Math.exp(2.5725 + 0.0465*lvl) );
 	}
 	

@@ -8,31 +8,11 @@ game.seizures.Logo = class Logo
 		const eye  = new QQ.Point(0, 0);
 		this._camera.init(size, eye);
 		this._world.setBackground('blackBg');
-		/*
-		this._world.setBackground('whiteBg');
-		
-		this._world.addSubject(new QQ.StyledText(
-			'Settings', 'text header', {
-				position: new QQ.Point(0, 0),
-				border: '#000000',
-				font: 'Arial',
-				size: new QQ.Size(20, 20),
-				baseLine: 'top'
-			}
-		));
-		
-		this._world.addSubject(QQ.Subject.make({
-			app: this._app,
-			img: 'slotCoinOne',
-			size: new QQ.Point(5, 5),
-			anchor: new QQ.Point(0, 0)
-		}));
-		*/
 		this._logo = new QQ.Subject.make({
 			isActionable: true,
 			app: this._app,
 			img: 'logo',
-			size: new QQ.Point(20, 20),
+			size: new QQ.Point(5, 5),
 			anchor: new QQ.Point(0.5, 0.5)
 		});
 		this._logo.setAction(this.actionAppear());
@@ -41,7 +21,7 @@ game.seizures.Logo = class Logo
 	
 	actionAppear() {
 		const action = new QQ.Actions.Appear({
-			duration: 1,
+			duration: 0.1,
 			next: this.actionWait()
 		});
 		return action;
@@ -49,7 +29,7 @@ game.seizures.Logo = class Logo
 	
 	actionWait() {
 		const action = new QQ.Actions.WaitFor({
-			duration: 1,
+			duration: 0.1,
 			next: this.actionDisappear()
 		});
 		return action;
@@ -57,7 +37,7 @@ game.seizures.Logo = class Logo
 	
 	actionDisappear() {
 		const action = new QQ.Actions.Disappear({
-			duration: 1,
+			duration: 0.1,
 			onEnd: () => {
 				this._app.setSz('Gameplay');
 				game.musicManager.start();

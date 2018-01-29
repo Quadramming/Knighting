@@ -1,19 +1,7 @@
-game.seizures.Bow = class szBow
-	extends QQ.Seizures.Base
-{
+game.seizures.Bow = class szBow extends szDialog {
 	
 	constructor(input) {
 		super(input);
-		const size = new QQ.Point(30, 40);
-		const eye  = new QQ.Point(0, 0);
-		this._camera.init(size, eye);
-		
-		this._world.addSubject( QQ.Subject.make({
-			img: 'dialog',
-			app: this._app,
-			size: new QQ.Point(25, 27),
-			anchor: new QQ.Point(0.5, 0.35)
-		}));
 		
 		this._world.addSubject(new QQ.StyledText(
 			'Upgrade bow', 'text header'
@@ -34,17 +22,11 @@ game.seizures.Bow = class szBow
 		this.setSpeed(7.5);
 		this.setShield(10.5);
 		
-		this._world.addSubject(new QQ.Button({
-			app: this._app,
-			img: 'back',
-			position: new QQ.Point(0, 14),
-			size: new QQ.Point(15, NaN),
-			anchor: new QQ.Point(0.5, 0.5),
-			onBtnClick: () => {
-				this._app.closePopUp();
-			}
-		}));
-		/*
+		this.addBackButton();
+		this.addEartCoinsButton();
+	}
+	
+	addEartCoinsButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'coin',
@@ -55,7 +37,19 @@ game.seizures.Bow = class szBow
 				game.addCoins(10);
 			}
 		}));
-		*/
+	}
+	
+	addBackButton() {
+		this._world.addSubject(new QQ.Button({
+			app: this._app,
+			img: 'back',
+			position: new QQ.Point(0, 14),
+			size: new QQ.Point(15, NaN),
+			anchor: new QQ.Point(0.5, 0.5),
+			onBtnClick: () => {
+				this._app.closePopUp();
+			}
+		}));
 	}
 	
 	setCoolDown(y) {
@@ -108,6 +102,11 @@ game.seizures.Bow = class szBow
 		const coins = game.getCoins();
 		this._coinsText.setText('Coins - ' + coins);
 	}
+	
+	onBackButton() {
+		this._app.closePopUp();
+	}
+	
 };
 
 QQ.Seizures.register.set('Bow', game.seizures.Bow);

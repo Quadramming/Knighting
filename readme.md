@@ -12,6 +12,7 @@ nbproject    | NetBean project
 node_modules | Babel and other
 playMarket   | Files for play market
 sign         | Sign staff
+staff        | Other staff
 .git         | Git project
 
 # Files:

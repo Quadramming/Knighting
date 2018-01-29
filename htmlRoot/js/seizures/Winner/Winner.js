@@ -1,19 +1,7 @@
-game.seizures.Winner = class Winner
-	extends QQ.Seizures.Base
-{
+game.seizures.Winner = class Winner extends szDialog {
 	
 	constructor(input) {
 		super(input);
-		const size = new QQ.Point(30, 40);
-		const eye = new QQ.Point(0, 0);
-		this._camera.init(size, eye);
-		
-		this._world.addSubject( QQ.Subject.make({
-			app: this._app,
-			img: 'dialog',
-			size: new QQ.Point(25, 27),
-			anchor: new QQ.Point(0.5, 0.35)
-		}));
 		
 		this._world.addSubject( new QQ.StyledText(
 			'Winner', 'text header'
@@ -30,14 +18,21 @@ game.seizures.Winner = class Winner
 			'text dialog'
 		));
 		
+		this.addPotatoe();
+		this.addThankYouButton();
+	}
+	
+	addPotatoe() {
 		this._world.addSubject( QQ.Subject.make({
-			img: 'potato',
 			app: this._app,
+			img: 'potato',
 			size: new QQ.Point(18, NaN),
 			position: new QQ.Point(0, 8),
 			anchor: new QQ.Point(0.5, 0.5)
 		}));
-		
+	}
+	
+	addThankYouButton() {
 		this._world.addSubject( new QQ.Button({
 			app: this._app,
 			img: 'thankYou',
@@ -48,6 +43,10 @@ game.seizures.Winner = class Winner
 				this._app.closePopUp();
 			}
 		}));
+	}
+	
+	onBackButton() {
+		this._app.closePopUp();
 	}
 	
 };

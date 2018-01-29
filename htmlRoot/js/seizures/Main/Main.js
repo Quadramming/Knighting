@@ -1,13 +1,11 @@
-game.seizures.Main = class Main
-	extends QQ.Seizures.Base
-{
+game.seizures.Main = class Main extends QQ.Seizures.Base {
 	
 	init() {
 		game.initGameViewport();
-		//this._app.setSz('Logo');
+		this._app.setSz('Logo');
 		
-		this._app.setSz('Gameplay');
-		game.musicManager.start();
+		//this._app.setSz('Gameplay');
+		//game.musicManager.start();
 	}
 	
 };

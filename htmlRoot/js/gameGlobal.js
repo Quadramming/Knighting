@@ -85,8 +85,13 @@ const game = {
 		this._gameplaySz = sz;
 	},
 	
-	setApp(app) {
+	init(app) {
 		this._app = app;
+		window.document.addEventListener('keypress', (event) => {
+			if ( event.code === 'Space' ) {
+				this._app.onBackButton();
+			}
+		}, false);
 	},
 	
 	storage(...args) {
