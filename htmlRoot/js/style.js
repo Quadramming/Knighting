@@ -1,4 +1,5 @@
-QQ.Style.set('red', {color: '#ff0000'});
+QQ.Style.set('red', {color: '#FF0000'});
+QQ.Style.set('green', {color: '#00FF00'});
 
 QQ.Style.set('default', {
 	baseLine: 'middle',

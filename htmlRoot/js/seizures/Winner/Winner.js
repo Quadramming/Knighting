@@ -1,12 +1,15 @@
 game.seizures.Winner = class Winner extends szDialog {
 	
 	constructor(input) {
+		input.header = 'Winner';
 		super(input);
 		
-		this._world.addSubject( new QQ.StyledText(
-			'Winner', 'text header'
-		));
-		
+		this.addGracText();
+		this.addPotatoe();
+		this.addThankYouButton();
+	}
+	
+	addGracText() {
 		this._world.addSubject( new QQ.StyledText(
 			'You are the best!\n'+
 			'You won this game!\n'+
@@ -17,9 +20,6 @@ game.seizures.Winner = class Winner extends szDialog {
 			'Here is potatoe for you!',
 			'text dialog'
 		));
-		
-		this.addPotatoe();
-		this.addThankYouButton();
 	}
 	
 	addPotatoe() {

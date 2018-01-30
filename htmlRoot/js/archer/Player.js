@@ -31,7 +31,7 @@ class Player extends Man {
 		this._scoreText = new QQ.StyledText(
 			this.getScoreText(), 'score'
 		);
-		this._world.addSubject(this._scoreText);
+		//this._world.addSubject(this._scoreText);
 	}
 	
 	getScoreText() {

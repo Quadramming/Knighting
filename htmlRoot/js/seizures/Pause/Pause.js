@@ -1,23 +1,16 @@
 game.seizures.Pause = class Pause extends szDialog {
 	
 	constructor(input) {
+		input.header = 'Pause';
 		super(input);
 		
-		this._world.addSubject(new QQ.Text({
-			align: 'center',
-			valign: 'middle',
-			position: new QQ.Point(0, -6),
-			anchor: new QQ.Point(0.5, 0.5),
-			size: new QQ.Size(20, 3),
-			baseLine: 'middle',
-			fontSize: 50,
-			font: 'KenFuture',
-			text: 'Pause',
-			isClickable: false,
-			color: '#6d543a',
-			z: 20
-		}));
-		
+		this.addContinueButton();
+		this.addRestartButton();
+		this.addSettingsButton();
+		this.addAbortButton();
+	}
+	
+	addContinueButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'continue',
@@ -28,7 +21,9 @@ game.seizures.Pause = class Pause extends szDialog {
 				this._app.closePopUp();
 			}
 		}));
-		
+	}
+	
+	addRestartButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'restart',
@@ -42,7 +37,9 @@ game.seizures.Pause = class Pause extends szDialog {
 				});
 			}
 		}));
-		
+	}
+	
+	addSettingsButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'settings',
@@ -53,7 +50,9 @@ game.seizures.Pause = class Pause extends szDialog {
 				this._app.popUp('Settings');
 			}
 		}));
-		
+	}
+	
+	addAbortButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'abort',

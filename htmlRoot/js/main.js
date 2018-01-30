@@ -62,7 +62,8 @@
 	const appConfig = {
 		imgs: images,
 		sounds: sounds,
-		showFps: false
+		showFps: false,
+		game: game
 	};
 	
 	QQ.start(appConfig);

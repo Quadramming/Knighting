@@ -19,6 +19,7 @@ game.seizures.Gameplay = class Gameplay
 		this.initStats();
 		game.setGameplaySz(this);
 		game.initGameTickType();
+		game.musicManager.start();
 	}
 	
 	initStats() {
@@ -91,7 +92,8 @@ game.seizures.Gameplay = class Gameplay
 	setEnemyManager(level) {
 		this._enemyManager = new EnemyManager({
 			level: level,
-			player: this._player
+			player: this._player,
+			world: this._world
 		});
 		this._world.addSubject(this._enemyManager);
 	}

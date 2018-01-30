@@ -6,6 +6,14 @@ game.seizures.Menu = class Menu extends szDialog {
 		this._levelText = new QQ.StyledText('', 'levels');
 		this._world.addSubject(this._levelText);
 		
+		this.addStartButton();
+		this.addBowButton();
+		this.addInfoButton();
+		this.addSettingsButton();
+		this.addChar();
+	}
+	
+	addStartButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'start',
@@ -17,7 +25,9 @@ game.seizures.Menu = class Menu extends szDialog {
 				this._szManager.getActive().startGame();
 			}
 		}));
-		
+	}
+	
+	addBowButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'bow',
@@ -28,7 +38,9 @@ game.seizures.Menu = class Menu extends szDialog {
 				this._app.popUp('Bow');
 			}
 		}));
-		
+	}
+	
+	addInfoButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'info',
@@ -39,8 +51,10 @@ game.seizures.Menu = class Menu extends szDialog {
 				this._app.popUp('Info');
 			}
 		}));
-		
-		this._world.addSubject(new QQ.Button({
+	}
+	
+	addSettingsButton() {
+		this._world.addSubject( new QQ.Button({
 			app: this._app,
 			img: 'settings',
 			position: new QQ.Point(7.5, 13),
@@ -50,13 +64,14 @@ game.seizures.Menu = class Menu extends szDialog {
 				this._app.popUp('Settings', {isWithReset: true});
 			}
 		}));
-		
+	}
+	
+	addChar() {
 		const char = new Man({
 			size: new QQ.Point(8),
 			position: new QQ.Point(0, 11),
 			app: this._app,
 			onClick: (point) => {
-
 				const texts = [
 					'Wow!',
 					'Best game ever!',
@@ -67,7 +82,7 @@ game.seizures.Menu = class Menu extends szDialog {
 					'Have fun!',
 					'You are the best!'
 				];
-				this._world.addSubject(QQ.BubbleText.make({
+				this._world.addSubject( QQ.BubbleText.make({
 					text: texts[Math.floor(Math.random()*texts.length)],
 					color: '#FF0000',
 					position: point

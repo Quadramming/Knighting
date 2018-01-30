@@ -12,6 +12,12 @@ class szDialog extends QQ.Seizures.Base {
 			size: new QQ.Point(25, 27),
 			anchor: new QQ.Point(0.5, 0.35)
 		}));
+		
+		if ( input.header ) {
+			this._world.addSubject( new QQ.StyledText(
+				input.header, 'text header'
+			));
+		}
 	}
 	
 }

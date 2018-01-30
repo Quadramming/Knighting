@@ -5,10 +5,13 @@ game.seizures.GameHud = class GameHud
 	constructor(settings) {
 		super(settings);
 		this.setCamera();
-		const hero = this._parent.getHero();
+		this.addControlButton();
+	}
+	
+	addControlButton() {
 		this._world.addSubject( new ControlButton({
 			app: this._app,
-			hero: hero
+			hero: this._parent.getHero()
 		}));
 	}
 	

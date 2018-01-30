@@ -7,15 +7,11 @@ game.seizures.Bow = class szBow extends szDialog {
 			'Upgrade bow', 'text header'
 		));
 		
-		this._coinsText = new QQ.StyledText(
-			'Coins', 'text header', {
-				position: new QQ.Point(0, -4),
-				size: new QQ.Size(20, 2)
-			}
-		);
+		this._coinsText = null;
+		this._coinsRedText = null;
+		this._coinsGreenText = null;
 		
-		this._world.addSubject(this._coinsText);
-		
+		this.addCoinsTexts();
 		this.setCoolDown(-1.5);
 		this.setArrows(1.5);
 		this.setPenetration(4.5);
@@ -24,6 +20,32 @@ game.seizures.Bow = class szBow extends szDialog {
 		
 		this.addBackButton();
 		this.addEartCoinsButton();
+	}
+	
+	addCoinsTexts() {
+		this._coinsText = new QQ.StyledText(
+			'Coins -', 'text header', {
+				position: new QQ.Point(0, -4),
+				size: new QQ.Size(20, 2)
+			}
+		);
+		this._coinsRedText = new QQ.StyledText(
+			'Red', 'text header', 'red', {
+				align: 'left',
+				position: new QQ.Point(8, -4),
+				size: new QQ.Size(6, 2)
+			}
+		);
+		this._coinsGreenText = new QQ.StyledText(
+			'Green', 'text header', 'green', {
+				align: 'left',
+				position: new QQ.Point(8, -4),
+				size: new QQ.Size(6, 2)
+			}
+		);
+		this._world.addSubject(this._coinsText);
+		this._world.addSubject(this._coinsRedText);
+		this._world.addSubject(this._coinsGreenText);
 	}
 	
 	addEartCoinsButton() {
@@ -100,7 +122,13 @@ game.seizures.Bow = class szBow extends szDialog {
 	tick(delta) {
 		super.tick(delta);
 		const coins = game.getCoins();
-		this._coinsText.setText('Coins - ' + coins);
+		if ( coins > 0 ) {
+			this._coinsRedText.setText('');
+			this._coinsGreenText.setText(coins);
+		} else {
+			this._coinsRedText.setText(coins);
+			this._coinsGreenText.setText('');
+		}
 	}
 	
 	onBackButton() {

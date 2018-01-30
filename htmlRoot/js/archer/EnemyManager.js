@@ -8,10 +8,12 @@ class EnemyManager extends QQ.Container {
 		this._nextEnemy = 0;
 		this._level = options.level;
 		this._enemiesLeft = this.calcEnemiesLeft(this._level);
+		this._waveText = new QQ.StyledText('wave: ' + this._enemiesLeft, 'score');
+		this._world.addSubject(this._waveText);
 	}
 	
 	calcEnemiesLeft(lvl) {
-		return 1;
+		//return 1;
 		return Math.round( Math.exp(2.5725 + 0.0465*lvl) );
 	}
 	
@@ -81,7 +83,9 @@ class EnemyManager extends QQ.Container {
 			this.addSubject(enemy);
 			--this._enemiesLeft;
 		}
-		if ( this.count() === 0 ) {
+		const count = this.count();
+		this._waveText.setText('wave: ' + count);
+		if ( count === 0 ) {
 			this._app.setSz('EndGame', {
 				isWin: true,
 				level: this._level
