@@ -11,6 +11,32 @@ game.seizures.Menu = class Menu extends szDialog {
 		this.addInfoButton();
 		this.addSettingsButton();
 		this.addChar();
+		this.addBonusCoins();
+	}
+	
+	addBonusCoins() {
+		const bonus = game.getBonusCoins();
+		if ( bonus > 0 ) {
+			const button = new QQ.Button({
+				app: this._app,
+				img: 'coin',
+				position: new QQ.Point(0, 13),
+				size: new QQ.Point(4, NaN),
+				anchor: new QQ.Point(0.5, 0.5),
+				onBtnClick: (point) => {
+					game.addCoins(bonus);
+					QQ.BubbleText.make({
+						world: this._world,
+						text: '+' + bonus,
+						color: '#00FF00',
+						position: point
+					});
+					game.clearBonusCoins();
+					button.deleteMe();
+				}
+			});
+			this._world.addSubject(button);
+		}
 	}
 	
 	addStartButton() {
@@ -100,7 +126,7 @@ game.seizures.Menu = class Menu extends szDialog {
 	}
 	
 	onBackButton() {
-		alert('Exit');
+		// TODO: Make exit
 	}
 	
 };

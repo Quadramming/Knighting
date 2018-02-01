@@ -6,7 +6,6 @@ class Man extends
 		options.size = QQ.default(options.size, new QQ.Point(5));
 		options.anchor = new QQ.Point(0.5);
 		super(options);
-		this._alpha = 1;
 		this._isAlive = true;
 		this._speed = QQ.default(options.speed, 1);
 	}
@@ -52,10 +51,6 @@ class Man extends
 				isAbortable: false
 			})
 		);
-	}
-	
-	setAlpha(a) {
-		this._alpha = a;
 	}
 	
 	isAlive() {

@@ -1,15 +1,75 @@
-class Arrow extends QQ.Subject.Actionable {
+class Arrow extends
+		QQ.mixins(QQ.Subject.ActionableMix, QQ.Subject.Base)
+{
 	
 	constructor(options) {
-		options.size        = new QQ.Size(3, 3);
-		options.img         = QQ.default(options.img, 'arrow');
-		options.z           = 5;
 		options.isClickable = false;
-		options.anchor      = new QQ.Point(0.5, 1);
+		options.anchor = new QQ.Point(0.5, 1);
+		options.size = new QQ.Size(0.75, 3);
+		options.z = 5;
 		super(options);
-		this._penetration = QQ.default(options.penetration, 1);
+		this._alpha = 1;
 		this._timeFixed = options.timeFixed;
 		this._timePerMeter = options.timePerMeter;
+		this._penetration = QQ.default(options.penetration, 1);
+		this._pictureScale = 2;
+		if ( ! Arrow.picture ) {
+			this._initPicture();
+		}
+	}
+	
+	_initPicture() {
+		const cvs = this._app.getImgCanvas('arrow');
+		const picSize = new QQ.Size(
+			cvs.size.x()*this._pictureScale,
+			cvs.size.y()*this._pictureScale
+		);
+		const picCanvas = QQ.makeCanvas(picSize);
+		const data = picCanvas.ctx.createImageData(picSize.w(), picSize.h());
+		this._putImage(data);
+		picCanvas.ctx.putImageData(data, 0, 0);
+		Arrow.picture = new QQ.Sprite(picCanvas.cvs);
+		Arrow.picture.setAnchor(this._anchor);
+	}
+	
+	_putImage(data) {
+		const floor = Math.floor;
+		const pixels = data.data;
+		const size = new QQ.Size(data.width, data.height);
+		const cvs = this._app.getImgCanvas('arrow');
+		const picSize = cvs.size;
+		const picPixels = cvs.getPixels();
+		for ( let y = 0; y < size.y(); ++y ) {
+			for ( let x = 0; x < size.x(); ++x ) {
+				const index = (y*size.w()+x)*4;
+				const pixel = QQ.getPixel(
+					picPixels,
+					cvs.size,
+					new QQ.Point(
+						floor(x/this._pictureScale),
+						floor(y/this._pictureScale)
+					)
+				);
+				if ( pixel.a === 0xFF ) {
+					pixels[index+0] = pixel.r;
+					pixels[index+1] = pixel.g;
+					pixels[index+2] = pixel.b;
+					pixels[index+3] = pixel.a;
+				}
+			}
+		}
+	}
+	
+	setAlpha(a) {
+		this._alpha = a;
+	}
+	
+	draw(ctx) {
+		ctx.transform(this.getMatrix());
+		Arrow.picture.setAlpha(this._alpha);
+		Arrow.picture.setSize(this._size);
+		Arrow.picture.draw(ctx.get());
+		super.draw(ctx);
 	}
 	
 	flyTo(to) {

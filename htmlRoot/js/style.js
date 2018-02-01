@@ -10,6 +10,14 @@ QQ.Style.set('default', {
 QQ.Style.set('noborder', {border: false});
 QQ.Style.set('unclickable', {isClickable: false});
 
+QQ.Style.set('levelShowoff', {
+	style: ['default'],
+	size: new QQ.Size(20, 20),
+	position: new QQ.Point(0, 0),
+	anchor: new QQ.Point(0.5, 1),
+	z: 30
+});
+
 QQ.Style.set('score', {
 	style: ['default', 'noborder', 'unclickable'],
 	align: 'left',

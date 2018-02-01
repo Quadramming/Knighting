@@ -89,7 +89,7 @@ const game = {
 		this._app = app;
 		window.document.addEventListener('keypress', (event) => {
 			if ( event.code === 'Space' ) {
-				this._app.onBackButton();
+				app.onBackButton();
 			}
 		}, false);
 	},
@@ -112,6 +112,20 @@ const game = {
 			this.storage(text, value);
 		}
 		return this.getBoolFromStorage(text, true);
+	},
+	
+	getBonusCoins() {
+		const timeStamp = Math.floor(Date.now() / 1000);
+		const prev = this.getNumberFromStorage('previousVisit', timeStamp);
+		let diff = Math.abs(timeStamp - prev);
+		diff = Math.floor(diff/3600);
+		diff = Math.min(diff, 100);
+		return diff;
+	},
+	
+	clearBonusCoins() {
+		const now = Math.floor(Date.now() / 1000);
+		this.storage('previousVisit', now);
 	},
 	
 	getBoolFromStorage(text, init = false) {

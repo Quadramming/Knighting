@@ -14,7 +14,12 @@ class Equipable extends QQ.Subject.Base {
 		this._hat = null;
 		this._weapon = null;
 		this._shield = null;
+		this._alpha = 1;
 		this.setBody({name: options.bodyName});
+	}
+	
+	setAlpha(a) {
+		this._alpha = a;
 	}
 	
 	dress(outfit) {

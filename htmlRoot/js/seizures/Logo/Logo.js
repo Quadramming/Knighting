@@ -25,21 +25,21 @@ game.seizures.Logo = class Logo
 	
 	actionAppear() {
 		return new QQ.Actions.Appear({
-			duration: 0.1,
+			duration: 1,
 			next: this.actionWait()
 		});
 	}
 	
 	actionWait() {
 		return new QQ.Actions.WaitFor({
-			duration: 0.1,
+			duration: 1,
 			next: this.actionDisappear()
 		});
 	}
 	
 	actionDisappear() {
 		return new QQ.Actions.Disappear({
-			duration: 0.1,
+			duration: 1,
 			onEnd: () => {
 				this._app.setSz('Gameplay');
 			}

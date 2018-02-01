@@ -19,7 +19,7 @@ game.seizures.Bow = class szBow extends szDialog {
 		this.setShield(10.5);
 		
 		this.addBackButton();
-		this.addEartCoinsButton();
+		//this.addEarnCoinsButton();
 	}
 	
 	addCoinsTexts() {
@@ -48,7 +48,7 @@ game.seizures.Bow = class szBow extends szDialog {
 		this._world.addSubject(this._coinsGreenText);
 	}
 	
-	addEartCoinsButton() {
+	addEarnCoinsButton() {
 		this._world.addSubject(new QQ.Button({
 			app: this._app,
 			img: 'coin',

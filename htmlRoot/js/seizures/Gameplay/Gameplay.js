@@ -37,6 +37,21 @@ game.seizures.Gameplay = class Gameplay
 		this._world.addSubject(this._castle);
 	}
 	
+	addLevelShowOff() {
+		const text = new QQ.StyledActionableText(
+			this._currentLevel, 'levelShowoff'
+		);
+		text.setAction(
+			new QQ.Actions.Disappear({
+				duration: 1,
+				onEnd: function() {
+					this._subj.deleteMe();
+				}
+			})
+		);
+		this._world.addSubject(text);
+	}
+	
 	startGame(level = game.getAvailableLevel()) {
 		this._currentLevel = level;
 		this.initWorld();
@@ -46,6 +61,7 @@ game.seizures.Gameplay = class Gameplay
 		this.setEnemyManager(level);
 		this.setBonesCanvas();
 		this._setHud('GameHud', {parent: this});
+		this.addLevelShowOff();
 	}
 
 	restartGame() {
