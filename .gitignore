@@ -10,6 +10,8 @@ staff
 
 release.apk
 
+package-lock.json
+
 htmlRoot/fonts
 htmlRoot/imgs
 htmlRoot/sounds

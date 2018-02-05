@@ -88,7 +88,8 @@ const game = {
 	init(app) {
 		this._app = app;
 		this.initGameViewport();
-		window.document.addEventListener('keypress', (event) => {
+		// For test
+		window.document.addEventListener('keyress', (event) => {
 			if ( event.code === 'Space' ) {
 				app.onBackButton();
 			}

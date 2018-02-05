@@ -13,7 +13,7 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	calcEnemiesLeft(lvl) {
-		//return 1;
+		return 1;
 		return Math.round( Math.exp(2.5725 + 0.0465*lvl) );
 	}
 	
@@ -31,6 +31,7 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	getSpeed() {
+		return 0.01
 		return game.getLevelRandom(2, 10, this._level, {cap: false});
 	}
 	
