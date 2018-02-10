@@ -2,7 +2,7 @@ class Arrow extends
 		QQ.mixins(QQ.Subject.ActionableMix, QQ.Subject.Base)
 {
 	
-	constructor(options) {
+	constructor(options = {}) {
 		options.isClickable = false;
 		options.anchor = new QQ.Point(0.5, 1);
 		options.size = new QQ.Size(0.75, 3);
@@ -11,11 +11,25 @@ class Arrow extends
 		this._alpha = 1;
 		this._timeFixed = options.timeFixed;
 		this._timePerMeter = options.timePerMeter;
-		this._penetration = QQ.default(options.penetration, 1);
+		this._penetration = options.penetration;
 		this._pictureScale = 2;
 		if ( ! Arrow.picture ) {
 			this._initPicture();
 		}
+	}
+	
+	reset(options) {
+		this._alpha = 1;
+		this.setZ(5);
+		this.setPosition(options.position);
+		this._timeFixed = options.timeFixed;
+		this._timePerMeter = options.timePerMeter;
+		this._penetration = options.penetration;
+	}
+
+	deleteMe() {
+		super.deleteMe();
+		this._app.pool.release(this);
 	}
 	
 	_initPicture() {

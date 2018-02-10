@@ -78,6 +78,8 @@ class Bow extends ManPart {
 					5 - QQ.Math.rand(0, 10, false)
 				) );
 			}
+			
+			/*
 			const arrow = new Arrow({
 				app: this._app,
 				position: this._owner.localToWorldPoint(new QQ.Point(0, 0)),
@@ -85,6 +87,16 @@ class Bow extends ManPart {
 				timeFixed: this._timeFixed,
 				penetration: this._penetration
 			});
+			*/
+			
+			const arrow = this._app.pool.get();
+			arrow.reset({
+				position: this._owner.localToWorldPoint(new QQ.Point(0, 0)),
+				timePerMeter: this._timePerMeter,
+				timeFixed: this._timeFixed,
+				penetration: this._penetration
+			});
+		 
 			if ( !(this._owner instanceof Enemy) ) {
 				battleField.clip(aim);
 			}

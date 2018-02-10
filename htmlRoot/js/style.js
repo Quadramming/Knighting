@@ -42,6 +42,7 @@ QQ.Style.set('bubbles', {
 	align: 'center',
 	valign: 'middle',
 	anchor: new QQ.Point(0.5, 0.5),
+	fontSize: 50,
 	size: new QQ.Size(30, 1.5),
 	z: 20
 });

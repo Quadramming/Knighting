@@ -31,7 +31,7 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	getSpeed() {
-		return 0.01
+		return 0.1;
 		return game.getLevelRandom(2, 10, this._level, {cap: false});
 	}
 	
