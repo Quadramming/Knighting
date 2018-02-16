@@ -2,6 +2,8 @@ class EnemyManager extends QQ.Container {
 	
 	constructor(options) {
 		options.z = 3;
+		options.isSortOnAdd = false;
+		options.isSortOnTick = true;
 		super(options);
 		this._player = options.player;
 		this._duration = 0;
@@ -13,7 +15,7 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	calcEnemiesLeft(lvl) {
-		return 1;
+		//return 1;
 		return Math.round( Math.exp(2.5725 + 0.0465*lvl) );
 	}
 	
@@ -31,7 +33,7 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	getSpeed() {
-		return 0.1;
+		//return 0.1;
 		return game.getLevelRandom(2, 10, this._level, {cap: false});
 	}
 	

@@ -5,6 +5,8 @@ class Bones extends
 	constructor(options) {
 		options.anchor = new QQ.Point(0.5, 0.5);
 		options.z = 2;
+		options.isSortOnAdd = false;
+		options.isSortOnTick = false;
 		super(options);
 		this._bonesAmount = QQ.Math.rand(1, 3);
 				

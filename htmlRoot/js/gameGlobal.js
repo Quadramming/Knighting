@@ -4,6 +4,7 @@ const game = {
 	
 	_app: null,
 	_gameplaySz: null,
+	_arrowsPool: null,
 	
 	musicManager: {
 		_melody: 'battle',
@@ -88,12 +89,22 @@ const game = {
 	init(app) {
 		this._app = app;
 		this.initGameViewport();
+		this._arrowsPool = new QQ.ObjectPool({
+				create: () => new Arrow({app: app}),
+				initialize: (obj, options) => obj.initialize(options),
+				amount: 100,
+				increment: 10
+		});
 		// For test
 		window.document.addEventListener('keyress', (event) => {
 			if ( event.code === 'Space' ) {
 				app.onBackButton();
 			}
 		}, false);
+	},
+	
+	getArrowsPool() {
+		return this._arrowsPool;
 	},
 	
 	storage(...args) {

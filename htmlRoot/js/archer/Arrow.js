@@ -3,50 +3,57 @@ class Arrow extends
 {
 	
 	constructor(options = {}) {
-		options.isClickable = false;
-		options.anchor = new QQ.Point(0.5, 1);
-		options.size = new QQ.Size(0.75, 3);
-		options.z = 5;
+		Arrow.fixOptions(options);
 		super(options);
-		this._alpha = 1;
-		this._timeFixed = options.timeFixed;
-		this._timePerMeter = options.timePerMeter;
-		this._penetration = options.penetration;
-		this._pictureScale = 2;
+		this._alpha = undefined;
+		this._timeFixed = undefined;
+		this._timePerMeter = undefined;
+		this._penetration = undefined;
+		this.initialize(options, false);
+		Arrow.prototype.initialize.call(this, options, false);
+		// Init global arrow picture
 		if ( ! Arrow.picture ) {
-			this._initPicture();
+			this._initPicture(2);
 		}
 	}
 	
-	reset(options) {
+	initialize(options, initializeSuper = true) {
+		if ( initializeSuper ) {
+			Arrow.fixOptions(options);
+			super.initialize(options);
+		}
 		this._alpha = 1;
-		this.setZ(5);
-		this.setPosition(options.position);
 		this._timeFixed = options.timeFixed;
 		this._timePerMeter = options.timePerMeter;
 		this._penetration = options.penetration;
 	}
-
-	deleteMe() {
-		super.deleteMe();
-		this._app.pool.release(this);
+	
+	static fixOptions(options) {
+		options.isClickable = false;
+		options.anchor = new QQ.Point(0.5, 1);
+		options.size = new QQ.Size(0.75, 3);
 	}
 	
-	_initPicture() {
+	deleteMe() {
+		super.deleteMe();
+		game.getArrowsPool().release(this);
+	}
+	
+	_initPicture(scale = 1) {
 		const cvs = this._app.getImgCanvas('arrow');
 		const picSize = new QQ.Size(
-			cvs.size.x()*this._pictureScale,
-			cvs.size.y()*this._pictureScale
+			cvs.size.x() * scale,
+			cvs.size.y() * scale
 		);
 		const picCanvas = QQ.makeCanvas(picSize);
 		const data = picCanvas.ctx.createImageData(picSize.w(), picSize.h());
-		this._putImage(data);
+		this._putImage(data, scale);
 		picCanvas.ctx.putImageData(data, 0, 0);
 		Arrow.picture = new QQ.Sprite(picCanvas.cvs);
 		Arrow.picture.setAnchor(this._anchor);
 	}
 	
-	_putImage(data) {
+	_putImage(data, scale) {
 		const floor = Math.floor;
 		const pixels = data.data;
 		const size = new QQ.Size(data.width, data.height);
@@ -60,8 +67,8 @@ class Arrow extends
 					picPixels,
 					cvs.size,
 					new QQ.Point(
-						floor(x/this._pictureScale),
-						floor(y/this._pictureScale)
+						floor(x/scale),
+						floor(y/scale)
 					)
 				);
 				if ( pixel.a === 0xFF ) {
@@ -120,7 +127,11 @@ class Arrow extends
 			}
 		}
 		if ( hittedAmount === 0) {
-			this.setZ(2);
+			const container = this._world.getSubject(
+				(s) => s instanceof ArrowsGrave
+			);
+			this.cleanRelationships();
+			container.addSubject(this);
 		}
 		this.disappear();
 	}

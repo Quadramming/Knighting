@@ -48,7 +48,8 @@
 		['settings',          'imgs/settings.png'],
 		['checkBoxChecked',   'imgs/checkBoxChecked.png'],
 		['checkBoxEmpty',     'imgs/checkBoxEmpty.png'],
-		['whiteBg',           'imgs/whiteBg.png']
+		['whiteBg',           'imgs/whiteBg.png'],
+		['castleEdge',        'imgs/castleEdge.png']
 	];
 	
 	const sounds = [

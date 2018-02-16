@@ -28,10 +28,12 @@ class Player extends Man {
 		);
 		this.setLives(10);
 		this._score = 0;
+		/*
 		this._scoreText = new QQ.StyledText(
 			this.getScoreText(), 'score'
 		);
-		//this._world.addSubject(this._scoreText);
+		this._world.addSubject(this._scoreText);
+		*/
 	}
 	
 	getScoreText() {
@@ -51,7 +53,11 @@ class Player extends Man {
 					z: 20
 				});
 				this._lives.push(heart);
-				this._world.addSubject(heart);
+				
+				const container = this._world.getSubjects(
+					(s) => s instanceof HeartsContainer
+				)[0];
+				container.addSubject(heart);
 			}
 		}
 		if ( diff < 0 ) {
@@ -80,9 +86,11 @@ class Player extends Man {
 	
 	addScore(n) {
 		this._score += n;
+		/*
 		this._scoreText.setText(
 			this.getScoreText()
 		);
+		*/
 	}
 	
 	die() {

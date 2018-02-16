@@ -4,7 +4,7 @@ class Enemy extends Man {
 		super(options);
 		this._player = options.player;
 		this._pointsAmount = options.wayPoints;
-		this._points  = [];
+		this._points = [];
 		this._level = options.level;
 		this.initStraightEnemy();
 		this.doNextPoint();

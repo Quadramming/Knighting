@@ -79,29 +79,21 @@ class Bow extends ManPart {
 				) );
 			}
 			
-			/*
-			const arrow = new Arrow({
-				app: this._app,
+			const arrow = game.getArrowsPool().get({
 				position: this._owner.localToWorldPoint(new QQ.Point(0, 0)),
 				timePerMeter: this._timePerMeter,
 				timeFixed: this._timeFixed,
 				penetration: this._penetration
 			});
-			*/
 			
-			const arrow = this._app.pool.get();
-			arrow.reset({
-				position: this._owner.localToWorldPoint(new QQ.Point(0, 0)),
-				timePerMeter: this._timePerMeter,
-				timeFixed: this._timeFixed,
-				penetration: this._penetration
-			});
-		 
 			if ( !(this._owner instanceof Enemy) ) {
 				battleField.clip(aim);
 			}
 			arrow.flyTo(aim);
-			this._world.addSubject(arrow);
+			const container = this._world.getSubjects(
+				(s) => s instanceof ArrowsContainer
+			)[0];
+			container.addSubject(arrow);
 		}
 		this._coolDown.rest = 0;
 		return true;

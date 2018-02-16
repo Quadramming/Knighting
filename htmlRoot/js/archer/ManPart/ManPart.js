@@ -12,30 +12,26 @@ class ManPart {
 	}
 	
 	putImage(pixels, size) {
-		const floor = Math.floor;
 		const pixelScale = size.x() / this._partSize;
 		const picSize = this._cvs.size;
 		const picPixels = this._cvs.getPixels();
-		const offset = new QQ.Size(
-			this._index.x()*this._partSize + this._index.x()*this._partGap,
-			this._index.y()*this._partSize + this._index.y()*this._partGap
-		);
-		for ( let y = 0; y < size.y(); ++y ) {
-			for ( let x = 0; x < size.x(); ++x ) {
-				const index = (y*size.w()+x)*4;
-				const pixel = QQ.getPixel(
-					picPixels,
-					this._cvs.size,
-					new QQ.Point(
-						offset.x() + floor(x/pixelScale),
-						offset.y() + floor(y/pixelScale)
-					)
-				);
-				if ( pixel.a === 0xFF ) {
-					pixels[index+0] = pixel.r;
-					pixels[index+1] = pixel.g;
-					pixels[index+2] = pixel.b;
-					pixels[index+3] = pixel.a;
+		const offsetX = this._index.x()*this._partSize + this._index.x()*this._partGap;
+		const offsetY = this._index.y()*this._partSize + this._index.y()*this._partGap;
+		const sizeX = size.x();
+		const sizeY = size.y();
+		const cvsSizeX = this._cvs.size.x();
+		for ( let y = 0; y < sizeY; ++y ) {
+			for ( let x = 0; x < sizeX; ++x ) {
+				const index = (y*sizeX+x)*4;
+				const pi = ( // ~~ - floor
+					(offsetY + ~~(y/pixelScale)) * cvsSizeX +
+					(offsetX + ~~(x/pixelScale))
+				)*4;
+				if ( picPixels[pi+3] ) {
+					pixels[index+0] = picPixels[pi+0];
+					pixels[index+1] = picPixels[pi+1];
+					pixels[index+2] = picPixels[pi+2];
+					pixels[index+3] = 0xFF;
 				}
 			}
 		}

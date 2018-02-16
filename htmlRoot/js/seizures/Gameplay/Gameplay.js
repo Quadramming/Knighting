@@ -1,3 +1,33 @@
+class HeartsContainer extends QQ.Container {
+	
+	constructor(options) {
+		options.isSortOnAdd = false;
+		options.isSortOnTick = false;
+		super(options);
+	}
+	
+};
+
+class ArrowsContainer extends QQ.Container {
+	
+	constructor(options) {
+		options.isSortOnAdd = false;
+		options.isSortOnTick = false;
+		super(options);
+	}
+	
+};
+
+class ArrowsGrave extends QQ.Container {
+
+	constructor(options) {
+		options.isSortOnAdd = false;
+		options.isSortOnTick = false;
+		super(options);
+	}
+
+};
+
 game.seizures.Gameplay = class Gameplay
 	extends QQ.Seizures.Base
 {
@@ -14,7 +44,7 @@ game.seizures.Gameplay = class Gameplay
 		this._enemyManager = null;
 		this._currentLevel = 1;
 		this._bonesCanvas = null;
-		this._grasCanvas = null;
+		this._grassCanvas = null;
 		this.initWorld();
 		this.initStats();
 		game.setGameplaySz(this);
@@ -35,6 +65,15 @@ game.seizures.Gameplay = class Gameplay
 		this.setGrass();
 		this._castle = this.createCastle();
 		this._world.addSubject(this._castle);
+		this._world.addSubject(new HeartsContainer({
+			z: 20
+		}));
+		this._world.addSubject(new ArrowsContainer({
+			z: 5
+		}));
+		this._world.addSubject(new ArrowsGrave({
+			z: 2
+		}));
 	}
 	
 	addLevelShowOff() {
@@ -59,7 +98,9 @@ game.seizures.Gameplay = class Gameplay
 		this.setBattleField();
 		this.setChangePatrolDirection();
 		this.setEnemyManager(level);
-		this.setBonesCanvas();
+		this.setBonesMerge();
+		//this.setBonesCanvas();
+		game.getArrowsPool().reset();
 		this._setHud('GameHud', {parent: this});
 		this.addLevelShowOff();
 	}
@@ -84,6 +125,12 @@ game.seizures.Gameplay = class Gameplay
 		this._castle.addSubject(this._player);
 	}
 	
+	setBonesMerge() {
+		game.mergeBones = (bones) => {
+			this._grassCanvas.merge(bones);
+		};
+	}
+	
 	setBonesCanvas() {
 		this._bonesCanvas = new BonesCanvas({
 			app: this._app,
@@ -97,12 +144,12 @@ game.seizures.Gameplay = class Gameplay
 	}
 	
 	setGrass() {
-		this._grasCanvas = new GrassCanvas({
+		this._grassCanvas = new GrassCanvas({
 			app: this._app,
 			camera: this._camera,
 			z: 2
 		});
-		this._world.addSubject(this._grasCanvas);
+		this._world.addSubject(this._grassCanvas);
 	}
 	
 	setEnemyManager(level) {
@@ -160,18 +207,10 @@ game.seizures.Gameplay = class Gameplay
 		});
 		castle.addSubject(QQ.Subject.make({
 			app: this._app,
-			img: 'tower',
-			position: new QQ.Point(6, -0.5),
-			size: new QQ.Size(6, 14),
-			anchor: new QQ.Point(0.5, 0.5),
-			z: 0
-		}));
-		castle.addSubject(QQ.Subject.make({
-			app: this._app,
-			img: 'wall',
-			position: new QQ.Point(0, 5),
-			size: new QQ.Size(37.5, 7.5),
-			anchor: new QQ.Point(0.5, 0.5),
+			img: 'castleEdge',
+			position: new QQ.Point(0, 3),
+			size: new QQ.Size(37.5, 1.5),
+			anchor: new QQ.Point(0.5, 1),
 			z: 2
 		}));
 		return castle;
