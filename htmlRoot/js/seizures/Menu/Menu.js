@@ -126,7 +126,7 @@ game.seizures.Menu = class Menu extends szDialog {
 	}
 	
 	onBackButton() {
-		// TODO: Make exit
+		navigator.app.exitApp();
 	}
 	
 };
