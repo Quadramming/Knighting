@@ -21,11 +21,11 @@ cordova build android --release
 cordova build android --debug
 cd ..
 
-#cp cordova/platforms/android/app/build/outputs/apk/release/*.apk apk
-#cp cordova/platforms/android/app/build/outputs/apk/debug/*.apk apk
-cp cordova/platforms/android/build/outputs/apk/*.apk apk
+cp cordova/platforms/android/app/build/outputs/apk/release/*.apk apk
+cp cordova/platforms/android/app/build/outputs/apk/debug/*.apk apk
+#cp cordova/platforms/android/build/outputs/apk/*.apk apk
 
-#zipalign -p 4 apk/app-release-unsigned.apk release.apk
-zipalign -p 4 apk/android-release-unsigned.apk release.apk
-$ANDROID_HOME/build-tools/26.0.2_/apksigner sign --ks sign/my.keystore release.apk
+zipalign -p 4 apk/app-release-unsigned.apk release.apk
+#zipalign -p 4 apk/android-release-unsigned.apk release.apk
+$ANDROID_HOME/build-tools/27.0.3/apksigner sign --ks sign/my.keystore release.apk
 
