@@ -10,9 +10,9 @@ game.seizures.Info = class Info
 		));
 		
 		this._world.addSubject( new QQ.StyledText(
-			'Developer \nTrifle Quad Studio\n\n'+
-			'Assets & Sounds & Fonts\nhttps://kenney.nl\n\n'+
-			'Music \nhttps://opengameart.org/\ncontent/battle-theme-a',
+			'Developer \nTrifle Quad Studio\n\n' +
+			'Assets & Sounds & Fonts\nhttps://kenney.nl\n\n' +
+			'Sound \nhttps://opengameart.org',
 			'text dialog'
 		));
 		

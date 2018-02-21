@@ -33,6 +33,8 @@ game.seizures.EndGame = class EndGame extends szDialog {
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
 				this._app.closePopUp();
+				this._szManager.reset();
+				this._app.closePopUp();
 				this._szManager.getActive().startGame();
 			}
 		}));
@@ -47,7 +49,10 @@ game.seizures.EndGame = class EndGame extends szDialog {
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
 				this._app.closePopUp();
-				this._szManager.getActive().restartGame();
+				const level = this._szManager.getActive().getCurrentLevel();
+				this._szManager.reset();
+				this._app.closePopUp();
+				this._szManager.getActive().startGame(level);
 			}
 		}));
 	}
@@ -61,7 +66,7 @@ game.seizures.EndGame = class EndGame extends szDialog {
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
 				this._app.closePopUp();
-				this._szManager.getActive().showMenu();
+				this._szManager.reset();
 			}
 		}));
 	}

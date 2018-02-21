@@ -53,7 +53,7 @@
 	];
 	
 	const sounds = [
-		['battle', 'sounds/battle.ogg'],
+		// ['battle', 'sounds/battle.ogg'],
 		['arrow',  'sounds/arrow.ogg'],
 		['coin',   'sounds/coin.ogg'],
 		['hitted', 'sounds/punch.ogg'],

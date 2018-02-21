@@ -7,8 +7,14 @@ class GrassCanvas extends QQ.Subject.Base {
 		this._ctx = null;
 		this._sprite = null;
 		this._tileSize = new QQ.Size(5, 5);
-		window.addEventListener('resize', this.initCanvas.bind(this));
+		this._onResize = this.initCanvas.bind(this);
+		window.addEventListener('resize', this._onResize);
 		this.initCanvas();
+	}
+	
+	release() {
+		window.removeEventListener('resize', this._onResize);
+		this._onResize = null;
 	}
 	
 	initCanvas() {

@@ -36,7 +36,6 @@ game.seizures.Gameplay = class Gameplay
 		input.isPauseable = true;
 		input.maxTicks = 1; // 7 ???
 		super(input);
-		this.setCamera();
 		this._castle = null;
 		this._player = null;
 		this._changePatrolDirection = null;
@@ -45,6 +44,8 @@ game.seizures.Gameplay = class Gameplay
 		this._currentLevel = 1;
 		this._bonesCanvas = null;
 		this._grassCanvas = null;
+		this._onResize = null;
+		this.setCamera();
 		this.initWorld();
 		this.initStats();
 		game.setGameplaySz(this);
@@ -100,13 +101,12 @@ game.seizures.Gameplay = class Gameplay
 		this.setEnemyManager(level);
 		this.setBonesMerge();
 		//this.setBonesCanvas();
-		game.getArrowsPool().reset();
 		this._setHud('GameHud', {parent: this});
 		this.addLevelShowOff();
 	}
 
-	restartGame() {
-		this.startGame(this._currentLevel);
+	getCurrentLevel() {
+		return this._currentLevel;
 	}
 	
 	showMenu() {
@@ -144,6 +144,9 @@ game.seizures.Gameplay = class Gameplay
 	}
 	
 	setGrass() {
+		if ( this._grassCanvas ) {
+			this._grassCanvas.release();
+		}
 		this._grassCanvas = new GrassCanvas({
 			app: this._app,
 			camera: this._camera,
@@ -178,7 +181,25 @@ game.seizures.Gameplay = class Gameplay
 	
 	init() {
 		super.init();
+		game.getArrowsPool().reset();
 		this._app.setSz('Menu', {}, true);
+	}
+	
+	release() {
+		super.release();
+		game.getArrowsPool().clean();
+		game.mergeBones = null;
+		this._castle = null;
+		this._player = null;
+		this._changePatrolDirection = null;
+		this._battleField = null;
+		this._enemyManager = null;
+		this._currentLevel = 1;
+		this._bonesCanvas = null;
+		this._grassCanvas.release();
+		this._grassCanvas = null;
+		window.removeEventListener('resize', this._onResize);
+		this._onResize = null;
 	}
 	
 	getHero() {
@@ -189,15 +210,15 @@ game.seizures.Gameplay = class Gameplay
 		const size = new QQ.Point(30, 53);
 		const eye = new QQ.Point(0, -7);
 		this._camera.init(size, eye);
-		const resizeCamera = () => {
+		this._onResize = () => {
 			const cameraSize = this._camera.getViewSize();
 			this._camera.setPosition(new QQ.Point(
 				eye.x(),
 				eye.y() -(cameraSize.h()-size.h())/2
 			));
 		};
-		resizeCamera();
-		window.addEventListener('resize', resizeCamera);
+		this._onResize();
+		window.addEventListener('resize', this._onResize);
 	}
 	
 	createCastle() {
