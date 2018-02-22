@@ -32,9 +32,10 @@ game.seizures.Pause = class Pause extends szDialog {
 			anchor: new QQ.Point(0.5, 0.5),
 			onBtnClick: () => {
 				this._app.closePopUp();
-				this._szManager.forActive(sz => {
-					sz.restartGame();
-				});
+				const level = this._szManager.getActive().getCurrentLevel();
+				this._szManager.reset();
+				this._app.closePopUp();
+				this._szManager.getActive().startGame(level);
 			}
 		}));
 	}

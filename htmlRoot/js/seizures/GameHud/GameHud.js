@@ -4,6 +4,7 @@ game.seizures.GameHud = class GameHud
 	
 	constructor(settings) {
 		super(settings);
+		this._onResize = null;
 		this.setCamera();
 		this.addControlButton();
 	}
@@ -19,10 +20,15 @@ game.seizures.GameHud = class GameHud
 		const size = new QQ.Point(30, 40);
 		const eye = new QQ.Point(0, 0);
 		this._camera.init(size, eye);
-		this.resizeCamera(size, eye);
-		window.addEventListener('resize',
-			this.resizeCamera.bind(this, size, eye)
-		);
+		this._onResize = this.resizeCamera.bind(this, size, eye);
+		this._onResize();
+		window.addEventListener('resize', this._onResize);
+	}
+	
+	release() {
+		super.release();
+		window.removeEventListener('resize', this._onResize);
+		this._onResize = null;
 	}
 	
 	resizeCamera(size, eye) {
@@ -34,7 +40,6 @@ game.seizures.GameHud = class GameHud
 	}
 	
 	onBackButton() {
-		alert('dhud');
 	}
 	
 };
