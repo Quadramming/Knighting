@@ -24,5 +24,6 @@ credits      | Inforamtion about credits
 readme.md    | This file
 release.apk  | Fully ready apk
 index.php    | APK href for server
+misc         | Misc file
 .gitignore   | Git ignore
 
