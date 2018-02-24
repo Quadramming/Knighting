@@ -9,7 +9,7 @@ game.seizures.Settings = class Settings extends szDialog {
 		
 		this._isWithReset = QQ.default(input.isWithReset, false);
 
-		game.musicManager.addCheckBox(this._world);
+		//game.musicManager.addCheckBox(this._world);
 		this.addSoundCheckBox();
 		this.addShowFpsCheckBox();
 		//this.addTickType();
