@@ -27,7 +27,7 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	getWayPoints() {
-		return game.getLevelRandom(0, 10, this._level, {
+		return game.getLevelRandom(0, 20, this._level, {
 			round: true
 		});
 	}
