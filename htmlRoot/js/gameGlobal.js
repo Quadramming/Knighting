@@ -88,15 +88,15 @@ const game = {
 	
 	setDifficultHard() {
 		const diff = this.getDifficult();
-		if ( diff >= 12 ) {
-			this._app.storage('Difficult', diff - 2);
+		if ( diff >= 11 ) {
+			this._app.storage('Difficult', diff - 1);
 		}
 	},
 	
 	setDifficultEasy() {
 		const diff = this.getDifficult();
-		if ( diff <= 18 ) {
-			this._app.storage('Difficult', diff + 2);
+		if ( diff <= 19 ) {
+			this._app.storage('Difficult', diff + 1);
 		}
 	},
 	
