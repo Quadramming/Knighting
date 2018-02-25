@@ -9,7 +9,10 @@ game.seizures.EndGame = class EndGame extends szDialog {
 		));
 		
 		if ( input.isWin ) {
+			game.setDifficultHard();
 			this.addNextLevelButton(input.level);
+		} else {
+			game.setDifficultEasy();
 		}
 		this.addRestartButton();
 		this.addMenuButton();

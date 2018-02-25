@@ -11,6 +11,7 @@ class EnemyManager extends QQ.Container {
 		this._level = options.level;
 		this._enemiesLeft = this.calcEnemiesLeft(this._level);
 		this._waveText = new QQ.StyledText('wave: ' + this._enemiesLeft, 'score');
+		this._difficult = game.getDifficult();
 		this._world.addSubject(this._waveText);
 	}
 	
@@ -27,9 +28,10 @@ class EnemyManager extends QQ.Container {
 	}
 	
 	getWayPoints() {
-		return game.getLevelRandom(0, 20, this._level, {
+		const wayPoints = game.getLevelRandom(0, this._difficult, this._level, {
 			round: true
 		});
+		return wayPoints;
 	}
 	
 	getSpeed() {

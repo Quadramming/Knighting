@@ -86,6 +86,24 @@ const game = {
 		this._gameplaySz = sz;
 	},
 	
+	setDifficultHard() {
+		const diff = this.getDifficult();
+		if ( diff >= 12 ) {
+			this._app.storage('Difficult', diff - 2);
+		}
+	},
+	
+	setDifficultEasy() {
+		const diff = this.getDifficult();
+		if ( diff <= 18 ) {
+			this._app.storage('Difficult', diff + 2);
+		}
+	},
+	
+	getDifficult() {
+		return this.getNumberFromStorage('Difficult', 10);
+	},
+	
 	init(app) {
 		this._app = app;
 		this.initGameViewport();
@@ -260,6 +278,7 @@ const game = {
 			this._app.storage('Bow shield', 2);
 			this._app.storage('Bow speed', 0);
 			this._app.storage('Coins', 0);
+			this._app.storage('Difficult', 10);
 	}
 	
 };
