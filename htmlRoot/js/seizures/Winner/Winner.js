@@ -16,8 +16,8 @@ game.seizures.Winner = class Winner extends szDialog {
 			'You destroyed enemies!\n'+
 			'You saved your princess!\n'+
 			'You rule this world!\n'+
-			'World can sleep in peace!\n'+
-			'Here is potatoe for you!',
+			'The World can sleep in peace!\n'+
+			'Here is potato for you!',
 			'text dialog'
 		));
 	}
